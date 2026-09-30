@@ -1,0 +1,1 @@
+Authored Home bounds: (0.360, 2.287, 1.350); maximum height: 2.287 m

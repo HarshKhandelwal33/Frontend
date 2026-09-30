@@ -1,0 +1,17 @@
+PASS repeated setup: stable object count, grip positions and prefab GUIDs
+PASS initial part spacing and tray containment
+PASS Housing: stable after 8s, bottom=1.0500, drift=0.00000, speed=0.00000
+PASS Screw: stable after 8s, bottom=1.0500, drift=0.00000, speed=0.00000
+PASS PinCarrier: stable after 8s, bottom=1.0500, drift=0.00000, speed=0.00000
+PASS SpurGear: stable after 8s, bottom=1.0500, drift=0.00000, speed=0.00000
+PASS OutputShaft: stable after 8s, bottom=1.0500, drift=0.00000, speed=0.00000
+PASS Gear: stable after 8s, bottom=1.0500, drift=0.00000, speed=0.00000
+PASS Lid: stable after 8s, bottom=1.0500, drift=0.00000, speed=0.00000
+PASS Housing: grab/release, wrong type/distance/rotation, snap, notification, occupancy, uninstall and reset
+PASS Screw: grab/release, wrong type/distance/rotation, snap, notification, occupancy, uninstall and reset
+PASS PinCarrier: grab/release, wrong type/distance/rotation, snap, notification, occupancy, uninstall and reset
+PASS SpurGear: grab/release, wrong type/distance/rotation, snap, notification, occupancy, uninstall and reset
+PASS OutputShaft: grab/release, wrong type/distance/rotation, snap, notification, occupancy, uninstall and reset
+PASS Gear: grab/release, wrong type/distance/rotation, snap, notification, occupancy, uninstall and reset
+PASS Lid: grab/release, wrong type/distance/rotation, snap, notification, occupancy, uninstall and reset
+ALL CHECKS PASSED

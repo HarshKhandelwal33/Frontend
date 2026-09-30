@@ -1,0 +1,32 @@
+Gripper milestone deliverable changes (Unity caches excluded). Gearbox FBX/prefab assets and metadata unchanged.
+
+CREATED Assets\Editor\GearboxGripperChecks.cs
+CREATED Assets\Editor\GearboxGripperChecks.cs.meta
+CREATED Assets\Editor\GearboxGripperSetup.cs
+CREATED Assets\Editor\GearboxGripperSetup.cs.meta
+CREATED Assets\Scripts\Robot\RobotGripper.cs
+CREATED Assets\Scripts\Robot\RobotGripper.cs.meta
+MODIFIED Assets\Editor\GearboxRobotBuilder.cs
+MODIFIED Assets\Scenes\GearboxAssembly.unity
+MODIFIED Assets\Scripts\Assembly\GearboxPart.cs
+MODIFIED Assets\Scripts\Interaction\GrippableObject.cs
+MODIFIED README.md
+MODIFIED ROBOT_MILESTONE.md
+MODIFIED CREATED_FILES.txt
+CREATED GRIPPER_MILESTONE.md
+CREATED GRIPPER_FILES.txt
+CREATED gripper-baseline.json
+CREATED gripper-recognition-report.txt
+CREATED gripper-playmode-report.txt
+CREATED unity-gripper-setup.log
+CREATED unity-gripper-checks.log
+
+INPUT MIGRATION (completed immediately before this baseline):
+MODIFIED Assets\Scripts\Robot\RobotDebugController.cs
+MODIFIED Packages\manifest.json
+MODIFIED Packages\packages-lock.json
+MODIFIED ProjectSettings\ProjectSettings.asset
+CREATED Assets\Editor\GearboxInputChecks.cs and .meta
+CREATED input-check-report.txt
+CREATED unity-input-migration.log
+CREATED unity-input-checks.log

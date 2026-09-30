@@ -1,0 +1,278 @@
+[
+  {
+    "Path": "Assets\\Editor.meta",
+    "Hash": "4033A72DE3685F1268927BF3650D0F1D6E7A7A6B41F4FDA26A5EF59592C61699"
+  },
+  {
+    "Path": "Assets\\Materials.meta",
+    "Hash": "70E3BDC1E216B9E55059F8B667E88BBCEE09C0F03D4C6106B077D78484F17B26"
+  },
+  {
+    "Path": "Assets\\Models.meta",
+    "Hash": "FD2CE9BFA868DABD12E583ECF346603D392CF949BC31CA32BF03925BEEF51216"
+  },
+  {
+    "Path": "Assets\\Prefabs.meta",
+    "Hash": "8D9E5B32FAD9B9B465642BC2027640B67EAAA651D3A8F2C0E1F73DA46E6E37CE"
+  },
+  {
+    "Path": "Assets\\Scenes.meta",
+    "Hash": "8E8666BB7FEEAEF18F0D89ADEE355FAF11D7B8A7E87D3FB64AF762C166F24F1B"
+  },
+  {
+    "Path": "Assets\\ScriptableObjects.meta",
+    "Hash": "1122A2B064B637C2FB3A784F918EF4D485394D01D9D05C0735A9F71938087B2E"
+  },
+  {
+    "Path": "Assets\\Scripts.meta",
+    "Hash": "CA670CB6898340C74D4CD6B9C6BDF1C02B7A98BDD85CBD582F31D14E10FBD439"
+  },
+  {
+    "Path": "Assets\\Editor\\GearboxDemoBuilder.cs",
+    "Hash": "D9D2607D17150455AA806F997DFC1434F3D9A475508E1809F3CDB5A205E29775"
+  },
+  {
+    "Path": "Assets\\Editor\\GearboxDemoBuilder.cs.meta",
+    "Hash": "BACBC4BFAA55E2B87D7476AF5957E99B9CA0B0AC29DF5CBE3AB82EF5A6DBD9B8"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Assembly.mat",
+    "Hash": "E16BD7512AF24196CACE8074342DF7AC0E0D4AE76D9B2939839274DB96205C89"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Assembly.mat.meta",
+    "Hash": "B6B06A3C2AEE63172C40C94341D598EE38D11408C8648E9FCF8210676A032BB9"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Floor.mat",
+    "Hash": "B9A55F0F039815BC2A094B2D3F2FE759E41CA5FEB93EF9CF1CF86C61FD6BF803"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Floor.mat.meta",
+    "Hash": "60E95B9A423C225A858023C26115FF0967F5E031B55E553FC01A66DE1077DAFA"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_HumanPosition.mat",
+    "Hash": "07D6D17BAC075EE43EED288F355C2A5588CAF52BEF281F9D5696215400238DC2"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_HumanPosition.mat.meta",
+    "Hash": "682285421F75158A8782CB84BA68E9F252B534F01EADCBB9791628A51A8348DC"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_RobotPosition.mat",
+    "Hash": "4ABCDD8516554242E5B8D3467C32AC007BBEE31FC97B077038ECF6F266F42BF9"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_RobotPosition.mat.meta",
+    "Hash": "32B10FD16F84FA537ADF3DBC15872A6B87FC6F33593839BF25C245F43F278604"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Steel.mat",
+    "Hash": "060BDD698EBECD88408DED38952D056438D271B89E55B43518891B21EA9FD924"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Steel.mat.meta",
+    "Hash": "7B49C4521FB0B4D2BA95F5207C92784775243681E088400FF927D21D8420C4A4"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Tray.mat",
+    "Hash": "5B9563221DFDB19BAA8B51437BC503B1BE1FC30BCC0896ACF6AA7A87DDFBB087"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Tray.mat.meta",
+    "Hash": "DA63158B857F4D6390BA49591DEBFB73C30774182A48DAF4A9BF6052109F3599"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Worktop.mat",
+    "Hash": "99C053B447CB5597B77E77F3DDAE089860B5CD6C5C4E6A37A1E0A32289C87AA0"
+  },
+  {
+    "Path": "Assets\\Materials\\GearboxDemo_Worktop.mat.meta",
+    "Hash": "F9E460FABF24254DA7314C050EEE926B883CC8E75EE0CA55B0F790A0E6AB7F0D"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox.meta",
+    "Hash": "191A031D25D389AA048136583D21EF7E9B181316676733237903034044D6C807"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox\\planetarygearbox-gear_2_30_18-3.fbx",
+    "Hash": "E7BA58FECB538A2051E65E81E44081FD5760E94F39E74686B46CC5C56ECF019A"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox\\planetarygearbox-housing_30_54-1.fbx",
+    "Hash": "E7A8DC88140C96B1550351E3F54124E0A6DD4985E542D8FD38A02152512692F0"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox\\planetarygearbox-lid-1.fbx",
+    "Hash": "F71A9B513E61C46C58D28E9FA584806DE39135508D82D55405B8BD476F077198"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox\\planetarygearbox-outputshaft-1.fbx",
+    "Hash": "9DFB6D005F66C3C6561B6FBC175EBF73F66AD625FCDEC98C90BECD241D12B331"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox\\planetarygearbox-pin_carrier-1.fbx",
+    "Hash": "E6B82ED0B43AD023E7DB08306DAD5E43217C4D36324E37F09F7E40B98382B029"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox\\planetarygearbox-screw-1.fbx",
+    "Hash": "3CAA1ABD503270E912C56DEF955F43E3B4ED05EA35BF3EFC816E26F1039853EA"
+  },
+  {
+    "Path": "Assets\\Models\\Gearbox\\planetarygearbox-spur_2_30_18-2.fbx",
+    "Hash": "BC9761061C95CCF114F6C948EE7DE7F90CDBC09F0FF4E92918286F501A3EFD94"
+  },
+  {
+    "Path": "Assets\\Prefabs\\Gearbox.meta",
+    "Hash": "7CDC56F87A4697060A910CE3C2F58D176402442B1843EE5D397EDAE1504DA8E7"
+  },
+  {
+    "Path": "Assets\\Prefabs\\Human.meta",
+    "Hash": "C69D2F9B6CD7B07A43D4D6F7A17BAF2D2F66843C9EBB142857B45E10E35E3FD3"
+  },
+  {
+    "Path": "Assets\\Prefabs\\Robot.meta",
+    "Hash": "5D6DEE05C7D4E7BC0FBE8B1B62EAD364EA3376EB4095AED733351A278AC76901"
+  },
+  {
+    "Path": "Assets\\Prefabs\\Workstation.meta",
+    "Hash": "FF8E16CA1EF621F384A8DEA238C33102FCC091B637A267AA875F51D0A67F83F3"
+  },
+  {
+    "Path": "Assets\\Scenes\\GearboxAssembly.unity",
+    "Hash": "CFB86579FA860C41217CCFF1F0FAE375F17CE04DE2BBA5886951DFD5BD3EC716"
+  },
+  {
+    "Path": "Assets\\Scenes\\GearboxAssembly.unity.meta",
+    "Hash": "8F674F4DC7A1F8FBAA9728ACED772DE17E53CA1263132C4F1D0F7B512D1A4B45"
+  },
+  {
+    "Path": "Assets\\Scripts\\Assembly.meta",
+    "Hash": "F9FF82AD0882EF4BFE68C91FF157A9A1B9E550BC91600A540A0AF6B62695F1DF"
+  },
+  {
+    "Path": "Assets\\Scripts\\Core.meta",
+    "Hash": "8BF42C80351251FFD8529BE0F763116A2034141C58C898B55C103318F09A33F3"
+  },
+  {
+    "Path": "Assets\\Scripts\\Human.meta",
+    "Hash": "BD24DBB9F8DD48122A49CB8DE493F789769A59486D5FB8961E0DC30D720CD338"
+  },
+  {
+    "Path": "Assets\\Scripts\\Interaction.meta",
+    "Hash": "7415FD55327A82B22DD4C8EE344FE6E019AA1DB86F7548A6416F3DED0987AE4D"
+  },
+  {
+    "Path": "Assets\\Scripts\\Robot.meta",
+    "Hash": "F0B51270BE6B0CC6C5AFFFB5CB18ED8E5A6B06486300A41A6D1C0AFCE7E4A719"
+  },
+  {
+    "Path": "Assets\\Scripts\\UI.meta",
+    "Hash": "9015BEB49C46809F44057FC919220E0C86B1C608EC4EFE4DC30ACDAD528A87A6"
+  },
+  {
+    "Path": "Packages\\manifest.json",
+    "Hash": "360299785B41FA4DBE571AA398553A2B17D37340C21D69D208A8214DA818E57F"
+  },
+  {
+    "Path": "Packages\\packages-lock.json",
+    "Hash": "F1F6B4B22924BC6ECE5D4E39171B95278A95B7D3A9C76D5D20AC15E4F789F5A8"
+  },
+  {
+    "Path": "ProjectSettings\\AudioManager.asset",
+    "Hash": "9543C41DBFC7D3951217C4DD9481ED026EB8E529B85ECF4463969A0FEA747729"
+  },
+  {
+    "Path": "ProjectSettings\\ClusterInputManager.asset",
+    "Hash": "40E65DD214BF254955D2C8829CA8CE2130FD3510485560CE012E9A1DDD93E623"
+  },
+  {
+    "Path": "ProjectSettings\\DynamicsManager.asset",
+    "Hash": "785919EC02924B9125BD572087D9E3CEB1844B1CCEB3FF6144C1C1F56CD79047"
+  },
+  {
+    "Path": "ProjectSettings\\EditorBuildSettings.asset",
+    "Hash": "1942C088DDFEEEF348FDF12390E2A2D6DA51056E197458D67969D44E7B2CBBD3"
+  },
+  {
+    "Path": "ProjectSettings\\EditorSettings.asset",
+    "Hash": "4B842C80C4E630B6CB5416B817ABA84B97014072E1AB555B08742344687CCDF5"
+  },
+  {
+    "Path": "ProjectSettings\\GraphicsSettings.asset",
+    "Hash": "52507CCD9BC2D36B3EF85A009DABDB19FB66775C0294AC31EB70B48FC86C9B09"
+  },
+  {
+    "Path": "ProjectSettings\\InputManager.asset",
+    "Hash": "D0F454DDB880912ABCAE92E3E12957A7446786BA89E24937E019FF3BBC0D4300"
+  },
+  {
+    "Path": "ProjectSettings\\MemorySettings.asset",
+    "Hash": "25FB3FDD1CE94347CCDCF23D5D5E446055CA81D8B3756A7DF85D614645A71AC4"
+  },
+  {
+    "Path": "ProjectSettings\\MultiplayerManager.asset",
+    "Hash": "ABA89FD1A1DDAD182727AD82727E536D27372E90328A8196DA2A4560398983DD"
+  },
+  {
+    "Path": "ProjectSettings\\NavMeshAreas.asset",
+    "Hash": "7EBBF8F53B8033104E1878B95CA07A28D0954092D81C220F14196A42F651E658"
+  },
+  {
+    "Path": "ProjectSettings\\PackageManagerSettings.asset",
+    "Hash": "CD9FD5C2A1127735839FF32B0070E63783D4439BFC0A549173514BF0B8D62834"
+  },
+  {
+    "Path": "ProjectSettings\\Physics2DSettings.asset",
+    "Hash": "7280037AC908E26D4519825446C92C80A8520308016B171522760B535AADCBC0"
+  },
+  {
+    "Path": "ProjectSettings\\PhysicsCoreProjectSettings2D.asset",
+    "Hash": "BEDC5339A832C60DC3F11B84ABC4F4384DBFA20B0CD9AD6C444B907E751FC35E"
+  },
+  {
+    "Path": "ProjectSettings\\PresetManager.asset",
+    "Hash": "29C125923FE6E29F90190D4FCE1C82D660E7051546E2C9D02908D18C9CF2436C"
+  },
+  {
+    "Path": "ProjectSettings\\ProjectAuditorSettings.asset",
+    "Hash": "9E68444B9BDA981E2927A98DF9EDF69EA88362F0C6B7F3C81B39B9D515D2A416"
+  },
+  {
+    "Path": "ProjectSettings\\ProjectSettings.asset",
+    "Hash": "A7E4B8A2448DC7F8BE92789C3E0360B5B696906E72E9CF3EC66038C7674C0219"
+  },
+  {
+    "Path": "ProjectSettings\\ProjectVersion.txt",
+    "Hash": "39584C3E6C1E571D53A79EF2DD6EA91C0568AC086792CC435E86401A0BA824ED"
+  },
+  {
+    "Path": "ProjectSettings\\QualitySettings.asset",
+    "Hash": "F1F893B1BE47AD2442F58338DD7C860DC1986BB317E2F5BB31084454FFABBF4C"
+  },
+  {
+    "Path": "ProjectSettings\\SceneTemplateSettings.json",
+    "Hash": "BB9098B3BFCDE78D93E264B96F7B77B5430E64E8C57A7AAD7F5A5D9C3945E16A"
+  },
+  {
+    "Path": "ProjectSettings\\TagManager.asset",
+    "Hash": "996628FDC904025B83606BBFBDA4FE08C0BBE916475146110E77CDC2F22C2013"
+  },
+  {
+    "Path": "ProjectSettings\\TimeManager.asset",
+    "Hash": "3396F52FDC16D445024E01D7A2D99DB6F0A37569D1D73C0302E9FFB857D90287"
+  },
+  {
+    "Path": "ProjectSettings\\UnityConnectSettings.asset",
+    "Hash": "BFD9B4AD7BA0F6044F0957CD427DF1D8E49DCF9453FDFC35DAC74C64BBFFA8F3"
+  },
+  {
+    "Path": "ProjectSettings\\VersionControlSettings.asset",
+    "Hash": "E199CDFA6A8F2BF33CFD47E549198F13E3EB2A5099E908FDB4E0F14D939CCC6B"
+  },
+  {
+    "Path": "ProjectSettings\\VFXManager.asset",
+    "Hash": "D2937FE93FF49C2CE60F888056B70EBC0A1DF7DD5E22DAB3FA41678C2A3F3858"
+  }
+]

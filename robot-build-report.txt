@@ -1,0 +1,15 @@
+Tray bounds: (1.4000, 0.0500, 1.0000); workstation tabletop: (2.2000, 0.1000, 1.2000); assembly mat: (1.3000, 0.0300, 0.8000)
+Housing: existing collider bounds (0.2400, 0.1200, 0.2400)
+OutputShaft: existing collider bounds (0.1847, 0.1600, 0.1680)
+PinCarrier: existing collider bounds (0.1727, 0.0624, 0.1560)
+PlanetGear: existing collider bounds (0.0789, 0.0400, 0.0800)
+SpurGear: existing collider bounds (0.0800, 0.1520, 0.0789)
+Lid: existing collider bounds (0.2400, 0.0400, 0.2400)
+Screw: existing collider bounds (0.0400, 0.0800, 0.0400)
+Base world: (-0.2000, 0.0000, 0.3000); shoulder height 1.230 m; farthest tray/mat corner radius 2.354 m
+Actual grip/assembly-reference radius 2.092 m; compact design uses 6% margin over these working positions.
+Upper link 1.153 m; forearm 1.064 m; wrist/tool 0.300 m; planar reach 2.217 m; safe tool height 1.516 m
+Home: 0.00, -65.00, 130.00, 0.00, 115.00, 0.00
+TraySafe: -90.00, 31.98, 79.63, -15.00, 68.39, 15.00
+AssemblySafe: 90.00, 31.98, 79.63, 15.00, 68.39, -15.00
+HumanSafe: 180.00, -65.00, 130.00, -20.00, 115.00, 20.00

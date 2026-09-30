@@ -1,0 +1,24 @@
+Compact robot visual revision; gearbox assets unchanged.
+
+CREATED Assets\Materials\RobotPearl.mat
+CREATED Assets\Materials\RobotPearl.mat.meta
+CREATED Assets\Materials\RobotTeal.mat
+CREATED Assets\Materials\RobotTeal.mat.meta
+MODIFIED Assets\Editor\GearboxRobotBuilder.cs
+MODIFIED Assets\Scenes\GearboxAssembly.unity
+MODIFIED Assets\ScriptableObjects\RobotAssemblySafe.asset
+MODIFIED Assets\ScriptableObjects\RobotHome.asset
+MODIFIED Assets\ScriptableObjects\RobotHumanSafe.asset
+MODIFIED Assets\ScriptableObjects\RobotTraySafe.asset
+MODIFIED ROBOT_MILESTONE.md
+MODIFIED CREATED_FILES.txt
+MODIFIED robot-build-report.txt
+MODIFIED robot-playmode-report.txt
+MODIFIED robot-workcell-preview.png
+MODIFIED unity-robot-checks.log
+MODIFIED unity-robot-preview.log
+CREATED robot-before-resize.png
+CREATED robot-detail-preview.png
+CREATED robot-visual-report.txt
+CREATED robot-resize-baseline.json
+CREATED ROBOT_RESIZE_FILES.txt

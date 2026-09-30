@@ -1,0 +1,3 @@
+PASS one visible Worker; Animator; valid Humanoid avatar; feet on floor at 0.000 m; no overlap with scene colliders.
+Worker bounds (0.500, 1.860, 0.500), position (1.400, 0.000, 1.550).
+Animator controller: Worker (UnityEngine.AnimatorController).

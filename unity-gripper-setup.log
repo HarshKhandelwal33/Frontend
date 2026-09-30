@@ -1,0 +1,367 @@
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 17452)
+VBCSCompiler prewarm took 8.98 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.6/respin/6000.6.0f1-fa21a270ab12' branch; Version is '6000.6.0f1 (f7f8ed4d1e24) revision 16251117'; Using compiler version '194234433'; Build Type 'Release'
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Harsh" at "2026-09-20T17:04:37.4100982Z"
+OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 16088 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-09-20T17:04:37Z
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 22244, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              b3482c54851242a5a2b235137a8d38c5
+  Correlation Id:          ccc8ba1353ff48d5208692868c3352db
+  External correlation Id: 4881453633959267921
+  Machine Id:              Hbp6cIbiWcEt7uCUfLOsR8jmd/w=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Harsh" (connect: 0.00s, validation: 0.00s, handshake: 0.11s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Harsh-notifications" at "2026-09-20T17:04:37.5202957Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 9072445264484-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.12s
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+D:\RPTU\Thesis\Project\Frontend
+-executeMethod
+GearboxDemo.Editor.GearboxGripperSetup.RunBatch
+-logFile
+D:\RPTU\Thesis\Project\Frontend\unity-gripper-setup.log
+Successfully changed project path to: D:\RPTU\Thesis\Project\Frontend
+D:/RPTU/Thesis/Project/Frontend
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.
+Player connection [33372]  Target information:
+
+Player connection [33372]  * "[IP] 192.168.178.35 [Port] 55504 [Flags] 2 [Guid] 254968375 [EditorId] 254968375 [Version] 1048832 [Id] WindowsEditor(7,LAPTOP-CQ1FOJIL) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [33372] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [33372] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-17496" after 0.3 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: 9f1c73524ddb5bde77655c46fabdf276
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052576
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+Launching Unity Data Store - C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Tools/Unity.DataStore.exe 
+Unity Data Store artifact dir = Library/DataStore, working dir = D:/RPTU/Thesis/Project/Frontend[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Unity Data Store running and initialised
+Initialize engine version: 6000.6.0f1 (f7f8ed4d1e24)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/RPTU/Thesis/Project/Frontend/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56496
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002392 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  1.447 seconds
+Domain Reload Profiling: 2280ms
+	BeginReloadAssembly (208ms)
+		CreateAndSetChildDomain (20ms)
+	RebuildCommonClasses (10ms)
+	RebuildNativeTypeToScriptingClass (27ms)
+	initialDomainReloadingComplete (102ms)
+	LoadAllAssembliesAndSetupDomain (484ms)
+		LoadAssemblies (185ms)
+		TypeCache.Refresh (326ms)
+			TypeCache.ScanAssembly (307ms)
+		AnalyzeDomain (1ms)
+	FinalizeReload (1449ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			BeforeProcessingInitializeOnLoad (137ms)
+			ProcessInitializeOnLoadAttributes (181ms)
+			ProcessInitializeOnLoadMethodAttributes (779ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 9 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.inputsystem@1.20.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.inputsystem@7a4e1a2a8194)
+  Built-in packages:
+    com.unity.modules.imageconversion@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.physics@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.imgui@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.uielements@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.ui@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.jsonserialize@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.hierarchycore@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.modules.animation@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.animation)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: D:/RPTU/Thesis/Project/Frontend
+DisplayProgressbar: Compiling Scripts
+ExitCode: 4 Duration: 1s469ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[205/225    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra requires additional run (1.41 seconds), 2 items updated, 204 evaluated
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\DotNetSdk\dotnet.exe "C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: D:/RPTU/Thesis/Project/Frontend
+ExitCode: 0 Duration: 3s288ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: D:/RPTU/Thesis/Project/Frontend
+ExitCode: 0 Duration: 2s804ms
+Finished compiling graph: 228 nodes, 1422 flattened edges (1360 ToBuild, 12 ToUse), maximum node priority 79
+[190/225    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp
+[191/225    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.rsp
+[204/225    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[217/225    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[218/225    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 148 defines and 259 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+[219/225    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[220/225    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[221/225    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[222/225    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 146 defines and 299 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+[223/225    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[224/225    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (2.75 seconds), 11 items updated, 225 evaluated
+Total cache size 51054224
+Total cache size after purge 51054224, took 00:00:00.0778218
+AssetDatabase: script compilation time: 8.657818s
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.581 seconds
+Domain Reload Profiling: 1128ms
+	BeginReloadAssembly (287ms)
+		DisableScriptedObjects (33ms)
+		CreateAndSetChildDomain (60ms)
+	RebuildCommonClasses (11ms)
+	RebuildNativeTypeToScriptingClass (19ms)
+	initialDomainReloadingComplete (47ms)
+	LoadAllAssembliesAndSetupDomain (180ms)
+		LoadAssemblies (122ms)
+		TypeCache.Refresh (19ms)
+			TypeCache.ScanAssembly (12ms)
+		AnalyzeDomain (8ms)
+			BuildScriptInfoCaches (6ms)
+	FinalizeReload (583ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (123ms)
+			ProcessInitializeOnLoadAttributes (123ms)
+			ProcessInitializeOnLoadMethodAttributes (40ms)
+			AfterProcessingInitializeOnLoad (8ms)
+		AwakeInstancesAfterBackupRestoration (45ms)
+Starting new worker id: 0 with log in D:/RPTU/Thesis/Project/Frontend/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=673692db1b2205d4aaccd2d9ed253fff): Total: 10.207 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=784 ms
+		Asset DB Callback time: managed=96 ms, native=37 ms
+		Scripting: domain reloads=1, domain reload time=611 ms, compile time=8662 ms, other=14 ms
+		Project Asset Count: scripts=145, non-scripts=211
+		Asset File Changes: new=2, changed=3, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 36.781ms
+	ApplyChangesToAssetFolders: 0.417ms
+	Scan: 61.969ms
+	Collect global state as custom dependencies: 10.216ms
+	OnSourceAssetsModified: 0.882ms
+	CategorizeScriptCompilationAssets: 1.980ms
+	ProcessAssetsWithTransientArtifactChanges: 6.567ms
+	CategorizeAssets: 5.010ms
+	CompileScripts: 8661.976ms
+	ImportOutOfDateAssets: 600.522ms (584.884ms without children)
+		UnloadImportedAssets: 0.103ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.066ms
+		ImportSchedulerStart: 15.464ms
+	PostProcessAllAssets: 94.222ms
+		VCAutoAddAssetPostprocess 1.142ms
+		XRBuildSystem.XRAssetImported 0.062ms
+		MonoPostProcessAllAssets: 92.511ms
+			AssetPostprocessor.OnPostprocessAllAssets 40.444ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 10.483ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 9.977ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 6.822ms
+			SyncVS.PostprocessSyncProject 3.253ms
+			AssetChangedListener.OnPostprocessAllAssets 2.529ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.609ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 1.177ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.001ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.910ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.832ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.729ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.466ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.425ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.412ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.398ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.321ms
+			AssetEvents.OnPostprocessAllAssets 0.301ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.247ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.218ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.199ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.180ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.175ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.142ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.128ms
+	PostAssetChangesProfiler: 4.252ms
+	UnloadStreamsBegin: 1.685ms
+	GenerateScriptTypeHashes: 1.970ms
+	GenerateScriptTypeSerializationHashes: 4.056ms
+	Untracked: 680.753ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.149ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Frontend
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 477 unused Assets / (0.5 MB). Loaded Objects now: 1204.
+Memory consumption went from 230.8 MB to 230.3 MB.
+Total: 6.410000 ms (FindLiveObjects: 0.225900 ms CreateObjectMapping: 0.028000 ms MarkObjects: 5.666600 ms  DeleteObjects: 0.322600 ms)
+
+Opening scene 'Assets/Scenes/GearboxAssembly.unity'
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/GearboxAssembly.unity'
+	Deserialize:            7.534 ms
+	Integration:            640.685 ms
+	Integration of assets:  0.029 ms
+	Thread Wait Time:       0.015 ms
+	Total Operation Time:   648.264 ms
+Unloading 8 unused Assets / (1.1 KB). Loaded Objects now: 1847.
+Memory consumption went from 255.0 MB to 255.0 MB.
+Total: 8.108200 ms (FindLiveObjects: 0.263100 ms CreateObjectMapping: 0.026400 ms MarkObjects: 7.586400 ms  DeleteObjects: 0.044000 ms)
+
+Gripper recognition of canonical prefab wrappers
+PASS Housing — Assets/Prefabs/Gearbox/Gearbox_Housing.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS OutputShaft — Assets/Prefabs/Gearbox/Gearbox_OutputShaft.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS PinCarrier — Assets/Prefabs/Gearbox/Gearbox_PinCarrier.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Gear — Assets/Prefabs/Gearbox/Gearbox_Gear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS SpurGear — Assets/Prefabs/Gearbox/Gearbox_SpurGear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Lid — Assets/Prefabs/Gearbox/Gearbox_Lid.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Screw — Assets/Prefabs/Gearbox/Gearbox_Screw.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+7/7 recognized. No prefab files changed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GearboxDemo.Editor.GearboxGripperSetup:ValidatePrefabs () (at Assets/Editor/GearboxGripperSetup.cs:65)
+GearboxDemo.Editor.GearboxGripperSetup:Setup () (at Assets/Editor/GearboxGripperSetup.cs:22)
+GearboxDemo.Editor.GearboxGripperSetup:RunBatch () (at Assets/Editor/GearboxGripperSetup.cs:68)
+
+(Filename: Assets/Editor/GearboxGripperSetup.cs Line: 65)
+
+Importing 'GUID: 49747deddcd78a94bbb9da8ba8c09521 - Path: Assets/Scenes/GearboxAssembly.unity' with importer (DefaultImporter)
+Imported 'GUID: 49747deddcd78a94bbb9da8ba8c09521' -> (Import Result ID: 'f5f7467d7d75ea77d0bccac520799f53') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=fda1a82140877392559da014a9fa89f0 DependenciesID=dd3099b0f85a41c890fc2725403cb6fa StaticDependenciesID=ee7fe755430c7299f0701f5b11a70bdd 
+Asset Pipeline Refresh (id=0cf9eb53222acde44ba6b87ef01dfd2d): Total: 0.030 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Batchmode quit successfully invoked - shutting down!
+Worker ready: AssetImportWorkerHW0 0
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Harsh-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Harsh channel disconnected successfully.
+Lingering sessions upon destruction of worker manager
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+Shut down UDS service system complete
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+[ExitDontLaunchBugReporter] Exiting without the bug reporter. Application will exit with return code 0

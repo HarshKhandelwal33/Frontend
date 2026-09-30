@@ -1,0 +1,130 @@
+GEARBOX VALIDATION
+PASS Exactly seven scene parts
+PASS Unique scene part IDs
+PASS Housing exists once
+PASS Housing prefab exists
+PASS Gearbox_Housing scene identity
+PASS Gearbox_Housing scene GrippableObject
+PASS Gearbox_Housing scene GripPoint
+PASS Gearbox_Housing scene AssemblyAnchor
+PASS Gearbox_Housing scene dynamic Rigidbody with gravity
+PASS Gearbox_Housing scene solid, moving-body-safe collider
+PASS Gearbox_Housing scene canonical nested FBX
+PASS Gearbox_Housing prefab identity
+PASS Gearbox_Housing prefab GrippableObject
+PASS Gearbox_Housing prefab GripPoint
+PASS Gearbox_Housing prefab AssemblyAnchor
+PASS Gearbox_Housing prefab dynamic Rigidbody with gravity
+PASS Gearbox_Housing prefab solid, moving-body-safe collider
+PASS Gearbox_Housing prefab canonical nested FBX
+PASS Housing pickup target
+PASS Housing assembly target mapping
+PASS OutputShaft exists once
+PASS OutputShaft prefab exists
+PASS Gearbox_OutputShaft scene identity
+PASS Gearbox_OutputShaft scene GrippableObject
+PASS Gearbox_OutputShaft scene GripPoint
+PASS Gearbox_OutputShaft scene AssemblyAnchor
+PASS Gearbox_OutputShaft scene dynamic Rigidbody with gravity
+PASS Gearbox_OutputShaft scene solid, moving-body-safe collider
+PASS Gearbox_OutputShaft scene canonical nested FBX
+PASS Gearbox_OutputShaft prefab identity
+PASS Gearbox_OutputShaft prefab GrippableObject
+PASS Gearbox_OutputShaft prefab GripPoint
+PASS Gearbox_OutputShaft prefab AssemblyAnchor
+PASS Gearbox_OutputShaft prefab dynamic Rigidbody with gravity
+PASS Gearbox_OutputShaft prefab solid, moving-body-safe collider
+PASS Gearbox_OutputShaft prefab canonical nested FBX
+PASS OutputShaft pickup target
+PASS OutputShaft assembly target mapping
+PASS PinCarrier exists once
+PASS PinCarrier prefab exists
+PASS Gearbox_PinCarrier scene identity
+PASS Gearbox_PinCarrier scene GrippableObject
+PASS Gearbox_PinCarrier scene GripPoint
+PASS Gearbox_PinCarrier scene AssemblyAnchor
+PASS Gearbox_PinCarrier scene dynamic Rigidbody with gravity
+PASS Gearbox_PinCarrier scene solid, moving-body-safe collider
+PASS Gearbox_PinCarrier scene canonical nested FBX
+PASS Gearbox_PinCarrier prefab identity
+PASS Gearbox_PinCarrier prefab GrippableObject
+PASS Gearbox_PinCarrier prefab GripPoint
+PASS Gearbox_PinCarrier prefab AssemblyAnchor
+PASS Gearbox_PinCarrier prefab dynamic Rigidbody with gravity
+PASS Gearbox_PinCarrier prefab solid, moving-body-safe collider
+PASS Gearbox_PinCarrier prefab canonical nested FBX
+PASS PinCarrier pickup target
+PASS PinCarrier assembly target mapping
+PASS PlanetGear exists once
+PASS PlanetGear prefab exists
+PASS Gearbox_PlanetGear scene identity
+PASS Gearbox_PlanetGear scene GrippableObject
+PASS Gearbox_PlanetGear scene GripPoint
+PASS Gearbox_PlanetGear scene AssemblyAnchor
+PASS Gearbox_PlanetGear scene dynamic Rigidbody with gravity
+PASS Gearbox_PlanetGear scene solid, moving-body-safe collider
+PASS Gearbox_PlanetGear scene canonical nested FBX
+PASS Gearbox_PlanetGear prefab identity
+PASS Gearbox_PlanetGear prefab GrippableObject
+PASS Gearbox_PlanetGear prefab GripPoint
+PASS Gearbox_PlanetGear prefab AssemblyAnchor
+PASS Gearbox_PlanetGear prefab dynamic Rigidbody with gravity
+PASS Gearbox_PlanetGear prefab solid, moving-body-safe collider
+PASS Gearbox_PlanetGear prefab canonical nested FBX
+PASS PlanetGear pickup target
+PASS PlanetGear assembly target mapping
+PASS SpurGear exists once
+PASS SpurGear prefab exists
+PASS Gearbox_SpurGear scene identity
+PASS Gearbox_SpurGear scene GrippableObject
+PASS Gearbox_SpurGear scene GripPoint
+PASS Gearbox_SpurGear scene AssemblyAnchor
+PASS Gearbox_SpurGear scene dynamic Rigidbody with gravity
+PASS Gearbox_SpurGear scene solid, moving-body-safe collider
+PASS Gearbox_SpurGear scene canonical nested FBX
+PASS Gearbox_SpurGear prefab identity
+PASS Gearbox_SpurGear prefab GrippableObject
+PASS Gearbox_SpurGear prefab GripPoint
+PASS Gearbox_SpurGear prefab AssemblyAnchor
+PASS Gearbox_SpurGear prefab dynamic Rigidbody with gravity
+PASS Gearbox_SpurGear prefab solid, moving-body-safe collider
+PASS Gearbox_SpurGear prefab canonical nested FBX
+PASS SpurGear pickup target
+PASS SpurGear assembly target mapping
+PASS Lid exists once
+PASS Lid prefab exists
+PASS Gearbox_Lid scene identity
+PASS Gearbox_Lid scene GrippableObject
+PASS Gearbox_Lid scene GripPoint
+PASS Gearbox_Lid scene AssemblyAnchor
+PASS Gearbox_Lid scene dynamic Rigidbody with gravity
+PASS Gearbox_Lid scene solid, moving-body-safe collider
+PASS Gearbox_Lid scene canonical nested FBX
+PASS Gearbox_Lid prefab identity
+PASS Gearbox_Lid prefab GrippableObject
+PASS Gearbox_Lid prefab GripPoint
+PASS Gearbox_Lid prefab AssemblyAnchor
+PASS Gearbox_Lid prefab dynamic Rigidbody with gravity
+PASS Gearbox_Lid prefab solid, moving-body-safe collider
+PASS Gearbox_Lid prefab canonical nested FBX
+PASS Lid pickup target
+PASS Lid assembly target mapping
+PASS Screw exists once
+PASS Screw prefab exists
+PASS Gearbox_Screw scene identity
+PASS Gearbox_Screw scene GrippableObject
+PASS Gearbox_Screw scene GripPoint
+PASS Gearbox_Screw scene AssemblyAnchor
+PASS Gearbox_Screw scene dynamic Rigidbody with gravity
+PASS Gearbox_Screw scene solid, moving-body-safe collider
+PASS Gearbox_Screw scene canonical nested FBX
+PASS Gearbox_Screw prefab identity
+PASS Gearbox_Screw prefab GrippableObject
+PASS Gearbox_Screw prefab GripPoint
+PASS Gearbox_Screw prefab AssemblyAnchor
+PASS Gearbox_Screw prefab dynamic Rigidbody with gravity
+PASS Gearbox_Screw prefab solid, moving-body-safe collider
+PASS Gearbox_Screw prefab canonical nested FBX
+PASS Screw pickup target
+PASS Screw assembly target mapping
+Result: 0 error(s).

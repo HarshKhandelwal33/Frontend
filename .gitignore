@@ -1,0 +1,11 @@
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]serSettings/
+/[Bb]uilds/
+/.vs/
+/*.csproj
+/*.sln
+/*.slnx
+/.simulation-check/

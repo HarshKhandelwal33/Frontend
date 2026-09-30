@@ -1,0 +1,581 @@
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 31480)
+VBCSCompiler prewarm took 7.39 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Harsh" at "2026-09-20T17:25:55.8843758Z"
+Built from '6000.6/respin/6000.6.0f1-fa21a270ab12' branch; Version is '6000.6.0f1 (f7f8ed4d1e24) revision 16251117'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 16088 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-09-20T17:25:55Z
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 22244, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              d27e6a330c0c4d2297c69407df087743
+  Correlation Id:          ccc8ba1353ff48d5208692868c3352db
+  External correlation Id: 2135597699238326251
+  Machine Id:              Hbp6cIbiWcEt7uCUfLOsR8jmd/w=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Harsh" (connect: 0.00s, validation: 0.00s, handshake: 0.07s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Harsh-notifications" at "2026-09-20T17:25:55.9519595Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 9072445264484-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.08s
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Unity.exe
+-batchmode
+-nographics
+-projectPath
+D:\RPTU\Thesis\Project\Frontend
+-executeMethod
+GearboxDemo.Editor.GearboxGripperChecks.RunBatch
+-logFile
+D:\RPTU\Thesis\Project\Frontend\unity-gripper-checks.log
+Successfully changed project path to: D:\RPTU\Thesis\Project\Frontend
+D:/RPTU/Thesis/Project/Frontend
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.
+Player connection [11816]  Target information:
+
+Player connection [11816]  * "[IP] 192.168.178.35 [Port] 55504 [Flags] 2 [Guid] 1031762396 [EditorId] 1031762396 [Version] 1048832 [Id] WindowsEditor(7,LAPTOP-CQ1FOJIL) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [11816] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [11816] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: 9f1c73524ddb5bde77655c46fabdf276
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052576
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+[Package Manager] Connected to IPC stream "Upm-2800" after 0.3 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Launching Unity Data Store - C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Tools/Unity.DataStore.exe 
+Unity Data Store artifact dir = Library/DataStore, working dir = D:/RPTU/Thesis/Project/Frontend[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Unity Data Store running and initialised
+Initialize engine version: 6000.6.0f1 (f7f8ed4d1e24)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/RPTU/Thesis/Project/Frontend/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56800
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002088 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.952 seconds
+Domain Reload Profiling: 1698ms
+	BeginReloadAssembly (204ms)
+		CreateAndSetChildDomain (40ms)
+	RebuildCommonClasses (6ms)
+	RebuildNativeTypeToScriptingClass (20ms)
+	initialDomainReloadingComplete (85ms)
+	LoadAllAssembliesAndSetupDomain (429ms)
+		LoadAssemblies (160ms)
+		TypeCache.Refresh (284ms)
+			TypeCache.ScanAssembly (266ms)
+		AnalyzeDomain (1ms)
+	FinalizeReload (954ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			BeforeProcessingInitializeOnLoad (136ms)
+			ProcessInitializeOnLoadAttributes (192ms)
+			ProcessInitializeOnLoadMethodAttributes (309ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 9 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.inputsystem@1.20.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.inputsystem@7a4e1a2a8194)
+  Built-in packages:
+    com.unity.modules.imageconversion@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.physics@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.imgui@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.uielements@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.ui@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.jsonserialize@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.hierarchycore@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.modules.animation@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.animation)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: D:/RPTU/Thesis/Project/Frontend
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 2s634ms
+[205/225    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[221/225    1s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[222/225    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 146 defines and 299 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+[223/225    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[224/225    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (2.59 seconds), 5 items updated, 225 evaluated
+Total cache size 51054224
+Total cache size after purge 51054224, took 00:00:00.1023040
+AssetDatabase: script compilation time: 3.464098s
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.590 seconds
+Domain Reload Profiling: 1167ms
+	BeginReloadAssembly (318ms)
+		DisableScriptedObjects (42ms)
+		CreateAndSetChildDomain (55ms)
+	RebuildCommonClasses (11ms)
+	RebuildNativeTypeToScriptingClass (18ms)
+	initialDomainReloadingComplete (50ms)
+	LoadAllAssembliesAndSetupDomain (178ms)
+		LoadAssemblies (143ms)
+		TypeCache.Refresh (21ms)
+			TypeCache.ScanAssembly (13ms)
+		AnalyzeDomain (8ms)
+			BuildScriptInfoCaches (5ms)
+	FinalizeReload (592ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (124ms)
+			ProcessInitializeOnLoadAttributes (135ms)
+			ProcessInitializeOnLoadMethodAttributes (49ms)
+			AfterProcessingInitializeOnLoad (7ms)
+		AwakeInstancesAfterBackupRestoration (45ms)
+Starting new worker id: 0 with log in D:/RPTU/Thesis/Project/Frontend/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=7d0702aaac9403f4caf846b87b37b1b4): Total: 4.945 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=738 ms
+		Asset DB Callback time: managed=85 ms, native=11 ms
+		Scripting: domain reloads=1, domain reload time=628 ms, compile time=3469 ms, other=12 ms
+		Project Asset Count: scripts=145, non-scripts=211
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 10.899ms
+	ApplyChangesToAssetFolders: 0.395ms
+	Scan: 24.668ms
+	Collect global state as custom dependencies: 9.477ms
+	OnSourceAssetsModified: 0.800ms
+	CategorizeScriptCompilationAssets: 1.655ms
+	ProcessAssetsWithTransientArtifactChanges: 4.995ms
+	CategorizeAssets: 5.011ms
+	CompileScripts: 3468.706ms
+	ImportOutOfDateAssets: 608.281ms (593.623ms without children)
+		UnloadImportedAssets: 0.128ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.073ms
+		ImportSchedulerStart: 14.451ms
+	PostProcessAllAssets: 85.916ms
+		VCAutoAddAssetPostprocess 1.081ms
+		XRBuildSystem.XRAssetImported 0.070ms
+		MonoPostProcessAllAssets: 84.345ms
+			AssetPostprocessor.OnPostprocessAllAssets 37.152ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 11.143ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 7.454ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 7.252ms
+			SyncVS.PostprocessSyncProject 2.828ms
+			AssetChangedListener.OnPostprocessAllAssets 2.448ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.637ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.970ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.935ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.749ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.685ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.494ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.366ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.365ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.348ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.342ms
+			AssetEvents.OnPostprocessAllAssets 0.292ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.259ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.195ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.170ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.161ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.156ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.125ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.112ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.094ms
+	PostAssetChangesProfiler: 0.804ms
+	UnloadStreamsBegin: 2.497ms
+	GenerateScriptTypeHashes: 1.981ms
+	GenerateScriptTypeSerializationHashes: 4.107ms
+	Untracked: 684.208ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.115ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Frontend
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 478 unused Assets / (0.5 MB). Loaded Objects now: 1205.
+Memory consumption went from 230.6 MB to 230.0 MB.
+Total: 6.500900 ms (FindLiveObjects: 0.225200 ms CreateObjectMapping: 0.026800 ms MarkObjects: 5.754000 ms  DeleteObjects: 0.314500 ms)
+
+Opening scene 'Assets/Scenes/GearboxAssembly.unity'
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/GearboxAssembly.unity'
+	Deserialize:            8.113 ms
+	Integration:            45.016 ms
+	Integration of assets:  0.031 ms
+	Thread Wait Time:       0.119 ms
+	Total Operation Time:   53.279 ms
+Unloading 8 unused Assets / (16.6 KB). Loaded Objects now: 1849.
+Memory consumption went from 252.9 MB to 252.8 MB.
+Total: 5.720200 ms (FindLiveObjects: 0.284400 ms CreateObjectMapping: 0.023700 ms MarkObjects: 5.196500 ms  DeleteObjects: 0.040500 ms)
+
+Gripper recognition of canonical prefab wrappers
+PASS Housing — Assets/Prefabs/Gearbox/Gearbox_Housing.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS OutputShaft — Assets/Prefabs/Gearbox/Gearbox_OutputShaft.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS PinCarrier — Assets/Prefabs/Gearbox/Gearbox_PinCarrier.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Gear — Assets/Prefabs/Gearbox/Gearbox_Gear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS SpurGear — Assets/Prefabs/Gearbox/Gearbox_SpurGear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Lid — Assets/Prefabs/Gearbox/Gearbox_Lid.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Screw — Assets/Prefabs/Gearbox/Gearbox_Screw.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+7/7 recognized. No prefab files changed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GearboxDemo.Editor.GearboxGripperSetup:ValidatePrefabs () (at Assets/Editor/GearboxGripperSetup.cs:69)
+GearboxDemo.Editor.GearboxGripperSetup:Setup () (at Assets/Editor/GearboxGripperSetup.cs:22)
+GearboxDemo.Editor.GearboxGripperChecks:RunBatch () (at Assets/Editor/GearboxGripperChecks.cs:31)
+
+(Filename: Assets/Editor/GearboxGripperSetup.cs Line: 69)
+
+Importing 'GUID: 49747deddcd78a94bbb9da8ba8c09521 - Path: Assets/Scenes/GearboxAssembly.unity' with importer (DefaultImporter)
+Imported 'GUID: 49747deddcd78a94bbb9da8ba8c09521' -> (Import Result ID: 'f1b771ddab91b919981d1acf79dbfd7b') in 0.005 seconds [static dependencies only]. Details - ImportResultOutputID=fda1a82140877392559da014a9fa89f0 DependenciesID=5a3ee82c035b205e95f0d800792e2bbf StaticDependenciesID=9d28c9d35ff97061762d6ee8594b8296 
+Asset Pipeline Refresh (id=886c3562abb2a8249a839f0b4733adfb): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Gripper recognition of canonical prefab wrappers
+PASS Housing — Assets/Prefabs/Gearbox/Gearbox_Housing.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS OutputShaft — Assets/Prefabs/Gearbox/Gearbox_OutputShaft.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS PinCarrier — Assets/Prefabs/Gearbox/Gearbox_PinCarrier.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Gear — Assets/Prefabs/Gearbox/Gearbox_Gear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS SpurGear — Assets/Prefabs/Gearbox/Gearbox_SpurGear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Lid — Assets/Prefabs/Gearbox/Gearbox_Lid.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+PASS Screw — Assets/Prefabs/Gearbox/Gearbox_Screw.prefab — configured GripPoint, identity, Rigidbody and solid Collider
+7/7 recognized. No prefab files changed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GearboxDemo.Editor.GearboxGripperSetup:ValidatePrefabs () (at Assets/Editor/GearboxGripperSetup.cs:69)
+GearboxDemo.Editor.GearboxGripperSetup:Setup () (at Assets/Editor/GearboxGripperSetup.cs:22)
+GearboxDemo.Editor.GearboxGripperChecks:RunBatch () (at Assets/Editor/GearboxGripperChecks.cs:31)
+
+(Filename: Assets/Editor/GearboxGripperSetup.cs Line: 69)
+
+Importing 'GUID: 49747deddcd78a94bbb9da8ba8c09521 - Path: Assets/Scenes/GearboxAssembly.unity' with importer (DefaultImporter)
+Imported 'GUID: 49747deddcd78a94bbb9da8ba8c09521' -> (Import Result ID: 'f1b771ddab91b919981d1acf79dbfd7b') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=fda1a82140877392559da014a9fa89f0 DependenciesID=5a3ee82c035b205e95f0d800792e2bbf StaticDependenciesID=9d28c9d35ff97061762d6ee8594b8296 
+Asset Pipeline Refresh (id=5a89a23fd4530224ebb6a8eb45fd6aac): Total: 0.009 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Microsoft Media Foundation video decoding to texture disabled: graphics device is Null, only Direct3D 11 and Direct3D 12 (only on desktop) are supported for hardware-accelerated video decoding.
+[Project] Loading completed in 8.494 seconds
+	Project init time: 				7.973 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.295 seconds
+		Asset Database init time: 		0.708 seconds
+		Global illumination init time: 	0.003 seconds
+		Assemblies load time: 			1.753 seconds
+		Unity extensions init time: 	0.002 seconds
+		Asset Database refresh time: 	4.945 seconds
+	Scene opening time: 			0.301 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1789925164361,"processId":2800,"projectLoad":8.4942774,"projectInit":7.9731235,"templateInit":0.0,"packageManagerInit":0.2948997,"assetDatabaseInit":0.7084231,"globalIlluminationInit":0.0034123,"assembliesLoad":1.7532116,"unityExtensionsInit":0.0017254,"assetDatabaseRefresh":4.9453921,"sceneOpening":0.3009422}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1789925164362,"processId":2800,"editorVersion":"6000.6.0f1 (f7f8ed4d1e24)","branch":"6000.6/respin/6000.6.0f1-fa21a270ab12","buildType":"Release","platform":"Windows"}
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.674 seconds
+Domain Reload Profiling: 1167ms
+	BeginReloadAssembly (240ms)
+		DisableScriptedObjects (35ms)
+		CreateAndSetChildDomain (42ms)
+	RebuildCommonClasses (11ms)
+	RebuildNativeTypeToScriptingClass (18ms)
+	initialDomainReloadingComplete (51ms)
+	LoadAllAssembliesAndSetupDomain (169ms)
+		LoadAssemblies (125ms)
+		TypeCache.Refresh (5ms)
+		AnalyzeDomain (2ms)
+	FinalizeReload (676ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (132ms)
+			ProcessInitializeOnLoadAttributes (139ms)
+			ProcessInitializeOnLoadMethodAttributes (40ms)
+			AfterProcessingInitializeOnLoad (8ms)
+		AwakeInstancesAfterBackupRestoration (50ms)
+
+Asset Pipeline Refresh (id=09b27bf32e5c7f7438268b44145a65ff): Total: 1.365 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=747 ms
+		Asset DB Callback time: managed=73 ms, native=9 ms
+		Scripting: domain reloads=1, domain reload time=530 ms, compile time=4 ms, other=0 ms
+		Project Asset Count: scripts=145, non-scripts=211
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 1.420ms
+	ApplyChangesToAssetFolders: 0.063ms
+	Collect global state as custom dependencies: 0.594ms
+	ProcessAssetsWithTransientArtifactChanges: 11.098ms
+	CategorizeAssets: 4.798ms
+	CompileScripts: 3.972ms
+	ImportOutOfDateAssets: 677.492ms (677.068ms without children)
+		UnloadImportedAssets: 0.147ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.057ms
+		ImportSchedulerStart: 0.183ms
+	PostProcessAllAssets: 80.325ms
+		PostProcessCallbackCreateDeferredMaterials 1.933ms
+		ShaderAssetModifiedCallback 1.071ms
+		RaytracingShaderImportPostprocess 0.407ms
+		ComputeShaderImportPostprocess 0.391ms
+		SpeedTreeImporter.PostprocessAllAssets 0.328ms
+		LocalizationDatabase.AssetDatabasePostprocessCallback 0.200ms
+		BlockShaderImporter.PostprocessAllAssets 0.181ms
+		AssemblyValidation.PostprocessAllAssets 0.174ms
+		XRBuildSystem.XRAssetImported 0.066ms
+		MonoPostProcessAllAssets: 71.671ms
+			AssetPostprocessor.OnPostprocessAllAssets 21.532ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 9.151ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 6.312ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 6.092ms
+			AssetChangedListener.OnPostprocessAllAssets 2.765ms
+			SyncVS.PostprocessSyncProject 2.710ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 2.579ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 2.446ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 1.797ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.508ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.223ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 1.003ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.590ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.328ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.320ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.311ms
+			AssetEvents.OnPostprocessAllAssets 0.265ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.218ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.196ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.196ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.179ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.146ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.142ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.099ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.082ms
+	PostAssetChangesProfiler: 2.005ms
+	GenerateScriptTypeHashes: 2.381ms
+	GenerateScriptTypeSerializationHashes: 4.865ms
+	Untracked: 553.390ms
+
+Worker ready: AssetImportWorkerHW0 0
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            7.750 ms
+	Integration:            42.578 ms
+	Integration of assets:  0.126 ms
+	Thread Wait Time:       34.163 ms
+	Total Operation Time:   84.617 ms
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+Created GICache directory at C:/Users/Harsh/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.018s, timestamps: [10.031 - 10.049]
+[Licensing::Client] Successfully resolved entitlement details
+Housing: valid grippable; configured GripPoint = GripPoint; available = True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:Log (object,UnityEngine.Object)
+GearboxDemo.RobotGripper:ValidateSelectedPart () (at Assets/Scripts/Robot/RobotGripper.cs:182)
+GearboxDemo.Editor.GearboxGripperChecks:Tick () (at Assets/Editor/GearboxGripperChecks.cs:66)
+
+(Filename: Assets/Scripts/Robot/RobotGripper.cs Line: 182)
+
+OutputShaft: valid grippable; configured GripPoint = GripPoint; available = True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:Log (object,UnityEngine.Object)
+GearboxDemo.RobotGripper:ValidateSelectedPart () (at Assets/Scripts/Robot/RobotGripper.cs:182)
+GearboxDemo.Editor.GearboxGripperChecks:Tick () (at Assets/Editor/GearboxGripperChecks.cs:66)
+
+(Filename: Assets/Scripts/Robot/RobotGripper.cs Line: 182)
+
+PinCarrier: valid grippable; configured GripPoint = GripPoint; available = True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:Log (object,UnityEngine.Object)
+GearboxDemo.RobotGripper:ValidateSelectedPart () (at Assets/Scripts/Robot/RobotGripper.cs:182)
+GearboxDemo.Editor.GearboxGripperChecks:Tick () (at Assets/Editor/GearboxGripperChecks.cs:66)
+
+(Filename: Assets/Scripts/Robot/RobotGripper.cs Line: 182)
+
+Gear: valid grippable; configured GripPoint = GripPoint; available = True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:Log (object,UnityEngine.Object)
+GearboxDemo.RobotGripper:ValidateSelectedPart () (at Assets/Scripts/Robot/RobotGripper.cs:182)
+GearboxDemo.Editor.GearboxGripperChecks:Tick () (at Assets/Editor/GearboxGripperChecks.cs:66)
+
+(Filename: Assets/Scripts/Robot/RobotGripper.cs Line: 182)
+
+SpurGear: valid grippable; configured GripPoint = GripPoint; available = True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:Log (object,UnityEngine.Object)
+GearboxDemo.RobotGripper:ValidateSelectedPart () (at Assets/Scripts/Robot/RobotGripper.cs:182)
+GearboxDemo.Editor.GearboxGripperChecks:Tick () (at Assets/Editor/GearboxGripperChecks.cs:66)
+
+(Filename: Assets/Scripts/Robot/RobotGripper.cs Line: 182)
+
+Lid: valid grippable; configured GripPoint = GripPoint; available = True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:Log (object,UnityEngine.Object)
+GearboxDemo.RobotGripper:ValidateSelectedPart () (at Assets/Scripts/Robot/RobotGripper.cs:182)
+GearboxDemo.Editor.GearboxGripperChecks:Tick () (at Assets/Editor/GearboxGripperChecks.cs:66)
+
+(Filename: Assets/Scripts/Robot/RobotGripper.cs Line: 182)
+
+Screw: valid grippable; configured GripPoint = GripPoint; available = True
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object,UnityEngine.Object)
+UnityEngine.Debug:Log (object,UnityEngine.Object)
+GearboxDemo.RobotGripper:ValidateSelectedPart () (at Assets/Scripts/Robot/RobotGripper.cs:182)
+GearboxDemo.Editor.GearboxGripperChecks:Tick () (at Assets/Editor/GearboxGripperChecks.cs:66)
+
+(Filename: Assets/Scripts/Robot/RobotGripper.cs Line: 182)
+
+Unloading 25 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            2.185 ms
+	Integration:            8.925 ms
+	Integration of assets:  0.006 ms
+	Thread Wait Time:       0.007 ms
+	Total Operation Time:   11.123 ms
+Unloading 419 unused Assets / (123.4 KB). Loaded Objects now: 2047.
+Memory consumption went from 264.3 MB to 264.2 MB.
+Total: 6.455800 ms (FindLiveObjects: 0.341000 ms CreateObjectMapping: 0.032700 ms MarkObjects: 5.779100 ms  DeleteObjects: 0.117700 ms)
+
+MonoPathRemapper: Attempts to remap: 2703; Successful remaps: 8
+Serialized file version minimum: 23, current 23
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Harsh-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Harsh channel disconnected successfully.
+Lingering sessions upon destruction of worker manager
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+Shut down UDS service system complete
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Checking for leaked weakptr:
+  Found no leaked weakptrs.
+[Package Manager] Server process was shutdown
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1789925173851,"processId":2800,"allocatedMemory":11174199,"memoryLabels":[{"Default":156763},{"Permanent":15516},{"NewDelete":69439},{"Thread":4197984},{"Manager":35493},{"VertexData":8},{"Geometry":816},{"Texture":24},{"Shader":832621},{"Material":24},{"GfxDevice":55968},{"Animation":952},{"Audio":896},{"FreeType":8},{"FontEngine":736},{"Physics":1970},{"Physics2D":16},{"Serialization":16768},{"Input":42840},{"JobScheduler":256},{"TextLib":280},{"Mono":48},{"ScriptingNativeRuntime":1210712},{"BaseObject":49168},{"Resource":1208},{"Renderer":2376},{"Transform":4685},{"File":7393},{"WebCam":616},{"Culling":32},{"Terrain":11442},{"Wind":24},{"STL":40},{"String":462776},{"StaticString":3808},{"Utility":2675350},{"Curl":2478},{"PoolAlloc":2168},{"AI":80},{"TypeTree":17165},{"ScriptManager":18960},{"CodeReload":448},{"RuntimeInitializeOnLoadManager":64},{"Sprites":102},{"SpriteAtlas":120},{"GI":7816},{"Director":8296},{"CloudService":7440},{"WebRequest":8629},{"VR":49650},{"SceneManager":608},{"Video":64},{"LazyScriptCache":32},{"Camera":729},{"Secure":2377},{"SerializationCache":9256},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":768},{"Hierarchy":1188},{"UIElements":40},{"CoreStats":14456},{"Identifiers":7152},{"Gui":128},{"EditorUtility":89974},{"VersionControl":8},{"Undo":931},{"AssetDatabase":647088},{"AssetImporter":40},{"EditorGi":328},{"UnityConnect":40465},{"Upm":1912},{"UpmDiagnostics":8},{"AssetCompliance":96},{"DrivenProperties":72},{"LocalIPC":260},{"ProfilerEditor":9778},{"CoreBusinessMetrics":3620},{"Windowing":456},{"Licensing":12757},{"AssetReference":32},{"IPCStream":32}]}

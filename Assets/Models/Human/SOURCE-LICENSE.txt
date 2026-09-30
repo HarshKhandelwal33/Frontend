@@ -1,0 +1,11 @@
+IndustrialWorker.fbx uses MakeHuman/MPFB base geometry and MakeHuman system assets, released under CC0 1.0 Universal.
+Sources:
+https://github.com/makehumancommunity/mpfb2
+https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html
+https://github.com/makehumancommunity/makehuman/blob/master/LICENSE.ASSETS.md
+
+Included source assets: male_worksuit01, shoes04, low-poly eyes with brown material, eyebrow001, young_caucasian_male skin.
+Adaptations: adult body proportions; T-pose bind rig; orange safety shirt; darker work overalls; reflective bands; fitted hard hat; FBX export for Unity Humanoid.
+
+The source asset notices identify Data Collection AB, Joel Palmius and Jonas Hauquier as copyright holders at the CC0 release in September 2020.
+No MakeHuman or Blender code is required at runtime.

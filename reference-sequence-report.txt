@@ -1,0 +1,17 @@
+Reference sequence play-mode verification
+Completed steps: 0 | Pin Carrier
+Completed steps: 1 | Pin Carrier
+Completed steps: 2 | Central spur shaft
+Completed steps: 3 | Planetary Gear 1
+Completed steps: 4 | Planetary Gear 2
+Completed steps: 5 | Planetary Gear 3
+Completed steps: 6 | Output shaft
+Completed steps: 7 | Internal Assembly
+Completed steps: 8 | Lid
+Completed steps: 9 | Screw 1
+Completed steps: 10 | Screw 3
+Completed steps: 11 | Screw 2
+Completed steps: 12 | Final Gearbox
+PASS final CAD alignment within 2 mm for every part.
+PASS full sequence, twelve installed parts and occupied targets.
+PASS reset clears progress and target occupancy.

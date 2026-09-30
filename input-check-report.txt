@@ -1,0 +1,14 @@
+Input System integration checks
+PASS Digit2 -> TraySafe
+PASS Digit3 -> AssemblySafe
+PASS Digit4 -> HumanSafe
+PASS Digit1 -> Home
+PASS Numpad2 -> TraySafe
+PASS Numpad3 -> AssemblySafe
+PASS Numpad4 -> HumanSafe
+PASS Numpad1 -> Home
+PASS Mouse button 2 -> TraySafe
+PASS Mouse button 3 -> AssemblySafe
+PASS Mouse button 4 -> HumanSafe
+PASS Mouse button 1 -> Home
+ALL 12 INPUT CHECKS PASSED

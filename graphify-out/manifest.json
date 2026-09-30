@@ -1,0 +1,170 @@
+{
+  "Assets/Editor/GearboxDemoBuilder.cs": {
+    "mtime": 1789902071.8159528,
+    "seen": 1789925113.2299335,
+    "ast_hash": "f317b921dc2ee8f068ee6402aceb07a8",
+    "semantic_hash": "f317b921dc2ee8f068ee6402aceb07a8"
+  },
+  "Assets/Editor/GearboxGripperChecks.cs": {
+    "mtime": 1789925012.556355,
+    "seen": 1789925113.2299392,
+    "ast_hash": "4580a19c0319f73cbd52a9102fcd4a46",
+    "semantic_hash": "4580a19c0319f73cbd52a9102fcd4a46"
+  },
+  "Assets/Editor/GearboxGripperSetup.cs": {
+    "mtime": 1789924828.7581215,
+    "seen": 1789925113.2299416,
+    "ast_hash": "249ece1dc3db429a3886c121b608a625",
+    "semantic_hash": "249ece1dc3db429a3886c121b608a625"
+  },
+  "Assets/Editor/GearboxInputChecks.cs": {
+    "mtime": 1789923540.5495946,
+    "seen": 1789925113.2299428,
+    "ast_hash": "f87406b9d113d0ed36c6434918584a77",
+    "semantic_hash": "f87406b9d113d0ed36c6434918584a77"
+  },
+  "Assets/Editor/GearboxModelAudit.cs": {
+    "mtime": 1789903122.6125896,
+    "seen": 1789925113.229944,
+    "ast_hash": "1b351e33e0f4bfd220a6036aa857248c",
+    "semantic_hash": "1b351e33e0f4bfd220a6036aa857248c"
+  },
+  "Assets/Editor/GearboxPartsChecks.cs": {
+    "mtime": 1789903251.8270962,
+    "seen": 1789925113.2299452,
+    "ast_hash": "4212f23fbf35c493b08a2a8ee1a31cc3",
+    "semantic_hash": "4212f23fbf35c493b08a2a8ee1a31cc3"
+  },
+  "Assets/Editor/GearboxPartsSetup.cs": {
+    "mtime": 1789902906.0267913,
+    "seen": 1789925113.2299461,
+    "ast_hash": "83252096cdb543f2398d412bce8a7cca",
+    "semantic_hash": "83252096cdb543f2398d412bce8a7cca"
+  },
+  "Assets/Editor/GearboxRobotBuilder.cs": {
+    "mtime": 1789923872.9040124,
+    "seen": 1789925113.229947,
+    "ast_hash": "39ba9e2994b5f92019676e7ea076a827",
+    "semantic_hash": "39ba9e2994b5f92019676e7ea076a827"
+  },
+  "Assets/Editor/GearboxRobotChecks.cs": {
+    "mtime": 1789904085.040277,
+    "seen": 1789925113.229948,
+    "ast_hash": "5f925b872355eeeaab5d09f9a311fc47",
+    "semantic_hash": "5f925b872355eeeaab5d09f9a311fc47"
+  },
+  "Assets/Scripts/Assembly/AssemblyTarget.cs": {
+    "mtime": 1789902752.866868,
+    "seen": 1789925113.2299492,
+    "ast_hash": "4aede6ac3b8a25d590779367557c39c2",
+    "semantic_hash": "4aede6ac3b8a25d590779367557c39c2"
+  },
+  "Assets/Scripts/Assembly/GearboxPart.cs": {
+    "mtime": 1789924920.667502,
+    "seen": 1789925113.2299502,
+    "ast_hash": "52e59ada44d28b2be633160b89343349",
+    "semantic_hash": "52e59ada44d28b2be633160b89343349"
+  },
+  "Assets/Scripts/Assembly/GearboxPartType.cs": {
+    "mtime": 1789902745.870301,
+    "seen": 1789925113.2299514,
+    "ast_hash": "c8e4af68ba4ec1d43ce3454e3838c218",
+    "semantic_hash": "c8e4af68ba4ec1d43ce3454e3838c218"
+  },
+  "Assets/Scripts/Interaction/GrippableObject.cs": {
+    "mtime": 1789925007.6618116,
+    "seen": 1789925113.2299526,
+    "ast_hash": "a70c64a17f2053ec3418aa5d4a4965c7",
+    "semantic_hash": "a70c64a17f2053ec3418aa5d4a4965c7"
+  },
+  "Assets/Scripts/Interaction/IGrippable.cs": {
+    "mtime": 1789902749.0373032,
+    "seen": 1789925113.2299535,
+    "ast_hash": "02db855579e0607214823b1c4e9a8960",
+    "semantic_hash": "02db855579e0607214823b1c4e9a8960"
+  },
+  "Assets/Scripts/Robot/RobotArmController.cs": {
+    "mtime": 1789904081.8010542,
+    "seen": 1789925113.2299545,
+    "ast_hash": "e1202a9818a8cee464a2cd4b88825051",
+    "semantic_hash": "e1202a9818a8cee464a2cd4b88825051"
+  },
+  "Assets/Scripts/Robot/RobotDebugController.cs": {
+    "mtime": 1789905056.2432768,
+    "seen": 1789925113.2299557,
+    "ast_hash": "83325a56daeef4b2efc07a5ec3eeb3e4",
+    "semantic_hash": "83325a56daeef4b2efc07a5ec3eeb3e4"
+  },
+  "Assets/Scripts/Robot/RobotGripper.cs": {
+    "mtime": 1789925010.1159089,
+    "seen": 1789925113.2299566,
+    "ast_hash": "c45eb15ebfb4db8d567f8a24dc02df97",
+    "semantic_hash": "c45eb15ebfb4db8d567f8a24dc02df97"
+  },
+  "Assets/Scripts/Robot/RobotJointController.cs": {
+    "mtime": 1789903703.8584158,
+    "seen": 1789925113.2299576,
+    "ast_hash": "245fc6ae48499ff5890126e75a4eb42d",
+    "semantic_hash": "245fc6ae48499ff5890126e75a4eb42d"
+  },
+  "Assets/Scripts/Robot/RobotPose.cs": {
+    "mtime": 1789903701.4737377,
+    "seen": 1789925113.2299588,
+    "ast_hash": "cd4aa46a25d1d2304ee96f4b1dd6f0b0",
+    "semantic_hash": "cd4aa46a25d1d2304ee96f4b1dd6f0b0"
+  },
+  "Assets/Scripts/Robot/RobotPoseController.cs": {
+    "mtime": 1789903708.6097434,
+    "seen": 1789925113.2299597,
+    "ast_hash": "fa1c2bf7b3368a43867d732eaf0369f2",
+    "semantic_hash": "fa1c2bf7b3368a43867d732eaf0369f2"
+  },
+  "Packages/manifest.json": {
+    "mtime": 1789904969.7199793,
+    "seen": 1789925113.2299607,
+    "ast_hash": "a4bf2b28013a596037b9036dd99ea1ad",
+    "semantic_hash": "a4bf2b28013a596037b9036dd99ea1ad"
+  },
+  "Packages/packages-lock.json": {
+    "mtime": 1789904993.9074905,
+    "seen": 1789925113.2299616,
+    "ast_hash": "88ae9054810aa783d494c21e9b6d9afd",
+    "semantic_hash": "88ae9054810aa783d494c21e9b6d9afd"
+  },
+  "ProjectSettings/SceneTemplateSettings.json": {
+    "mtime": 1789902186.3395128,
+    "seen": 1789925113.2299633,
+    "ast_hash": "eeb26e313b89cd9334b828428a4847ef",
+    "semantic_hash": "eeb26e313b89cd9334b828428a4847ef"
+  },
+  "fbx-original-hashes.json": {
+    "mtime": 1789902642.5506597,
+    "seen": 1789925113.229964,
+    "ast_hash": "894c75bac6feae2639250bc111274f97",
+    "semantic_hash": "894c75bac6feae2639250bc111274f97"
+  },
+  "gripper-baseline.json": {
+    "mtime": 1789923702.0209153,
+    "seen": 1789925113.229965,
+    "ast_hash": "b6f9d73c1ce532a8d9ab8aa9334dc126",
+    "semantic_hash": "b6f9d73c1ce532a8d9ab8aa9334dc126"
+  },
+  "milestone2-baseline.json": {
+    "mtime": 1789902643.0113287,
+    "seen": 1789925113.2299662,
+    "ast_hash": "e7f5e86c8c609d5291dd2d05d51268fe",
+    "semantic_hash": "e7f5e86c8c609d5291dd2d05d51268fe"
+  },
+  "robot-baseline.json": {
+    "mtime": 1789903616.0170193,
+    "seen": 1789925113.229967,
+    "ast_hash": "f46d620c80447d4e8b799adb04e6f666",
+    "semantic_hash": "f46d620c80447d4e8b799adb04e6f666"
+  },
+  "robot-resize-baseline.json": {
+    "mtime": 1789904657.799168,
+    "seen": 1789925113.229968,
+    "ast_hash": "88dd5a43e298d2a5f56e4b02779e0c62",
+    "semantic_hash": "88dd5a43e298d2a5f56e4b02779e0c62"
+  }
+}

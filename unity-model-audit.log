@@ -1,0 +1,338 @@
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 12436)
+VBCSCompiler prewarm took 7.18 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Harsh" at "2026-09-20T11:12:39.5105715Z"
+Built from '6000.6/respin/6000.6.0f1-fa21a270ab12' branch; Version is '6000.6.0f1 (f7f8ed4d1e24) revision 16251117'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 16088 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-09-20T11:12:39Z
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 22244, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              e095556310d04c2196c7e8a656d30db9
+  Correlation Id:          ccc8ba1353ff48d5208692868c3352db
+  External correlation Id: 7083357289787897060
+  Machine Id:              Hbp6cIbiWcEt7uCUfLOsR8jmd/w=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Harsh" (connect: 0.00s, validation: 0.00s, handshake: 0.10s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Harsh-notifications" at "2026-09-20T11:12:39.6100748Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 9072445264484-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.11s
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+D:\RPTU\Thesis\Project\Frontend
+-executeMethod
+GearboxDemo.Editor.GearboxModelAudit.Run
+-logFile
+D:\RPTU\Thesis\Project\Frontend\unity-model-audit.log
+Successfully changed project path to: D:\RPTU\Thesis\Project\Frontend
+D:/RPTU/Thesis/Project/Frontend
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.
+Player connection [26716]  Target information:
+
+Player connection [26716]  * "[IP] 192.168.178.35 [Port] 55504 [Flags] 2 [Guid] 2188369987 [EditorId] 2188369987 [Version] 1048832 [Id] WindowsEditor(7,LAPTOP-CQ1FOJIL) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [26716] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [26716] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-25072" after 0.3 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: 9f1c73524ddb5bde77655c46fabdf276
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052576
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+Launching Unity Data Store - C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Tools/Unity.DataStore.exe 
+Unity Data Store artifact dir = Library/DataStore, working dir = D:/RPTU/Thesis/Project/Frontend[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Unity Data Store running and initialised
+Initialize engine version: 6000.6.0f1 (f7f8ed4d1e24)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/RPTU/Thesis/Project/Frontend/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56072
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002156 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  1.262 seconds
+Domain Reload Profiling: 2052ms
+	BeginReloadAssembly (184ms)
+		CreateAndSetChildDomain (12ms)
+	RebuildCommonClasses (7ms)
+	RebuildNativeTypeToScriptingClass (22ms)
+	initialDomainReloadingComplete (86ms)
+	LoadAllAssembliesAndSetupDomain (491ms)
+		LoadAssemblies (169ms)
+		TypeCache.Refresh (315ms)
+			TypeCache.ScanAssembly (297ms)
+		AnalyzeDomain (1ms)
+	FinalizeReload (1263ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			BeforeProcessingInitializeOnLoad (143ms)
+			ProcessInitializeOnLoadAttributes (178ms)
+			ProcessInitializeOnLoadMethodAttributes (614ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 2 packages:
+  Built-in packages:
+    com.unity.modules.physics@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.imgui@1.0.0 (location: D:\RPTU\Thesis\Project\Frontend\Library\PackageCache\com.unity.modules.imgui)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: D:/RPTU/Thesis/Project/Frontend
+DisplayProgressbar: Compiling Scripts
+ExitCode: 4 Duration: 0s208ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[168/172    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra requires additional run (0.16 seconds), 1 items updated, 167 evaluated
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\DotNetSdk\dotnet.exe "C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: D:/RPTU/Thesis/Project/Frontend
+ExitCode: 0 Duration: 0s316ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.0f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: D:/RPTU/Thesis/Project/Frontend
+ExitCode: 0 Duration: 2s329ms
+Finished compiling graph: 185 nodes, 659 flattened edges (651 ToBuild, 4 ToUse), maximum node priority 20
+[165/182    0s] WriteResponseFile Library/Bee/artifacts/rsp/2781082588993088484.rsp
+[166/182    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp2
+[167/182    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.UnityAdditionalFile.txt
+[168/182    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll.mvfrm.rsp
+[169/182    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.rsp
+[170/182    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp
+[171/182    0s] WriteResponseFile Library/Bee/artifacts/rsp/10678863128556690338.rsp
+[172/182    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[173/182    0s] MovedFromExtractor-Combine Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll.mvfrm
+[174/182    1s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[175/182    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 148 defines and 250 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+[176/182    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[177/182    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[178/182    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[179/182    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 146 defines and 296 references
+
+processors: zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+1 processor(s) skipped this assembly
+[180/182    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[181/182    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (2.30 seconds), 17 items updated, 182 evaluated
+Total cache size 47846736
+Total cache size after purge 47846736, took 00:00:00.0768931
+AssetDatabase: script compilation time: 3.456022s
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.677 seconds
+Domain Reload Profiling: 1289ms
+	BeginReloadAssembly (310ms)
+		DisableScriptedObjects (44ms)
+		CreateAndSetChildDomain (54ms)
+	RebuildCommonClasses (12ms)
+	RebuildNativeTypeToScriptingClass (21ms)
+	initialDomainReloadingComplete (54ms)
+	LoadAllAssembliesAndSetupDomain (211ms)
+		LoadAssemblies (131ms)
+		TypeCache.Refresh (7ms)
+		AnalyzeDomain (5ms)
+			BuildScriptInfoCaches (3ms)
+	FinalizeReload (680ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			BeforeProcessingInitializeOnLoad (147ms)
+			ProcessInitializeOnLoadAttributes (95ms)
+			ProcessInitializeOnLoadMethodAttributes (61ms)
+			AfterProcessingInitializeOnLoad (8ms)
+		AwakeInstancesAfterBackupRestoration (52ms)
+Starting new worker id: 0 with log in D:/RPTU/Thesis/Project/Frontend/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=6d2087ac2f74f1d4d944b0b719142401): Total: 5.062 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=828 ms
+		Asset DB Callback time: managed=84 ms, native=26 ms
+		Scripting: domain reloads=1, domain reload time=654 ms, compile time=3460 ms, other=7 ms
+		Project Asset Count: scripts=44, non-scripts=18
+		Asset File Changes: new=5, changed=5, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 26.251ms
+	ApplyChangesToAssetFolders: 0.297ms
+	Scan: 45.083ms
+	Collect global state as custom dependencies: 9.727ms
+	OnSourceAssetsModified: 0.808ms
+	CategorizeScriptCompilationAssets: 0.066ms
+	ProcessAssetsWithTransientArtifactChanges: 0.807ms
+	CategorizeAssets: 0.466ms
+	CompileScripts: 3460.388ms
+	ImportOutOfDateAssets: 695.113ms (680.923ms without children)
+		UnloadImportedAssets: 0.126ms
+		ImportSchedulerStart: 14.041ms
+	PostProcessAllAssets: 84.930ms
+		VCAutoAddAssetPostprocess 1.350ms
+		VersionControlSettings.HiddenFilePostprocess 0.070ms
+		MonoPostProcessAllAssets: 82.950ms
+			AssetPostprocessor.OnPostprocessAllAssets 27.657ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 11.712ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 9.520ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 7.894ms
+			SyncVS.PostprocessSyncProject 2.879ms
+			AssetChangedListener.OnPostprocessAllAssets 2.355ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.784ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 1.547ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.013ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.977ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.902ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.672ms
+			AssetEvents.OnPostprocessAllAssets 0.477ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.475ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.347ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.298ms
+			ThemePostprocessor.OnPostprocessAllAssets 0.206ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.196ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.196ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.154ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.126ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.106ms
+	PostAssetChangesProfiler: 0.968ms
+	UnloadStreamsBegin: 2.024ms
+	Untracked: 693.132ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 2.650ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Frontend
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 21 unused Assets / (476.0 KB). Loaded Objects now: 747.
+Memory consumption went from 219.5 MB to 219.0 MB.
+Total: 6.752400 ms (FindLiveObjects: 0.207000 ms CreateObjectMapping: 0.012600 ms MarkObjects: 6.092800 ms  DeleteObjects: 0.264100 ms)
+
+Imported gearbox geometry (Unity metres)
+planetarygearbox-gear_2_30_18-3.fbx: center=(-0.155885, -0.090000, 0.197000) size=(0.197275, 0.200000, 0.100000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
+planetarygearbox-housing_30_54-1.fbx: center=(0.000000, 0.000000, 0.150000) size=(0.600000, 0.600000, 0.300000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
+planetarygearbox-lid-1.fbx: center=(0.000000, 0.000000, 0.310000) size=(0.600000, 0.600000, 0.100000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
+planetarygearbox-outputshaft-1.fbx: center=(0.000000, 0.045015, 0.449000) size=(0.461713, 0.419970, 0.400000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
+planetarygearbox-pin_carrier-1.fbx: center=(0.000000, 0.045027, 0.197000) size=(0.431769, 0.389946, 0.156000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
+planetarygearbox-screw-1.fbx: center=(0.240000, 0.240000, 0.320000) size=(0.100000, 0.099956, 0.200000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
+planetarygearbox-spur_2_30_18-2.fbx: center=(0.000000, 0.000000, 0.059000) size=(0.200000, 0.197275, 0.380000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+GearboxDemo.Editor.GearboxModelAudit:Run () (at Assets/Editor/GearboxModelAudit.cs:28)
+
+(Filename: Assets/Editor/GearboxModelAudit.cs Line: 28)
+
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Harsh-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Harsh channel disconnected successfully.
+Unity Data Store service was successfully shut down
+UDS shutting down local client system
+Shut down UDS service system complete
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+[ExitDontLaunchBugReporter] Exiting without the bug reporter. Application will exit with return code 0

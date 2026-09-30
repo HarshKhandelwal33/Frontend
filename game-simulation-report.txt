@@ -1,0 +1,30 @@
+Behaviour tree / holder contact / reach / visibility / reset checks
+Tree progress 0/13 | Ready • all parts on rack
+PASS handover 1 above table / contact gap 0.0000 m
+Tree progress 1/13 | Worker • align and mount Pin Carrier
+PASS handover 2 above table / contact gap 0.0000 m
+Tree progress 2/13 | Worker • align and mount Spur Gear
+PASS handover 3 above table / contact gap 0.0000 m
+Tree progress 3/13 | Worker • align and mount Planet Gear_01
+PASS handover 4 above table / contact gap 0.0000 m
+Tree progress 4/13 | Worker • align and mount Planet Gear_02
+PASS handover 5 above table / contact gap 0.0000 m
+Tree progress 5/13 | Worker • align and mount Planet Gear_03
+PASS handover 6 above table / contact gap 0.0000 m
+Tree progress 6/13 | Worker • align and mount Output Shaft
+Tree progress 7/13 | Robot • align and seat Housing
+Tree progress 8/13 | Robot • align and insert in housing
+Tree progress 9/13 | Robot • align and seat Lid
+PASS handover 7 above table / contact gap 0.0000 m
+Tree progress 10/13 | Worker • thread and tighten Screw_01
+PASS handover 8 above table / contact gap 0.0000 m
+Tree progress 11/13 | Worker • thread and tighten Screw_03
+PASS handover 9 above table / contact gap 0.0000 m
+Tree progress 12/13 | Worker • thread and tighten Screw_02
+PASS handover 10 above table / contact gap 0.0000 m
+Tree progress 13/13 | Worker • thread and tighten Screw_04
+PASS all 13 operations; 12 installed parts; 12 occupied targets; final alignment.
+Maximum robot endpoint error: 0.0005948718; hand endpoint error: 0.00632149
+PASS reset clears tree, ownership, installed flags and target occupancy.
+PASS pause freezes held payload; reset during carry releases ownership and restores rack.
+PASS replay after reset; single-step stops after one complete operation.
