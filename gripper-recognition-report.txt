@@ -1,9 +1,0 @@
-Gripper recognition of canonical prefab wrappers
-PASS Housing — Assets/Prefabs/Gearbox/Gearbox_Housing.prefab — configured GripPoint, identity, Rigidbody and solid Collider
-PASS OutputShaft — Assets/Prefabs/Gearbox/Gearbox_OutputShaft.prefab — configured GripPoint, identity, Rigidbody and solid Collider
-PASS PinCarrier — Assets/Prefabs/Gearbox/Gearbox_PinCarrier.prefab — configured GripPoint, identity, Rigidbody and solid Collider
-PASS Gear — Assets/Prefabs/Gearbox/Gearbox_Gear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
-PASS SpurGear — Assets/Prefabs/Gearbox/Gearbox_SpurGear.prefab — configured GripPoint, identity, Rigidbody and solid Collider
-PASS Lid — Assets/Prefabs/Gearbox/Gearbox_Lid.prefab — configured GripPoint, identity, Rigidbody and solid Collider
-PASS Screw — Assets/Prefabs/Gearbox/Gearbox_Screw.prefab — configured GripPoint, identity, Rigidbody and solid Collider
-7/7 recognized. No prefab files changed.

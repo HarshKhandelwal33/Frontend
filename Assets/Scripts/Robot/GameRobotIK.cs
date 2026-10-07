@@ -9,6 +9,8 @@ namespace GearboxDemo
         public Transform Root { get; private set; }
         public Transform Grip { get; private set; }
         public Transform LeftFinger, RightFinger;
+        public Collider[] ExtraColliders;
+        public Transform[] ExtraSources;
         private readonly Transform[] joints = new Transform[6];
         private readonly Vector3[] axes = new Vector3[6];
         private readonly Quaternion[] rest = new Quaternion[6];
@@ -17,15 +19,25 @@ namespace GearboxDemo
         private readonly float[] lower = new float[6], upper = new float[6];
         private readonly float[,] jac = new float[6, 6];
         private readonly float[,] system = new float[6, 7];
+        private RobotArmController articulation;
+        private Dictionary<Transform, Transform> planningMap;
+        private Transform planningGrip, planningRoot;
+        private bool planning;
+        private readonly float[] commandedVelocity = new float[6];
+        public float SpeedLimit = 35, AccelerationLimit = 80;
         private const float OrientationWeight = 0.22f;
 
         public GameRobotIK(RobotArmController source, RobotGripper gripper)
         {
             var map = new Dictionary<Transform, Transform>();
-            Root = Clone(source.transform, source.transform.parent, map);
+            planningMap = map;
+            articulation = source;
+            planningRoot = Clone(source.transform, source.transform.parent, map);
+            Root = source.transform;
             Root.name = "Game Robot • Cartesian IK";
-            Grip = map[gripper.attachmentPoint];
-            LeftFinger = map[gripper.leftFinger]; RightFinger = map[gripper.rightFinger];
+            planningGrip = map[gripper.attachmentPoint];
+            Grip = gripper.attachmentPoint;
+            LeftFinger = gripper.leftFinger; RightFinger = gripper.rightFinger;
             for (int i = 0; i < 6; i++)
             {
                 joints[i] = map[source.joints[i].transform]; axes[i] = source.joints[i].localAxis;
@@ -36,7 +48,8 @@ namespace GearboxDemo
                 lower[i] = source.joints[i].Body.xDrive.lowerLimit;
                 upper[i] = source.joints[i].Body.xDrive.upperLimit;
             }
-            source.gameObject.SetActive(false);
+            foreach (var renderer in planningRoot.GetComponentsInChildren<Renderer>()) renderer.enabled = false;
+            source.enabled = true; // Tree owns targets; the arm supplies gravity feedforward in FixedUpdate.
             // Keep the upper link above the worktop: the authored 120-degree shoulder limit
             // permits an elbow-down solution through the bench. Use the overhead branch.
             upper[1] = Mathf.Min(upper[1], 80f);
@@ -59,21 +72,39 @@ namespace GearboxDemo
             return t;
         }
 
-        public void Reset()
-        { for (int i = 0; i < 6; i++) { angles[i] = home[i]; Apply(i); } }
+        public void Reset() => RestorePose(home);
+        public void RestorePose(float[] pose)
+        {
+            articulation.ResetTo(pose);
+            System.Array.Clear(commandedVelocity, 0, commandedVelocity.Length);
+            for (int i = 0; i < 6; i++) { angles[i] = pose[i]; Apply(i); }
+        }
         private void Apply(int i) => joints[i].localRotation = rest[i] * Quaternion.AngleAxis(angles[i], axes[i]);
         public float[] Angles => (float[])angles.Clone();
-        public Vector3[] JointPositions => System.Array.ConvertAll(joints, joint => joint.position);
+        public Vector3[] JointPositions => System.Array.ConvertAll(articulation.joints, joint => joint.transform.position);
         public void SetAngles(float[] pose)
-        { for(int i=0;i<6;i++) { angles[i]=pose[i]; Apply(i); } }
-        public float[] Plan(Vector3 position, Quaternion rotation)
+        { for(int i=0;i<6;i++) { angles[i]=Mathf.Clamp(pose[i],lower[i],upper[i]); Apply(i); if (!planning)
+                {
+                    var joint = articulation.joints[i];
+                    float dt = Time.fixedDeltaTime;
+                    float error = angles[i] - joint.Target;
+                    float wanted = Mathf.Clamp(error / dt, -SpeedLimit, SpeedLimit);
+                    float braking = Mathf.Sqrt(2 * AccelerationLimit * Mathf.Abs(error));
+                    wanted = Mathf.Clamp(wanted, -braking, braking);
+                    commandedVelocity[i] = Mathf.MoveTowards(commandedVelocity[i], wanted, AccelerationLimit * dt);
+                    float step = commandedVelocity[i] * dt;
+                    if (Mathf.Abs(step) > Mathf.Abs(error) && Mathf.Sign(step) == Mathf.Sign(error)) step = error;
+                    joint.SetTarget(joint.Target + step);
+                } } }
+        public float[] Plan(Vector3 position, Quaternion rotation, float[] seed = null)
         {
+            planning = true;
             var original=Angles;
             float best=float.MaxValue; float[] solution=null;
             float yaw=Mathf.Atan2(position.x-joints[0].position.x,position.z-joints[0].position.z)*Mathf.Rad2Deg;
             for(int attempt=0;attempt<7;attempt++)
             {
-                if(attempt==0)SetAngles(original);
+                if(attempt==0)SetAngles(seed ?? original);
                 else
                 {
                     float elbow=attempt<=3?-100:100;
@@ -81,13 +112,54 @@ namespace GearboxDemo
                     SetAngles(new[]{yaw,shoulder,elbow,0f,180f-shoulder-elbow,0f});
                 }
                 float error=Solve(position,rotation,180);
-                error+=Quaternion.Angle(Grip.rotation,rotation)*0.002f;
+                error+=Quaternion.Angle(planningGrip.rotation,rotation)*0.002f;
                 if(error<best) { best=error;solution=Angles; }
                 if(best<0.002f)break;
             }
             SetAngles(original);
+            planning = false;
             if(best>0.018f)throw new System.InvalidOperationException("No reachable gripper pose at "+position+" (residual "+best.ToString("F3")+")");
             return solution;
+        }
+        public void ValidateTrajectory(float[] from, float[] goal, System.Action<Collider, Vector3, Quaternion> check, Transform payload = null)
+        {
+            float[] original = Angles;
+            if (ExtraSources != null)
+                foreach (var finger in ExtraSources)
+                    planningMap[finger].localPosition = finger.localPosition;
+            planning = true;
+            try
+            {
+                float max = 0;
+                for (int i = 0; i < 6; i++) max = Mathf.Max(max, Mathf.Abs(goal[i] - from[i]));
+                int samples = Mathf.Max(2, Mathf.CeilToInt(max / 2f));
+                float[] pose = new float[6];
+                for (int sample = 0; sample <= samples; sample++)
+                {
+                    for (int i = 0; i < 6; i++) pose[i] = Mathf.Lerp(from[i], goal[i], (float)sample / samples);
+                    SetAngles(pose);
+                    foreach (var collider in Root.GetComponentsInChildren<Collider>())
+                    {
+                        if (!collider.enabled || collider.isTrigger || !planningMap.TryGetValue(collider.transform, out var predicted)) continue;
+                        check(collider, predicted.position, predicted.rotation);
+                    }
+                    if (ExtraColliders != null)
+                        for (int i = 0; i < ExtraColliders.Length; i++)
+                        {
+                            var predicted = planningMap[ExtraSources[i]];
+                            check(ExtraColliders[i], predicted.position, predicted.rotation);
+                        }
+                    if (payload != null)
+                        foreach (var collider in payload.GetComponentsInChildren<Collider>())
+                        {
+                            if (!collider.enabled || collider.isTrigger) continue;
+                            Vector3 local = Grip.InverseTransformPoint(collider.transform.position);
+                            Quaternion localRotation = Quaternion.Inverse(Grip.rotation) * collider.transform.rotation;
+                            check(collider, planningGrip.TransformPoint(local), planningGrip.rotation * localRotation);
+                        }
+                }
+            }
+            finally { SetAngles(original); planning = false; }
         }
         private static Vector3 RotationVector(Quaternion q)
         {
@@ -101,7 +173,7 @@ namespace GearboxDemo
         {
             for (int n = 0; n < iterations; n++)
             {
-                Vector3 p = Grip.position; Quaternion r = Grip.rotation;
+                Vector3 p = planningGrip.position; Quaternion r = planningGrip.rotation;
                 Vector3 delta = position - p;
                 Vector3 turn = RotationVector(rotation * Quaternion.Inverse(r)) * OrientationWeight;
                 if (delta.magnitude < 0.0006f && turn.magnitude < 0.002f) break;
@@ -109,8 +181,8 @@ namespace GearboxDemo
                 for (int j = 0; j < 6; j++)
                 {
                     angles[j] += 0.25f; Apply(j);
-                    Vector3 dp = (Grip.position - p) / (0.25f * Mathf.Deg2Rad);
-                    Vector3 dr = RotationVector(Grip.rotation * Quaternion.Inverse(r)) * (OrientationWeight / (0.25f * Mathf.Deg2Rad));
+                    Vector3 dp = (planningGrip.position - p) / (0.25f * Mathf.Deg2Rad);
+                    Vector3 dr = RotationVector(planningGrip.rotation * Quaternion.Inverse(r)) * (OrientationWeight / (0.25f * Mathf.Deg2Rad));
                     angles[j] -= 0.25f; Apply(j);
                     jac[0,j]=dp.x; jac[1,j]=dp.y; jac[2,j]=dp.z;
                     jac[3,j]=dr.x; jac[4,j]=dr.y; jac[5,j]=dr.z;
@@ -136,7 +208,7 @@ namespace GearboxDemo
                 for (int i = 0; i < 6; i++)
                 { angles[i] = Mathf.Clamp(angles[i] + Mathf.Clamp(system[i,6] * Mathf.Rad2Deg, -6, 6), lower[i], upper[i]); Apply(i); }
             }
-            return Vector3.Distance(position, Grip.position);
+            return Vector3.Distance(position, planningGrip.position);
         }
     }
 }

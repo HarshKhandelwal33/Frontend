@@ -29,6 +29,7 @@ namespace GearboxDemo.Editor
             finally { PrefabUtility.UnloadPrefabContents(reference); }
             var controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
             if (controller == null) controller = AnimatorController.CreateAnimatorControllerAtPath(path);
+            var layers = controller.layers; layers[0].iKPass = true; controller.layers = layers;
             var machine = controller.layers[0].stateMachine;
             foreach (var state in machine.states) machine.RemoveState(state.state);
             foreach (var transition in machine.anyStateTransitions) machine.RemoveAnyStateTransition(transition);

@@ -44,6 +44,18 @@ namespace GearboxDemo
             occupant = null;
         }
 
+        // Restores saved occupancy without a placement test: inserted internals have
+        // moved away from their original fixture targets by the later checkpoints.
+        public void RestoreOccupancy(GearboxPart part)
+        {
+            ClearOccupancy();
+            if (part == null) return;
+            if (part.assemblyTarget != this || !part.assembled || part.partType != acceptedPart)
+                throw new InvalidOperationException("Invalid assembly checkpoint occupant");
+            occupant = part;
+            part.Uninstalled += ReleaseOccupancy;
+        }
+
         private void ReleaseOccupancy(GearboxPart part)
         {
             if (occupant != part) return;

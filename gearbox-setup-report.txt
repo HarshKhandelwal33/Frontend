@@ -1,8 +1,0 @@
-Gearbox prefab setup — all seven canonical FBXs found
-Housing: BoxCollider; mesh bounds=(0.2400, 0.1200, 0.2400) m; mass=1.50 kg; presentation scale=0.4. Grip/anchor and existing tuning preserved.
-OutputShaft: BoxCollider; mesh bounds=(0.1847, 0.1600, 0.1680) m; mass=0.60 kg; presentation scale=0.4. Grip/anchor and existing tuning preserved.
-PinCarrier: BoxCollider; mesh bounds=(0.1727, 0.0624, 0.1560) m; mass=0.40 kg; presentation scale=0.4. Grip/anchor and existing tuning preserved.
-PlanetGear: BoxCollider; mesh bounds=(0.0789, 0.0400, 0.0800) m; mass=0.20 kg; presentation scale=0.4. Grip/anchor and existing tuning preserved.
-SpurGear: BoxCollider; mesh bounds=(0.0800, 0.1520, 0.0789) m; mass=0.25 kg; presentation scale=0.4. Grip/anchor and existing tuning preserved.
-Lid: BoxCollider; mesh bounds=(0.2400, 0.0400, 0.2400) m; mass=0.50 kg; presentation scale=0.4. Grip/anchor and existing tuning preserved.
-Screw: BoxCollider; mesh bounds=(0.0400, 0.0800, 0.0400) m; mass=0.05 kg; presentation scale=0.4. Grip/anchor and existing tuning preserved.

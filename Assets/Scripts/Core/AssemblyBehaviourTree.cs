@@ -13,6 +13,7 @@ namespace GearboxDemo
         public BehaviourStatus Status { get; protected set; }
         protected AssemblyNode(string name) { Name = name; }
         public abstract BehaviourStatus Tick();
+        public void RestoreSuccess() { Status = BehaviourStatus.Success; }
     }
 
     public sealed class AssemblySequence : AssemblyNode
@@ -20,6 +21,14 @@ namespace GearboxDemo
         public readonly List<AssemblyNode> Children = new List<AssemblyNode>();
         public int Index { get; private set; }
         public AssemblySequence(string name, params AssemblyNode[] nodes) : base(name) { Children.AddRange(nodes); }
+        // Only called on a freshly rebuilt tree after restoring a world checkpoint.
+        public void RestoreCompletedPrefix(int completed)
+        {
+            if (completed < 0 || completed > Children.Count) throw new ArgumentOutOfRangeException(nameof(completed));
+            Index = completed;
+            for (int i = 0; i < completed; i++) Children[i].RestoreSuccess();
+            Status = completed == Children.Count ? BehaviourStatus.Success : BehaviourStatus.Ready;
+        }
         public override BehaviourStatus Tick()
         {
             if (Status == BehaviourStatus.Failure || Status == BehaviourStatus.Success) return Status;
@@ -44,8 +53,9 @@ namespace GearboxDemo
         private readonly MonoBehaviour host;
         private readonly Func<IEnumerator> action;
         private readonly Action<string> report;
-        public AssemblyAction(string name, MonoBehaviour host, Func<IEnumerator> action, Action<string> report) : base(name)
-        { this.host = host; this.action = action; this.report = report; }
+        private readonly float timeoutSeconds;
+        public AssemblyAction(string name, MonoBehaviour host, Func<IEnumerator> action, Action<string> report, float timeoutSeconds = 90) : base(name)
+        { this.host = host; this.action = action; this.report = report; this.timeoutSeconds = timeoutSeconds; }
         public override BehaviourStatus Tick()
         {
             if (Status == BehaviourStatus.Ready)
@@ -57,7 +67,7 @@ namespace GearboxDemo
             // Flatten nested routines so exceptions produce Failure rather than leaving a node stuck Running.
             var stack = new Stack<IEnumerator>();
             try { stack.Push(action()); } catch (Exception e) { Fail(e); }
-            float deadline = Time.time + 90;
+            float deadline = Time.time + timeoutSeconds;
             while (stack.Count > 0 && Status == BehaviourStatus.Running)
             {
                 object yielded = null;

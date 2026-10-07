@@ -60,7 +60,7 @@ namespace GearboxDemo.Editor
             Box("Tray Rim Right", partsTray, new Vector3(0.68f, 0.075f, 0), new Vector3(0.04f, 0.1f, 0.92f), tray);
 
             Transform area = Group("Assembly Area", root, new Vector3(1.4f, 1f, 0.3f));
-            Box("Assembly Mat", area, new Vector3(0, 0.015f, 0), new Vector3(1.3f, 0.03f, 0.8f), assembly);
+            Box("Assembly Mat", area, new Vector3(0, 0.015f, 0.1f), new Vector3(1.3f, 0.03f, 0.96f), assembly);
             Group("Assembly Origin", area, new Vector3(0, 0.03f, 0));
             PositionMarker("Robot Placeholder Position", root, new Vector3(-0.25f, 0, -0.65f), robot);
             Transform operatorPosition = PositionMarker("Human Placeholder Position", root, new Vector3(1.4f, 0, 1.65f), human);

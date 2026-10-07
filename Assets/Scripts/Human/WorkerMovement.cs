@@ -11,6 +11,10 @@ namespace GearboxDemo
         [Tooltip("Optional arrow-key movement; 1–4 play point, pick-up, place and hand-over.")]
         public bool keyboardControl;
         [Min(0.1f)] public float speed = 1.2f;
+        [Min(0.1f)] public float acceleration = 2f;
+        [Min(1)] public float turnDegreesPerSecond = 120;
+        private Vector3 horizontalVelocity;
+        public bool IsMoving => moving || horizontalVelocity.sqrMagnitude > 0.0001f;
         private CharacterController body;
         private Vector3 destination;
         private bool moving;
@@ -24,6 +28,7 @@ namespace GearboxDemo
 
         public void MoveTo(Vector3 position) { destination = position; moving = true; }
         public void Stop() { moving = false; if (animator != null) animator.SetFloat("Speed", 0); }
+        public void ResetMotion() { Stop(); horizontalVelocity = Vector3.zero; verticalSpeed = 0; }
         [ContextMenu("Point")] public void Point() => Action("Point");
         [ContextMenu("Pick Up")] public void PickUp() => Action("PickUp");
         [ContextMenu("Place")] public void Place() => Action("Place");
@@ -61,9 +66,12 @@ namespace GearboxDemo
             bool acting = animator.GetCurrentAnimatorStateInfo(0).IsTag("Action") ||
                 (animator.IsInTransition(0) && animator.GetNextAnimatorStateInfo(0).IsTag("Action"));
             if (acting) direction = Vector3.zero;
-            Vector3 velocity = direction.normalized * Mathf.Min(speed, direction.magnitude / Mathf.Max(Time.deltaTime, 0.001f));
+            float limit = moving ? Mathf.Min(speed, Mathf.Sqrt(2 * acceleration * direction.magnitude)) : speed;
+            Vector3 desiredVelocity = direction.normalized * Mathf.Min(limit, direction.magnitude / Mathf.Max(Time.deltaTime, 0.001f));
+            horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, desiredVelocity, acceleration * Time.deltaTime);
+            Vector3 velocity = horizontalVelocity;
             if (velocity.sqrMagnitude > 0.001f)
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(velocity), 240 * Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(velocity), turnDegreesPerSecond * Time.deltaTime);
             verticalSpeed = body.isGrounded ? -2 : verticalSpeed + Physics.gravity.y * Time.deltaTime;
             body.Move((velocity + Vector3.up * verticalSpeed) * Time.deltaTime);
             Vector3 actual = body.velocity; actual.y = 0;

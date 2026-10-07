@@ -1,4 +1,0 @@
-PASS repeatable setup and seven prefab recognition checks
-PASS distance/orientation rejection, configured GripPoint alignment, deterministic transport, finger closure
-PASS free release, gravity restoration, opening, assembly validation, occupied-target reset, held reset, disable cleanup and collision restoration
-ALL CHECKS PASSED

@@ -185,7 +185,7 @@ namespace GearboxDemo
 
         public bool GrabSelected() => Grab(SelectedObject());
 
-        private float RequiredHalfGap(GrippableObject candidate)
+        internal float RequiredHalfGap(GrippableObject candidate)
         {
             var box = candidate.GetComponent<BoxCollider>();
             if (box == null) return closedHalfGap;

@@ -1,8 +1,0 @@
-Imported gearbox geometry (Unity metres)
-planetarygearbox-gear_2_30_18-3.fbx: center=(-0.155885, -0.090000, 0.197000) size=(0.197275, 0.200000, 0.100000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
-planetarygearbox-housing_30_54-1.fbx: center=(0.000000, 0.000000, 0.150000) size=(0.600000, 0.600000, 0.300000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
-planetarygearbox-lid-1.fbx: center=(0.000000, 0.000000, 0.310000) size=(0.600000, 0.600000, 0.100000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
-planetarygearbox-outputshaft-1.fbx: center=(0.000000, 0.045015, 0.449000) size=(0.461713, 0.419970, 0.400000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
-planetarygearbox-pin_carrier-1.fbx: center=(0.000000, 0.045027, 0.197000) size=(0.431769, 0.389946, 0.156000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
-planetarygearbox-screw-1.fbx: center=(0.240000, 0.240000, 0.320000) size=(0.100000, 0.099956, 0.200000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01
-planetarygearbox-spur_2_30_18-2.fbx: center=(0.000000, 0.000000, 0.059000) size=(0.200000, 0.197275, 0.380000) rootScale=(1.00, 1.00, 1.00) rootRotation=(0.00, 0.00, 0.00) importScale=1 fileScale=0.01

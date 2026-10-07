@@ -1,3 +1,7 @@
+# Voice training application
+
+Open **Assets/Scenes/GearboxTraining.unity** in the root Unity project for readiness-gated voice training with a compact floating voice panel. See [TRAINING_SETUP.md](TRAINING_SETUP.md) for backend startup, Windows speech setup, Qwen configuration, controls, and verification. The new scene uses the prepared workcell from `thesis/`; both original scenes are preserved. The earlier demo and milestone notes below describe the simulation foundation.
+
 # Current simulation
 
 The scene now automatically runs a behaviour-tree-driven game simulation in Play Mode, starting with all twelve loose parts on the rack and empty fixtures. See [GAME_SIMULATION.md](GAME_SIMULATION.md) for controls, architecture, and verification. The earlier milestone notes below describe the original foundation.

@@ -9,3 +9,33 @@
 /*.sln
 /*.slnx
 /.simulation-check/
+
+/backend/.venv/
+/backend/data/
+__pycache__/
+*.pyc
+/training-unity-check.log
+/training-integration-check.log
+
+# Generated validation output in the project root
+/*.log
+/*-report.txt
+/*.stdout.txt
+/*.stderr.txt
+/*.png
+/*-baseline.json
+/gearbox-model-audit.txt
+/CREATED_FILES.txt
+/*_FILES.txt
+
+# Local analysis caches and separate nested checkout
+/graphify-out/
+/thesis/
+
+# IDE and operating-system files
+/.idea/
+/.vscode/
+*.user
+*.suo
+.DS_Store
+Thumbs.db

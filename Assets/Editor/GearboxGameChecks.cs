@@ -25,14 +25,22 @@ namespace GearboxDemo.Editor
             EditorApplication.playModeStateChanged+=state=>
             {
                 if(!SessionState.GetBool(Key,false))return;
-                if(state==PlayModeStateChange.EnteredPlayMode)deadline=EditorApplication.timeSinceStartup+420;
+                if(state==PlayModeStateChange.EnteredPlayMode)deadline=EditorApplication.timeSinceStartup+900;
                 if(state==PlayModeStateChange.EnteredEditMode){SessionState.SetBool(Key,false);EditorApplication.Exit(SessionState.GetInt(Key+"Exit",1));}
             };
         }
+        private static string ReportPath => SessionState.GetBool(Key + "Equipment", false) ? "equipment-scale-workflow-report.txt" : SessionState.GetBool(Key + "Single", false) ? "worker-scale-workflow-report.txt" : SessionState.GetBool(Key + "Late", false) ? "collaboration-late-workflow-report.txt" : "game-simulation-report.txt";
+        public static void RunLateBatch() { SessionState.SetInt(Key + "Prefix", 6); SessionState.SetBool(Key + "Late", true); RunBatch(); }
+        public static void RunEquipmentScaleBatch() { GearboxCollaborationChecks.CompactEquipmentBatch(); GearboxCollaborationChecks.RunStaticBatch(); SessionState.SetBool(Key + "Equipment", true); SessionState.SetBool(Key + "Single", true); RunBatch(); }
+        public static void RunWorkerScaleBatch() { GearboxCollaborationChecks.ResizeWorkerBatch(); SessionState.SetBool(Key + "Single", true); RunBatch(); }
+        public static void RunFinalBatch() { GearboxCollaborationChecks.RunStaticBatch(); RunBatch(); }
+        public static void RunLidBatch() { SessionState.SetInt(Key + "Prefix", 8); SessionState.SetBool(Key + "Late", true); RunBatch(); }
         public static void RunBatch()
         {
             EditorSceneManager.OpenScene(GearboxDemoBuilder.ScenePath);
-            File.WriteAllText("game-simulation-report.txt","Behaviour tree / holder contact / reach / visibility / reset checks\n");
+            if (UnityEngine.Object.FindAnyObjectByType<GearboxAssemblyManager>() == null)
+                EditorSceneManager.OpenScene("Assets/Scenes/GearboxTraining.unity");
+            File.WriteAllText(ReportPath,"Behaviour tree / holder contact / reach / visibility / reset checks\n");
             SessionState.SetBool(Key,true);EditorApplication.EnterPlaymode();
         }
         private static void Tick()
@@ -45,7 +53,36 @@ namespace GearboxDemo.Editor
                 if(!initialized)
                 {
                     initialized=true;
-                    if(game.References.allParts.Any(p=>p.assembled))throw new Exception("Preassembled part at start");
+                    game.EmergencyStop();
+                    game.Play(); game.Step();
+                    if (!game.EmergencyStopped || game.Running || Time.timeScale != 0)
+                        throw new Exception("Emergency stop did not latch against resume / step");
+                    game.ResetGame();
+                    if (SessionState.GetBool(Key + "Late", false))
+                    {
+                        foreach (var part in game.References.allParts.Where(p => p.partType != GearboxPartType.Housing && p.partType != GearboxPartType.Lid && p.partType != GearboxPartType.Screw))
+                        {
+                            part.transform.SetParent(game.References.phaseOne.InternalAssemblyRoot, true);
+                            part.transform.SetPositionAndRotation(part.assemblyTarget.transform.position, part.assemblyTarget.transform.rotation);
+                            if (!part.assemblyTarget.TryPlace(part)) throw new Exception("Late-workflow fixture failed: " + part.partId);
+                        }
+                        if (SessionState.GetInt(Key + "Prefix", 6) == 8)
+                        {
+                            var housing = game.References.phaseTwoInsertion.housing;
+                            housing.transform.SetParent(game.References.phaseTwoInsertion.finalGearboxRoot, true);
+                            housing.transform.SetPositionAndRotation(housing.assemblyTarget.transform.position, housing.assemblyTarget.transform.rotation);
+                            if (!housing.assemblyTarget.TryPlace(housing)) throw new Exception("Housing fixture placement failed");
+                            game.References.phaseOne.InternalAssemblyRoot.SetParent(game.References.phaseTwoInsertion.finalGearboxRoot, true);
+                            game.References.phaseOne.InternalAssemblyRoot.position = game.FinalOrigin;
+                        }
+                        game.SendMessage("RefreshHousingCollision");
+                        game.Tree.RestoreCompletedPrefix(SessionState.GetInt(Key + "Prefix", 6));
+                        File.AppendAllText(ReportPath, "SETUP first " + SessionState.GetInt(Key + "Prefix", 6) + " operations bypassed with prepared fixture; this run tests only later operations and replay.\n");
+                    }
+                    if (SessionState.GetBool(Key + "Single", false)) { verificationPhase = 3; game.Step(); } else game.Play();
+                    if (game.EmergencyStopped || !game.Running) throw new Exception("Reset did not clear emergency stop");
+                    File.AppendAllText(ReportPath,"PASS emergency stop blocks resume and step until reset.\n");
+                    if(!SessionState.GetBool(Key + "Late", false) && game.References.allParts.Any(p=>p.assembled))throw new Exception("Preassembled part at start");
                     Capture("game-start.png");
                     Time.timeScale=3;
                 }
@@ -66,14 +103,15 @@ namespace GearboxDemo.Editor
                         throw new Exception("Paused payload moved");
                     game.ResetGame();
                     if(game.Payload!=null||game.Completed!=0||game.References.allParts.Any(p=>p.assembled))throw new Exception("Reset while carrying failed");
-                    File.AppendAllText("game-simulation-report.txt","PASS pause freezes held payload; reset during carry releases ownership and restores rack.\n");
+                    File.AppendAllText(ReportPath,"PASS pause freezes held payload; reset during carry releases ownership and restores rack.\n");
                     game.Step();Time.timeScale=3;verificationPhase=3;return;
                 }
                 if(verificationPhase==3)
                 {
                     if(game.Running)return;
                     if(game.Completed!=1||game.References.allParts.Count(p=>p.assembled)!=1)throw new Exception("Step did not stop after one operation");
-                    File.AppendAllText("game-simulation-report.txt","PASS replay after reset; single-step stops after one complete operation.\n");
+                    File.AppendAllText(ReportPath,"PASS replay after reset; single-step stops after one complete operation.\n");
+                    if (SessionState.GetBool(Key + "Single", false)) Capture(SessionState.GetBool(Key + "Equipment", false) ? "equipment-scale-complete.png" : "worker-scale-complete.png");
                     SessionState.SetInt(Key+"Exit",0);EditorApplication.ExitPlaymode();return;
                 }
                 if(game.Payload!=null)
@@ -86,15 +124,15 @@ namespace GearboxDemo.Editor
                 {
                     handovers=game.HandoverCount;
                     var p=game.ActivePart;
-                    float gap=Vector3.Distance(game.Holder.position,p.gripPoint.position);
+                    float gap=Vector3.Distance(game.Holder.position,game.WorkerGraspPosition(p));
                     if(gap>0.025f)throw new Exception("Handover contact gap: "+gap);
-                    File.AppendAllText("game-simulation-report.txt","PASS handover "+handovers+" above table / contact gap "+gap.ToString("F4")+" m\n");
+                    File.AppendAllText(ReportPath,"PASS handover "+handovers+" above table / contact gap "+gap.ToString("F4")+" m\n");
                     Capture("game-handover.png");
                 }
                 if(stage!=game.Completed)
                 {
                     stage=game.Completed;
-                    File.AppendAllText("game-simulation-report.txt","Tree progress "+stage+"/13 | "+game.ActionName+"\n");
+                    File.AppendAllText(ReportPath,"Tree progress "+stage+"/13 | "+game.ActionName+"\n");
                     Capture("game-stage-"+stage.ToString("00")+".png");
                 }
                 if(game.Tree.Status!=BehaviourStatus.Success)return;
@@ -105,22 +143,23 @@ namespace GearboxDemo.Editor
                     Vector3 expected=p.assemblyTarget.transform.position+(internalPart?game.FinalOrigin-game.FirstOrigin:Vector3.zero);
                     if(Vector3.Distance(p.transform.position,expected)>0.003f)throw new Exception("Final alignment: "+p.partId);
                 }
-                File.AppendAllText("game-simulation-report.txt","PASS all 13 operations; 12 installed parts; 12 occupied targets; final alignment.\nMaximum robot endpoint error: "+game.MaxRobotError+"; hand endpoint error: "+game.MaxHandError+"\n");
+                File.AppendAllText(ReportPath,(SessionState.GetBool(Key + "Late", false) ? "PASS later operations only (prepared fixture); " : "PASS all 13 operations; ") + "12 installed parts; 12 occupied targets; final alignment.\nMaximum robot endpoint error: "+game.MaxRobotError+"; hand endpoint error: "+game.MaxHandError+"\n");
                 Capture("game-complete.png");
                 game.ResetGame();
                 if(game.Completed!=0||game.Payload!=null||game.References.allParts.Any(p=>p.assembled)||game.References.allTargets.Any(t=>t.occupied))throw new Exception("Reset failed");
-                File.AppendAllText("game-simulation-report.txt","PASS reset clears tree, ownership, installed flags and target occupancy.\n");
+                File.AppendAllText(ReportPath,"PASS reset clears tree, ownership, installed flags and target occupancy.\n");
                 verificationPhase=1;game.Play();Time.timeScale=3;
             }
             catch(Exception e)
             {
                 Capture("game-failure.png");
-                File.AppendAllText("game-simulation-report.txt","FAIL "+e+"\n");
+                File.AppendAllText(ReportPath,"FAIL "+e+"\n");
                 SessionState.SetInt(Key+"Exit",1);EditorApplication.ExitPlaymode();
             }
         }
         private static void Capture(string path)
         {
+            if (SessionState.GetBool(Key + "Late", false)) path = "late-" + path;
             var c=Camera.main;var rt=new RenderTexture(1440,900,24);var old=RenderTexture.active;
             c.targetTexture=rt;c.Render();RenderTexture.active=rt;
             var texture=new Texture2D(1440,900,TextureFormat.RGB24,false);

@@ -1,2 +1,0 @@
-PASS 12 gearbox instances, 12 typed targets plus InternalAssemblyTarget, unique IDs, and explicit target assignments.
-All target local transforms are identity for manual adjustment; no final assembly coordinates were inferred.

@@ -1,0 +1,15 @@
+[
+  {"id":"pin_carrier","title":"Mount pin carrier","actor":"robot and worker","instruction":"The robot picks the pin carrier from the rack and hands it to the worker. The worker aligns and mounts it in the first fixture."},
+  {"id":"input_shaft","title":"Mount central input shaft","actor":"robot and worker","instruction":"The robot supplies the central spur/input shaft. The worker aligns and mounts it in the pin carrier."},
+  {"id":"planet_1","title":"Mount planet gear 1","actor":"robot and worker","instruction":"The robot supplies the first planet gear. The worker aligns it with its assigned carrier pin and seats it at the assembly target."},
+  {"id":"planet_2","title":"Mount planet gear 2","actor":"robot and worker","instruction":"The robot supplies the second planet gear. The worker mounts it on its assigned carrier pin while the first gear remains installed."},
+  {"id":"planet_3","title":"Mount planet gear 3","actor":"robot and worker","instruction":"The robot supplies the third planet gear. The worker mounts it on the remaining assigned carrier pin."},
+  {"id":"output_shaft","title":"Mount output shaft/carrier","actor":"robot and worker","instruction":"The robot supplies the output shaft/carrier. The worker mounts it to complete the internal subassembly."},
+  {"id":"housing","title":"Seat housing","actor":"robot","instruction":"The robot picks the housing from the rack and seats it in the second fixture."},
+  {"id":"insert_internal","title":"Insert internal assembly","actor":"robot","instruction":"After all internal components and the housing are installed, the robot grips the internal assembly, aligns it with the housing, and inserts it."},
+  {"id":"lid","title":"Install lid","actor":"robot","instruction":"The robot picks the lid, aligns it with the housing, and seats it at the lid target."},
+  {"id":"screw_1","title":"Install screw 1","actor":"robot and worker","instruction":"The robot supplies screw 1. The worker aligns, threads, and visually tightens it. The simulated cross-pattern order is 1, 3, 2, 4."},
+  {"id":"screw_3","title":"Install screw 3","actor":"robot and worker","instruction":"The robot supplies screw 3. The worker installs it opposite screw 1, continuing the simulated cross pattern."},
+  {"id":"screw_2","title":"Install screw 2","actor":"robot and worker","instruction":"The robot supplies screw 2. The worker aligns, threads, and visually tightens it at its target."},
+  {"id":"screw_4","title":"Install screw 4","actor":"robot and worker","instruction":"The robot supplies screw 4. The worker installs the final screw, completing the simulated twelve-part assembly."}
+]

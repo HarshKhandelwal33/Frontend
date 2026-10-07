@@ -4,6 +4,10 @@ Open `Assets/Scenes/GearboxAssembly.unity` and enter Play Mode. The simulation i
 
 Controls: **Play / Resume**, **Pause**, **Step** (one complete operation), **Reset**, **Camera**, and **0.5x / 1x / 2x**. Space pauses/resumes, R resets, and C cycles workcell/action/assembly cameras. Reset leaves the cell ready; Play restarts it.
 
+**STOP / Escape** latches an emergency stop, cancels motion coroutines and freezes the held payload. Play and Step remain blocked until Reset. Operation failures also freeze motion and require Reset. Reset restores the simulated cell; it is not a recovery procedure for physical equipment.
+
+Worker handovers require robot ownership, contact at both holders and a palm above the table. The robot stays stationary during worker placement and hand withdrawal; the worker parks the hand near the shoulder before the next robot task. These guards apply to the active game controller. They do not certify PPE compliance, full-body collision avoidance, or industrial safety standards.
+
 ## Behaviour tree
 
 `AssemblyBehaviourTree.cs` supplies real ticked Sequence, Condition and coroutine Action nodes with Ready/Running/Success/Failure states. Nested coroutine errors and operation timeouts become Failure; a failed operation stops the sequence. The HUD displays progress and each operation's state.

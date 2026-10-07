@@ -187,8 +187,10 @@ namespace GearboxDemo.Editor
             obj.transform.localScale = new Vector3(diameter, length / 2, diameter);
             obj.GetComponent<Renderer>().sharedMaterial = material;
             // Convex cylinders are valid on moving articulation links.
-            var meshCollider = obj.GetComponent<MeshCollider>();
-            if (meshCollider != null) meshCollider.convex = true;
+            foreach (var collider in obj.GetComponents<Collider>()) UnityEngine.Object.DestroyImmediate(collider);
+            var meshCollider = obj.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = obj.GetComponent<MeshFilter>().sharedMesh;
+            meshCollider.convex = true;
         }
         public static void RunBatch() { EditorSceneManager.OpenScene(GearboxDemoBuilder.ScenePath); Build(); }
 
