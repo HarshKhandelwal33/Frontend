@@ -50,7 +50,7 @@ class WindowsVoice:
     def spawn(self, mode):
         engine = os.getenv("SPEECH_ENGINE", "faster-whisper")
         if mode == "listen" and engine == "faster-whisper":
-            return subprocess.Popen([sys.executable, "-u", str(Path(__file__).with_name("whisper_listener.py"))],
+            return subprocess.Popen([sys.executable, "-u", str(Path(__file__).with_name("whisper_listener.py")), "--controlled"],
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
                 text=True, encoding="utf-8", creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
         if mode == "listen" and engine != "windows":
@@ -63,11 +63,25 @@ class WindowsVoice:
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
             text=True, encoding="utf-8", creationflags=subprocess.CREATE_NO_WINDOW)
 
-    def stop_listener(self):
+    def listener_enabled(self, enabled):
+        self.listener.stdin.write(json.dumps({"enabled": enabled}) + "\n")
+        self.listener.stdin.flush()
+
+    def stop_listener(self, terminate=False):
         process = self.listener
-        self.listener = None
         self.ready = False
-        if process and process.poll() is None:
+        self.audio_level = 0
+        self.audio_state = "Stopped"
+        if process and not terminate and os.getenv("SPEECH_ENGINE", "faster-whisper") == "faster-whisper" and process.poll() is None:
+            try:
+                self.listener_enabled(False)
+            except (OSError, ValueError):
+                terminate = True
+        else:
+            terminate = True
+        if terminate:
+            self.listener = None
+        if terminate and process and process.poll() is None:
             process.terminate()
             process.wait(timeout=5)
         while not self.events.empty():
@@ -77,12 +91,17 @@ class WindowsVoice:
                 break
 
     def start_listener(self):
-        if not self.enabled or self.speaking or self.listener:
+        if not self.enabled or self.speaking:
             return
         self.error = ""
         try:
-            self.listener = self.spawn("listen")
-            threading.Thread(target=self.read_listener, args=(self.listener,), daemon=True).start()
+            if self.listener and self.listener.poll() is not None:
+                self.listener = None
+            if not self.listener:
+                self.listener = self.spawn("listen")
+                threading.Thread(target=self.read_listener, args=(self.listener,), daemon=True).start()
+            if os.getenv("SPEECH_ENGINE", "faster-whisper") == "faster-whisper":
+                self.listener_enabled(True)
         except (OSError, RuntimeError) as exc:
             self.error = str(exc)
             self.enabled = False
@@ -97,14 +116,14 @@ class WindowsVoice:
                 with self.lock:
                     if process != self.listener:
                         continue
-                    if item.get("ready"):
-                        self.ready = True
+                    if "ready" in item:
+                        self.ready = bool(item["ready"]) and self.enabled and not self.speaking
                     elif "error" in item:
                         self.error = item["error"]
-                    elif "audio_level" in item:
+                    elif "audio_level" in item and self.enabled and not self.speaking:
                         self.audio_level = item["audio_level"]
                         self.audio_state = item.get("audio_state", "Unknown")
-                    elif self.ready and "text" in item:
+                    elif self.ready and self.enabled and not self.speaking and "text" in item:
                         self.last_heard = item["text"]
                         self.last_confidence = item.get("confidence", 0)
                         if item.get("accepted", self.last_confidence >= 0.55) and not self.events.full():
@@ -175,7 +194,7 @@ class WindowsVoice:
         self.shutdown.set()
         with self.lock:
             self.enabled = False
-            self.stop_listener()
+            self.stop_listener(terminate=True)
             if self.speaker and self.speaker.poll() is None:
                 self.speaker.terminate()
 

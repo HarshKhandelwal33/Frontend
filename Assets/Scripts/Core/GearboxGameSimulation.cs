@@ -331,22 +331,15 @@ namespace GearboxDemo
             CheckTracking(); EvaluateSafety(); CheckEnvironment();
             float[] from = m.handover.robotArm.joints.Select(j => j.Angle).ToArray();
             Vector3 startPosition = robot.Grip.position; Quaternion startRotation = robot.Grip.rotation;
-            int samples = Mathf.Max(2, Mathf.CeilToInt(Vector3.Distance(startPosition, position) / 0.04f), Mathf.CeilToInt(Quaternion.Angle(startRotation, rotation) / 8));
-            var path = new System.Collections.Generic.List<float[]> { from };
-            for (int sample = 1; sample <= samples; sample++)
-            {
-                float fraction = (float)sample / samples;
-                float[] next = robot.Plan(Vector3.Lerp(startPosition, position, fraction), Quaternion.Slerp(startRotation, rotation, fraction), path[path.Count - 1]);
-                robot.ValidateTrajectory(path[path.Count - 1], next, CheckPredictedCollider, Holder == robot.Grip ? Payload : null);
-                path.Add(next);
-            }
+            var path=PlanRobotPath(from,startPosition,startRotation,position,rotation,out float cartesianLength);
+            int samples=path.Count-1;
             float[] goal = path[path.Count - 1];
             float[] frame = new float[6];
             var segmentTimes=new float[samples];
             float duration=0;
             for(int segment=0;segment<samples;segment++) {
                 segmentTimes[segment]=RobotMotionProfile.Duration(path[segment],path[segment+1],maxJointSpeed,maxJointAcceleration,
-                    Mathf.Max(seconds/samples,Vector3.Distance(startPosition,position)*1.875f/(samples*maxCartesianSpeed)));
+                    Mathf.Max(seconds/samples,cartesianLength*1.875f/(samples*maxCartesianSpeed)));
                 duration+=segmentTimes[segment];
             }
             float deadline = Time.time + duration / closeSpeedScale + handoverTimeout;
@@ -381,6 +374,40 @@ namespace GearboxDemo
             }
             MaxRobotError = Mathf.Max(MaxRobotError, Vector3.Distance(robot.Grip.position, position));
             UpdateRobotPayloadPose();
+        }
+        private List<float[]> PlanRobotPath(float[] from,Vector3 start,Quaternion startRotation,Vector3 goal,Quaternion rotation,out float length)
+        {
+            // Preflight the whole path before commanding the real articulation. Prefer
+            // the direct route; try modest lift-and-traverse clearances only if blocked.
+            Exception failure=null;
+            for(int attempt=0;attempt<4;attempt++) {
+                var path=new List<float[]>{from};
+                var points=new List<Vector3>{start};
+                var rotations=new List<Quaternion>{startRotation};
+                if(attempt>0) {
+                    float height=Mathf.Max(start.y,goal.y)+attempt*.06f;
+                    points.Add(new Vector3(start.x,height,start.z));rotations.Add(startRotation);
+                    points.Add(new Vector3(goal.x,height,goal.z));rotations.Add(rotation);
+                }
+                points.Add(goal);rotations.Add(rotation);
+                float total=0;
+                try {
+                    for(int segment=1;segment<points.Count;segment++) {
+                        float distance=Vector3.Distance(points[segment-1],points[segment]);total+=distance;
+                        int samples=Mathf.Max(2,Mathf.CeilToInt(distance/.04f),Mathf.CeilToInt(Quaternion.Angle(rotations[segment-1],rotations[segment])/8));
+                        for(int sample=1;sample<=samples;sample++) {
+                            float fraction=(float)sample/samples;
+                            var seed=path[path.Count-1];
+                            var next=robot.Plan(Vector3.Lerp(points[segment-1],points[segment],fraction),
+                                Quaternion.Slerp(rotations[segment-1],rotations[segment],fraction),seed,
+                                candidate=>robot.ValidateTrajectory(seed,candidate,CheckPredictedCollider,Holder==robot.Grip?Payload:null));
+                            path.Add(next);
+                        }
+                    }
+                    length=total;return path;
+                } catch(InvalidOperationException e) { failure=e; }
+            }
+            throw new InvalidOperationException("No collision-free robot route to "+goal+": "+failure?.Message);
         }
         private IEnumerator TravelRobot(Vector3 destination, Quaternion rotation)
         {

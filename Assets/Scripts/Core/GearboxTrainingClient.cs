@@ -211,7 +211,7 @@ namespace GearboxDemo
                     },text=>{error=text;connected=false;if(game.Running)game.Pause();});
                     // JsonUtility can materialize an empty Command for JSON null; check its ID.
                 }
-                yield return new WaitForSecondsRealtime(0.3f);
+                yield return new WaitForSecondsRealtime(0.1f);
             }
         }
 
@@ -275,7 +275,7 @@ namespace GearboxDemo
                     voiceLeaseAt=Time.realtimeSinceStartup;
                     yield return Http("/voice/microphone",JsonUtility.ToJson(new Mic{enabled=true}),null);
                 }
-                yield return new WaitForSecondsRealtime(0.5f);
+                yield return new WaitForSecondsRealtime(0.1f);
             }
         }
 

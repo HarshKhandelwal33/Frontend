@@ -2,6 +2,21 @@
 
 ## Model-directed voice controls
 
+### Speech latency defaults
+
+Recognition now defaults to `base.en` on CPU INT8 with a 360 ms silence threshold.
+The Whisper worker stays loaded between tutor replies and microphone toggles;
+pause closes its input stream and discards stale transcripts, while shutdown
+terminates the worker. The 20-second microphone lease still applies. Unity polls
+transcripts and commands every 100 ms. Qwen stays resident for 30 minutes after a
+request and uses brief action acknowledgements. No explanations start automatically.
+
+Set `WHISPER_MODEL=small.en` for the previous recognition model, or
+`WHISPER_SILENCE_MS=720` if pauses inside sentences are being split too early.
+New model choices must be downloaded with `whisper_listener.py --prepare` first.
+Transcripts include `transcription_ms` for measuring decoder time. End-to-end
+latency and recognition accuracy still need a trial with the actual microphone.
+
 Spoken transcripts sent to `/sessions/{id}/messages` are now interpreted by Qwen,
 including free-form instructions such as “please demonstrate the next operation”
 or “hold on a moment.” Exact phrase matching has been removed from both Unity and

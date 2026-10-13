@@ -1,9 +1,9 @@
 import io
 import unittest
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
-from backend.whisper_listener import AudioFrames, Utterances, transcript
+from backend.whisper_listener import AudioFrames, ListenerControl, Utterances, transcript
 from backend.voice import WindowsVoice
 
 
@@ -41,15 +41,15 @@ class SpeechTests(unittest.TestCase):
             collector.push(b"p", False)
         for _ in range(3):
             collector.push(b"v", True)
-        for _ in range(23):
+        for _ in range(11):
             self.assertIsNone(collector.push(b"s", False))
-        self.assertEqual(collector.push(b"s", False), b"p" * 5 + b"v" * 3 + b"s" * 24)
+        self.assertEqual(collector.push(b"s", False), b"p" * 5 + b"v" * 3 + b"s" * 12)
         self.assertIsNone(collector.push(b"s", False))
 
     def test_noise_blip_is_rejected_and_continuous_speech_is_bounded(self):
         collector = Utterances()
         collector.push(b"n", True)
-        for _ in range(24):
+        for _ in range(12):
             self.assertIsNone(collector.push(b"s", False))
         output = [collector.push(b"v", True) for _ in range(500)]
         self.assertEqual(output[-1], b"v" * 500)
@@ -66,6 +66,7 @@ class SpeechTests(unittest.TestCase):
 
     def test_listener_only_queues_accepted_results(self):
         voice = WindowsVoice()
+        voice.enabled = True
         process = SimpleNamespace(stdout=io.StringIO(
             '{"ready":true}\n{"text":"noise","confidence":0.9,"accepted":false}\n'
             '{"text":"next step","confidence":0.4,"accepted":true}\n'), stdin=io.StringIO())
@@ -81,8 +82,45 @@ class SpeechTests(unittest.TestCase):
             spawn.assert_not_called()
             with patch.dict("os.environ", {"SPEECH_ENGINE": "faster-whisper"}):
                 voice.spawn("listen")
-            self.assertTrue(spawn.call_args.args[0][-1].endswith("whisper_listener.py"))
+            self.assertTrue(spawn.call_args.args[0][-2].endswith("whisper_listener.py"))
+            self.assertEqual(spawn.call_args.args[0][-1], "--controlled")
             voice.close()
+
+    def test_pause_resume_reuses_listener_and_shutdown_terminates_it(self):
+        process = Mock()
+        process.poll.return_value = None
+        process.stdin = io.StringIO()
+        voice = WindowsVoice()
+        voice.listener = process
+        voice.enabled = True
+        with patch.dict("os.environ", {"SPEECH_ENGINE": "faster-whisper"}), patch.object(voice, "spawn") as spawn:
+            voice.mic(False)
+            self.assertIs(voice.listener, process)
+            process.terminate.assert_not_called()
+            voice.mic(True)
+            spawn.assert_not_called()
+            self.assertIn('{"enabled": false}', process.stdin.getvalue())
+            self.assertIn('{"enabled": true}', process.stdin.getvalue())
+            voice.close()
+            process.terminate.assert_called_once()
+
+    def test_pause_invalidates_old_transcription_even_after_resume(self):
+        control = ListenerControl(enabled=True)
+        old = control.generation
+        control.set_enabled(False)
+        control.set_enabled(True)
+        self.assertFalse(control.valid(old))
+        self.assertTrue(control.valid(control.generation))
+        control.close()
+        self.assertFalse(control.wait_enabled())
+
+    def test_paused_listener_does_not_deliver_stale_transcripts(self):
+        voice = WindowsVoice()
+        process = SimpleNamespace(stdout=io.StringIO('{"ready":true}\n{"text":"next step","accepted":true}\n'), stdin=io.StringIO())
+        voice.listener = process
+        voice.read_listener(process)
+        self.assertTrue(voice.events.empty())
+        voice.close()
 
 
 if __name__ == "__main__":

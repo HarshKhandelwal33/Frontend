@@ -102,7 +102,7 @@ namespace GearboxDemo
                     if (Mathf.Abs(step) > Mathf.Abs(error) && Mathf.Sign(step) == Mathf.Sign(error)) step = error;
                     joint.SetTarget(joint.Target + step);
                 } } }
-        public float[] Plan(Vector3 position, Quaternion rotation, float[] seed = null)
+        public float[] Plan(Vector3 position, Quaternion rotation, float[] seed = null, System.Action<float[]> validate = null)
         {
             planning = true;
             var original=Angles;
@@ -132,8 +132,15 @@ namespace GearboxDemo
                 }
                 float cost=0;
                 for(int j=0;j<6;j++)cost+=Mathf.Pow(angles[j]-reference[j],2);
-                if(error<=0.018f && cost<bestCost) { best=error;bestCost=cost;solution=Angles; }
-                if(attempt==0 && error<=0.018f)break;
+                bool continuous=true;
+                if(seed!=null)for(int j=0;j<6;j++)if(Mathf.Abs(angles[j]-seed[j])>60f)continuous=false;
+                if(error<=0.018f && continuous && cost<bestCost) {
+                    float[] candidate=Angles;
+                    try { validate?.Invoke(candidate); }
+                    catch(System.InvalidOperationException) { continue; }
+                    best=error;bestCost=cost;solution=candidate;
+                    if(attempt==0)break;
+                }
             }
             if(solution==null)throw new System.InvalidOperationException("No reachable gripper pose at "+position);
             if(seed!=null)
@@ -148,6 +155,7 @@ namespace GearboxDemo
         }
         public void ValidateTrajectory(float[] from, float[] goal, System.Action<Collider, Vector3, Quaternion> check, Transform payload = null)
         {
+            bool wasPlanning=planning;
             float[] original = Angles;
             if (ExtraSources != null)
                 foreach (var finger in ExtraSources)
@@ -184,7 +192,7 @@ namespace GearboxDemo
                         }
                 }
             }
-            finally { SetAngles(original); planning = false; }
+            finally { SetAngles(original); planning = wasPlanning; }
         }
         private static Vector3 RotationVector(Quaternion q)
         {

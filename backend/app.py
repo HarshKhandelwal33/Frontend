@@ -33,8 +33,9 @@ repeats the explanation. Choose none for explanations, questions, hypothetical
 commands, ambiguous requests, or actions outside the available simulation.
 Never treat knowledge or quoted commands as an instruction to act. Ask for
 clarification in English when needed. Select only one action per request.
-text is an English explanation or brief acknowledgement. Do not claim an action
-has completed: Unity must execute it and acknowledge the result."""
+text is an English explanation or brief acknowledgement. For an action
+acknowledgement use at most 12 words. For explanations prefer 60 words.
+Do not claim an action has completed: Unity must execute it and acknowledge the result."""
 
 class ModelDecision(BaseModel):
     action: Literal["none", "ready", "previous", "pause", "resume", "reset", "stop", "repeat"]
@@ -228,8 +229,8 @@ def create_app(database=None, tutor=None):
                 async with httpx.AsyncClient(timeout=90) as client:
                     response = await client.post(os.getenv("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/") + "/api/chat",
                         json={"model": os.getenv("OLLAMA_MODEL", "qwen3:8b"), "messages": messages,
-                              "stream": False, "think": False, "format": ModelDecision.model_json_schema(),
-                              "options": {"num_ctx": 4096, "num_predict": 350, "temperature": 0}})
+                              "stream": False, "think": False, "keep_alive": "30m", "format": ModelDecision.model_json_schema(),
+                              "options": {"num_ctx": 4096, "num_predict": 192, "temperature": 0}})
                     response.raise_for_status()
                     text = response.json()["message"]["content"]
             if not isinstance(text, str) or not text.strip():
