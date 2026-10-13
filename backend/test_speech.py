@@ -3,11 +3,34 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from backend.whisper_listener import Utterances, transcript
+from backend.whisper_listener import AudioFrames, Utterances, transcript
 from backend.voice import WindowsVoice
 
 
 class SpeechTests(unittest.TestCase):
+    def test_decode_audio_is_discarded_without_overflow_or_stale_commands(self):
+        buffer = AudioFrames(capacity=2)
+        buffer.capture(b"before", 0, None, None)
+        buffer.begin_decode()
+        for _ in range(1000):
+            buffer.capture(b"stale", 0, None, SimpleNamespace(input_overflow=True))
+        self.assertTrue(buffer.frames.empty())
+        self.assertFalse(buffer.overflow.is_set())
+        buffer.end_decode()
+        buffer.capture(b"fresh", 0, None, None)
+        self.assertEqual(buffer.frames.get_nowait(), b"fresh")
+
+    def test_real_capture_overflow_can_recover(self):
+        buffer = AudioFrames(capacity=1)
+        buffer.capture(b"first", 0, None, None)
+        buffer.capture(b"overflow", 0, None, None)
+        self.assertTrue(buffer.overflow.is_set())
+        buffer.begin_decode()
+        buffer.end_decode()
+        self.assertFalse(buffer.overflow.is_set())
+        buffer.capture(b"new", 0, None, None)
+        self.assertEqual(buffer.frames.get_nowait(), b"new")
+
     def test_silence_is_not_an_utterance(self):
         collector = Utterances()
         self.assertTrue(all(collector.push(b"s", False) is None for _ in range(1000)))

@@ -1,4 +1,5 @@
 import tempfile
+import json
 import unittest
 from pathlib import Path
 
@@ -15,7 +16,8 @@ class BackendTests(unittest.TestCase):
 
         async def tutor(messages):
             self.prompts.append(messages)
-            return "The robot supplies the pin carrier to the worker."
+            action = "previous" if messages[-1]["content"] == "Go back to the previous step!" else "none"
+            return json.dumps({"action": action, "text": "The robot supplies the pin carrier to the worker."})
 
         self.tutor = tutor
         self.client = TestClient(create_app(self.path, tutor))
@@ -71,6 +73,39 @@ class BackendTests(unittest.TestCase):
         self.assertIn("pin_carrier", self.prompts[0][1]["content"])
         self.client.post(self.url + "/messages", json={"text": "Explain this operation", "request_id": "q"})
         self.assertEqual(len(self.prompts), 1)
+
+    def model_client(self, decision):
+        async def tutor(messages):
+            self.assertIn("Always explain and respond in English", messages[0]["content"])
+            return json.dumps(decision)
+        client = TestClient(create_app(self.path, tutor))
+        self.addCleanup(client.close)
+        return client
+
+    def test_model_controls_free_form_instruction_and_retries_are_idempotent(self):
+        client = self.model_client({"action": "ready", "text": "I will demonstrate the next step."})
+        body = {"text": "Could you please demonstrate what comes next?", "request_id": "model-ready"}
+        response = client.post(self.url + "/messages", json=body)
+        self.assertEqual(response.status_code, 200)
+        command = response.json()["session"]["pending"]
+        self.assertEqual(command["type"], "execute_operation")
+        self.assertEqual(response.json()["session"]["completed"], 0)
+        self.assertEqual(client.post(self.url + "/messages", json=body).json(), response.json())
+
+    def test_invalid_model_action_cannot_issue_command(self):
+        client = self.model_client({"action": "run_shell", "text": "Executing."})
+        response = client.post(self.url + "/messages", json={"text": "Do something", "request_id": "bad-action"})
+        self.assertEqual(response.status_code, 503)
+        self.assertIsNone(client.get(self.url).json()["pending"])
+
+    def test_model_pause_preserves_inflight_operation(self):
+        command = self.action("ready").json()["session"]["pending"]
+        client = self.model_client({"action": "pause", "text": "Pausing the demonstration."})
+        response = client.post(self.url + "/messages", json={"text": "Hold on a moment", "request_id": "hold"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["control"], "pause")
+        self.assertEqual(response.json()["session"]["pending"]["id"], command["id"])
+        self.assertEqual(self.acknowledge(command).status_code, 200)
 
     def test_persistence_and_workflow_validation(self):
         self.assertEqual(self.client.post("/sessions", json={"workflow_version": "wrong"}).status_code, 422)

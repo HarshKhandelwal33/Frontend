@@ -11,6 +11,7 @@
 /.simulation-check/
 
 /backend/.venv/
+/backend/.pip-cache/
 /backend/data/
 __pycache__/
 *.pyc

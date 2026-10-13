@@ -15,6 +15,7 @@ try {
     } elseif ($Mode -eq 'speak') {
         $speaker = New-Object System.Speech.Synthesis.SpeechSynthesizer
         try {
+            $speaker.SelectVoiceByHints([System.Speech.Synthesis.VoiceGender]::NotSet, [System.Speech.Synthesis.VoiceAge]::NotSet, 0, [System.Globalization.CultureInfo]::GetCultureInfo('en-US'))
             $speaker.SetOutputToDefaultAudioDevice()
             $text = [Console]::In.ReadToEnd()
             $speaker.Speak($text)
@@ -22,20 +23,7 @@ try {
     } else {
         $recognizer = New-Object System.Speech.Recognition.SpeechRecognitionEngine([System.Globalization.CultureInfo]::GetCultureInfo($Culture))
         try {
-            $commands = New-Object System.Speech.Recognition.Choices
-            $commands.Add([string[]]@("I'm ready", 'I am ready', 'next step', 'go back', 'previous step', 'pause', 'resume', 'reset', 'start again', 'repeat', 'repeat the explanation'))
-            $builder = New-Object System.Speech.Recognition.GrammarBuilder
-            $builder.Culture = [System.Globalization.CultureInfo]::GetCultureInfo($Culture)
-            $builder.Append($commands)
-            $commandGrammar = New-Object System.Speech.Recognition.Grammar($builder)
-            $commandGrammar.Name = 'Training commands'
-            $commandGrammar.Priority = 1
-            $recognizer.LoadGrammar($commandGrammar)
-            # Command-only mode is more reliable for the offline demonstration.
-            # Enable open-question recognition explicitly when using the AI tutor.
-            if ($env:SPEECH_DICTATION -eq '1') {
-                $recognizer.LoadGrammar((New-Object System.Speech.Recognition.DictationGrammar))
-            }
+            $recognizer.LoadGrammar((New-Object System.Speech.Recognition.DictationGrammar))
             $recognizer.SetInputToDefaultAudioDevice()
             $levelSubscription = Register-ObjectEvent -InputObject $recognizer -EventName AudioLevelUpdated -SourceIdentifier 'TrainingMicLevel'
             @{ready=$true} | ConvertTo-Json -Compress

@@ -11,7 +11,7 @@ def main(args=None):
     from std_msgs.msg import String
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['ready', 'pause', 'resume', 'reset'])
+    parser.add_argument('action', choices=['ready', 'previous', 'pause', 'resume', 'reset', 'stop', 'repeat'])
     options = parser.parse_args(args)
     rclpy.init(args=[])
     node = Node('gearbox_simulation_control')

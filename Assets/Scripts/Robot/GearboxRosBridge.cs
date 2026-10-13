@@ -39,7 +39,7 @@ namespace GearboxDemo
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Install() {
-            if(!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GEARBOX_ROSBRIDGE_URL")))
+            if(!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GEARBOX_ROSBRIDGE_URL")) && FindFirstObjectByType<GearboxRosBridge>()==null)
                 new GameObject("ROS 2 simulation bridge").AddComponent<GearboxRosBridge>();
         }
         private void Start() {
@@ -113,16 +113,14 @@ namespace GearboxDemo
                     if(handled.Contains(command.request_id)) {
                         PublishString("/gearbox/simulation/control_ack",JsonUtility.ToJson(new Ack{request_id=command.request_id,action=command.action,status="duplicate"}));continue;
                     }
-                    string transcript;
                     switch(command.action) {
-                        case "ready": transcript="I'm ready";break;
-                        case "pause":case "resume":case "reset":transcript=command.action;break;
-                        default:throw new ArgumentException("Allowed actions: ready, pause, resume, reset");
+                        case "ready":case "previous":case "pause":case "resume":case "reset":case "stop":case "repeat":break;
+                        default:throw new ArgumentException("Unsupported simulation action");
                     }
                     if(!client.IsConnected)throw new InvalidOperationException("Training backend is disconnected");
+                    if(!client.SubmitRosControl(command.action,"ros-"+command.request_id))throw new InvalidOperationException("Unity is busy; command was not dispatched");
                     handled.Add(command.request_id);recent.Enqueue(command.request_id);
                     if(recent.Count>256)handled.Remove(recent.Dequeue());
-                    client.SubmitTranscript(transcript);
                     PublishString("/gearbox/simulation/control_ack",JsonUtility.ToJson(new Ack{request_id=command.request_id,action=command.action,status="dispatched"}));
                 } catch(Exception e) {
                     PublishString("/gearbox/simulation/control_ack",JsonUtility.ToJson(new Ack{request_id=command?.request_id,action=command?.action,status="rejected",error=e.Message}));
@@ -131,10 +129,10 @@ namespace GearboxDemo
             if(!online || Time.realtimeSinceStartup<nextPublish)return;
             nextPublish=Time.realtimeSinceStartup+0.1f;
             var joints=game.References.handover.robotArm.joints;
-            var names=new string[6];var positions=new double[6];
-            for(int i=0;i<6;i++){names[i]="simulation_joint_"+(i+1);positions[i]=joints[i].Angle*Math.PI/180.0;}
+            var names=new string[6];var positions=new double[6];var velocities=new double[6];
+            for(int i=0;i<6;i++){names[i]="simulation_joint_"+(i+1);positions[i]=joints[i].Angle*Math.PI/180.0;velocities[i]=joints[i].Body.jointVelocity[0];}
             long milliseconds=DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            Queue(JsonUtility.ToJson(new JointEnvelope{msg=new JointState{header=new Header{stamp=new Stamp{sec=(int)(milliseconds/1000),nanosec=(uint)(milliseconds%1000)*1000000}},name=names,position=positions}}));
+            Queue(JsonUtility.ToJson(new JointEnvelope{msg=new JointState{header=new Header{stamp=new Stamp{sec=(int)(milliseconds/1000),nanosec=(uint)(milliseconds%1000)*1000000}},name=names,position=positions,velocity=velocities}}));
             PublishString("/gearbox/simulation/state",JsonUtility.ToJson(new State{completed=game.Completed,running=game.Running,paused=game.Paused,fault=game.Fault,backend_status=client.BackendStatus}));
         }
         private void OnDestroy() { lifetime.Cancel();socket?.Abort(); }

@@ -86,7 +86,10 @@ namespace GearboxDemo
         public float[] Angles => (float[])angles.Clone();
         public Vector3[] JointPositions => System.Array.ConvertAll(articulation.joints, joint => joint.transform.position);
         public void SetAngles(float[] pose)
-        { for(int i=0;i<6;i++) { angles[i]=Mathf.Clamp(pose[i],lower[i],upper[i]); Apply(i); if (!planning)
+        { if(pose==null || pose.Length!=6)throw new System.ArgumentException("Six joint angles are required.");
+          for(int i=0;i<6;i++)if(float.IsNaN(pose[i]) || float.IsInfinity(pose[i]) || pose[i]<lower[i]-.001f || pose[i]>upper[i]+.001f)
+              throw new System.ArgumentException("Joint "+(i+1)+" target is outside the simulation limits.");
+          for(int i=0;i<6;i++) { angles[i]=Mathf.Clamp(pose[i],lower[i],upper[i]); Apply(i); if (!planning)
                 {
                     var joint = articulation.joints[i];
                     float dt = Time.fixedDeltaTime;
@@ -103,7 +106,9 @@ namespace GearboxDemo
         {
             planning = true;
             var original=Angles;
-            float best=float.MaxValue; float[] solution=null;
+            float best=float.MaxValue, bestCost=float.MaxValue; float[] solution=null;
+            float[] reference=seed ?? original;
+            try {
             float yaw=Mathf.Atan2(position.x-joints[0].position.x,position.z-joints[0].position.z)*Mathf.Rad2Deg;
             for(int attempt=0;attempt<(cadRig?19:7);attempt++)
             {
@@ -115,22 +120,31 @@ namespace GearboxDemo
                     if(cadRig) {
                         elbow=(attempt%2==0?90:-90);
                         shoulder=((attempt-1)/2%3-1)*50;
-                        SetAngles(new[]{yaw+((attempt-1)/6-1)*90,shoulder,elbow,0f,-shoulder-elbow,0f});
-                    } else SetAngles(new[]{yaw,shoulder,elbow,0f,180f-shoulder-elbow,0f});
+                        SetPlanningSeed(new[]{yaw+((attempt-1)/6-1)*90,shoulder,elbow,0f,-shoulder-elbow,0f});
+                    } else SetPlanningSeed(new[]{yaw,shoulder,elbow,0f,180f-shoulder-elbow,0f});
                 }
                 float error=Solve(position,rotation,cadRig?360:180);
                 error+=Quaternion.Angle(planningGrip.rotation,rotation)*0.002f;
-                if(error<best) { best=error;solution=Angles; }
-                if(best<0.002f)break;
+                // Equivalent wrist turns should remain closest to the previous waypoint.
+                for(int j=0;j<6;j++) {
+                    float equivalent=angles[j]+360f*Mathf.Round((reference[j]-angles[j])/360f);
+                    if(equivalent>=lower[j] && equivalent<=upper[j]) { angles[j]=equivalent;Apply(j); }
+                }
+                float cost=0;
+                for(int j=0;j<6;j++)cost+=Mathf.Pow(angles[j]-reference[j],2);
+                if(error<=0.018f && cost<bestCost) { best=error;bestCost=cost;solution=Angles; }
+                if(attempt==0 && error<=0.018f)break;
             }
-            if(cadRig && best>0.018f) {
-                SetAngles(solution);
-                Debug.LogWarning("CAD IK diagnostic root="+Root.position+" grip="+planningGrip.position+" desired="+position+" orientation="+Quaternion.Angle(planningGrip.rotation,rotation)+" angles="+string.Join(",",solution));
-            }
-            SetAngles(original);
-            planning = false;
-            if(best>0.018f)throw new System.InvalidOperationException("No reachable gripper pose at "+position+" (residual "+best.ToString("F3")+")");
+            if(solution==null)throw new System.InvalidOperationException("No reachable gripper pose at "+position);
+            if(seed!=null)
+                for(int j=0;j<6;j++)if(Mathf.Abs(solution[j]-seed[j])>60f)
+                    throw new System.InvalidOperationException("IK branch jump at joint "+(j+1)+"; motion rejected.");
             return solution;
+            } finally { SetAngles(original);planning=false; }
+        }
+        private void SetPlanningSeed(float[] pose) {
+            for(int i=0;i<6;i++)pose[i]=Mathf.Clamp(pose[i],lower[i],upper[i]);
+            SetAngles(pose);
         }
         public void ValidateTrajectory(float[] from, float[] goal, System.Action<Collider, Vector3, Quaternion> check, Transform payload = null)
         {

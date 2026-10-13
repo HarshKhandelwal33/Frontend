@@ -1,5 +1,26 @@
 # Gearbox voice training backend
 
+## Model-directed voice controls
+
+Spoken transcripts sent to `/sessions/{id}/messages` are now interpreted by Qwen,
+including free-form instructions such as “please demonstrate the next operation”
+or “hold on a moment.” Exact phrase matching has been removed from both Unity and
+the backend. The model returns a schema-validated action and an English reply.
+Supported actions are next operation, previous checkpoint, pause, resume, reset,
+stop, and repeat. Questions and ambiguous or unsupported requests return an
+explanation or clarification without moving the assembly. Invalid model output
+returns an error without creating a command. `/actions` remains available for UI
+controls and integration tests. Unity still validates and acknowledges execution;
+the LLM cannot run arbitrary code or bypass the assembly sequence.
+
+Explanations and Windows speech playback use English. Voice commands require
+Ollama to be available. Pause/resume during an operation preserve its pending
+command so its eventual completion can be acknowledged correctly.
+
+After updating these files, restart the backend and restart Unity Play mode.
+Use **Tools > Gearbox Demo > Stop Training Backend**, then press Play in
+`GearboxTraining` to start the updated backend automatically.
+
 One Python service for the existing 13-operation Unity workflow. Includes SQLite session persistence, deterministic teaching commands, operation-based and keyword retrieval, and an Ollama tutor adapter. No model installation is performed by this project.
 
 ## Start on Windows

@@ -19,13 +19,23 @@ namespace GearboxDemo.Editor
             EditorApplication.playModeStateChanged+=state=>{
                 if(!SessionState.GetBool(Key,false))return;
                 if(state==PlayModeStateChange.EnteredPlayMode)deadline=EditorApplication.timeSinceStartup+180;
-                if(state==PlayModeStateChange.EnteredEditMode){SessionState.SetBool(Key,false);EditorApplication.Exit(SessionState.GetInt(Key+"Exit",1));}
+                if(state==PlayModeStateChange.EnteredEditMode){SessionState.SetBool(Key,false);if(!SessionState.GetBool(Key+"Interactive",false))EditorApplication.Exit(SessionState.GetInt(Key+"Exit",1));}
             };
         }
         public static void RunBatch() {
+            SessionState.SetBool(Key+"Interactive",false);
             File.WriteAllText("training-integration-report.txt","Live Python/Unity integration; backend must be running.\n");
             SessionState.SetBool(Key,true);SessionState.SetInt(Key+"Exit",1);
             EditorSceneManager.OpenScene("Assets/Scenes/GearboxTraining.unity");EditorApplication.EnterPlaymode();
+        }
+        [MenuItem("Tools/Gearbox Demo/Verify Live Backend Connection")]
+        public static void RunInteractive() {
+            if(!EditorApplication.isPlaying) { UnityEngine.Debug.LogError("Enter Play mode in GearboxTraining first.");return; }
+            phase=0;
+            SessionState.SetBool(Key+"Interactive",true);
+            SessionState.SetBool(Key,true);SessionState.SetInt(Key+"Exit",1);
+            deadline=EditorApplication.timeSinceStartup+240;
+            File.WriteAllText("training-integration-report.txt","Live Unity/backend verification.\n");
         }
         private static void Tick() {
             if(!SessionState.GetBool(Key,false)||!EditorApplication.isPlaying||deadline==0)return;
@@ -35,7 +45,9 @@ namespace GearboxDemo.Editor
                 if(EditorApplication.timeSinceStartup>deadline)throw new Exception("Integration timed out at phase "+phase);
                 if(phase==0) {
                     g.TrainingMode=true;g.ResetGame();
-                    client=new GameObject("Live integration client").AddComponent<GearboxTrainingClient>();phase=1;return;
+                    client=UnityEngine.Object.FindFirstObjectByType<GearboxTrainingClient>();
+                    if(client==null)client=new GameObject("Live integration client").AddComponent<GearboxTrainingClient>();
+                    phase=1;return;
                 }
                 if(phase==1) {
                     if(!client.IsConnected||client.IsThinking)return;
@@ -63,7 +75,10 @@ namespace GearboxDemo.Editor
                 if(phase==5) {
                     if(client.BackendStatus!="ready"||g.EmergencyStopped)return;
                     File.AppendAllText("training-integration-report.txt","PASS stop and reset synchronize Unity and Python.\n");
-                    SessionState.SetInt(Key+"Exit",0);EditorApplication.ExitPlaymode();
+                    Time.timeScale=1;
+                    SessionState.SetInt(Key+"Exit",0);
+                    if(SessionState.GetBool(Key+"Interactive",false)) { SessionState.SetBool(Key,false);UnityEngine.Debug.Log("Live backend integration checks passed."); }
+                    else EditorApplication.ExitPlaymode();
                 }
             } catch(Exception e) {
                 File.AppendAllText("training-integration-report.txt","FAIL "+e+"\n");

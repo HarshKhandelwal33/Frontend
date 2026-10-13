@@ -59,7 +59,7 @@ namespace GearboxDemo
         private Vector3 lookAt;
         private float speed = 1;
         // Speed up training playback while keeping motion timing coordinated.
-        private const float TrainingPlaybackSpeed = 1.5f;
+        private const float TrainingPlaybackSpeed = 1f;
         private float PlaybackSpeed => TrainingMode ? TrainingPlaybackSpeed : speed;
         private GUIStyle title, small, nodeText;
 
@@ -342,29 +342,30 @@ namespace GearboxDemo
             }
             float[] goal = path[path.Count - 1];
             float[] frame = new float[6];
-            float duration = Mathf.Max(seconds, 0.1f, Vector3.Distance(startPosition, position) * 1.875f / maxCartesianSpeed);
-            for (int j = 0; j < 6; j++)
-            {
-                float distance = Mathf.Abs(goal[j] - from[j]);
-                duration = Mathf.Max(duration, distance * 1.875f / maxJointSpeed,
-                    Mathf.Sqrt(distance * 5.774f / maxJointAcceleration));
+            var segmentTimes=new float[samples];
+            float duration=0;
+            for(int segment=0;segment<samples;segment++) {
+                segmentTimes[segment]=RobotMotionProfile.Duration(path[segment],path[segment+1],maxJointSpeed,maxJointAcceleration,
+                    Mathf.Max(seconds/samples,Vector3.Distance(startPosition,position)*1.875f/(samples*maxCartesianSpeed)));
+                duration+=segmentTimes[segment];
             }
             float deadline = Time.time + duration / closeSpeedScale + handoverTimeout;
-            for (float t = 0; t < 1;)
+            int activeSegment=0;
+            float segmentElapsed=0;
+            while(activeSegment<samples)
             {
                 UpdateRobotPayloadPose();
                 EvaluateSafety(); CheckEnvironment();
                 if (Time.time > deadline) throw new TimeoutException("Robot trajectory timeout");
-                t = Mathf.Min(1, t + Time.deltaTime * motionScale / duration);
-                float smooth = AssemblyMotion.Ease(t) * samples;
-                int segment = Mathf.Min(samples - 1, Mathf.FloorToInt(smooth));
-                float fraction = smooth - segment;
-                for (int j = 0; j < 6; j++) frame[j] = Mathf.Lerp(path[segment][j], path[segment + 1][j], fraction);
+                segmentElapsed=Mathf.Min(segmentTimes[activeSegment],segmentElapsed+Time.fixedDeltaTime*motionScale);
+                float fraction=RobotMotionProfile.Blend(segmentElapsed/segmentTimes[activeSegment]);
+                for (int j = 0; j < 6; j++) frame[j] = Mathf.Lerp(path[activeSegment][j], path[activeSegment + 1][j], fraction);
                 robot.SpeedLimit = maxJointSpeed * motionScale; robot.AccelerationLimit = maxJointAcceleration;
                 robot.SetAngles(frame);
                 UpdateRobotPayloadPose();
                 trajectory.Add(robot.Grip.position);
                 if (trajectory.Count > 512) trajectory.RemoveAt(0);
+                if(segmentElapsed>=segmentTimes[activeSegment]) { activeSegment++;segmentElapsed=0; }
                 yield return new WaitForFixedUpdate();
             }
             while (Vector3.Distance(robot.Grip.position, position) > 0.008f ||
@@ -387,6 +388,15 @@ namespace GearboxDemo
             float safeY = Mathf.Max(1.72f, destination.y + 0.16f);
             if(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null)
                 safeY=Mathf.Max(robot.Root.position.y+.45f*CadLayoutRatio,destination.y+.12f);
+            if(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null) {
+                // Carry across at clearance height without the former central overhead detour.
+                // Keep the grasp orientation during transit; orient only on the final approach.
+                safeY=Mathf.Max(safeY,robot.Grip.position.y);
+                yield return MoveRobot(new Vector3(robot.Grip.position.x,safeY,robot.Grip.position.z),robot.Grip.rotation,.65f);
+                yield return MoveRobot(new Vector3(destination.x,safeY,destination.z),robot.Grip.rotation,1.6f);
+                yield return MoveRobot(destination,rotation,.8f);
+                yield break;
+            }
             if (Mathf.Abs(robot.Grip.position.x - robot.Root.position.x) > 0.45f)
                 yield return MoveRobot(new Vector3(robot.Grip.position.x, safeY, robot.Grip.position.z), robot.Grip.rotation, 0.65f);
             if ((robot.Grip.position.x - robot.Root.position.x) * (destination.x - robot.Root.position.x) <= 0 || Mathf.Abs(robot.Grip.position.x - robot.Root.position.x) < 0.45f)
@@ -432,7 +442,10 @@ namespace GearboxDemo
             yield return WalkTo(receivingStance != null ? receivingStance.position : new Vector3(p.assemblyTarget.transform.position.x + 0.25f, 0, stanceZ));
             Vector3 presentation = handoverTarget != null ? handoverTarget.position : new Vector3(p.assemblyTarget.transform.position.x, 1.49f, worker.position.z - 0.4f);
             if(handoverTarget==null && m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null) presentation.y=Mathf.Lerp(1.35f,1.49f,Mathf.InverseLerp(.65f,.85f,m.handover.robotArm.transform.lossyScale.x));
-            Quaternion orientation = handoverTarget != null ? handoverTarget.rotation : Quaternion.Euler(90, 0, 0);
+            Quaternion orientation = handoverTarget != null ? handoverTarget.rotation :
+                m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null ? robot.Grip.rotation : Quaternion.Euler(90,0,0);
+            if(handoverTarget==null && m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null)
+                presentation.y=Mathf.Clamp(upperArm.position.y-.12f,1.25f,1.45f);
             if(handoverTarget==null && m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null && p.partType==GearboxPartType.OutputShaft) {
                 orientation=down;
                 presentation.z=worker.position.z-.4f;

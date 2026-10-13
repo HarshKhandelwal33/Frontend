@@ -1,5 +1,31 @@
 # ROS 2 simulation integration
 
+## Current motion and communication changes
+
+The bridge remains opt-in and connects to `ws://127.0.0.1:9090` by default.
+Set `GEARBOX_ROSBRIDGE_URL` for a ROS host to enable it.
+It reconnects while the host is unavailable. This does not install or emulate ROS.
+This Windows machine currently has neither a working WSL installation nor ROS 2;
+an actual ROS host is still needed to run a ROS graph or MoveIt planner.
+
+ROS control messages now dispatch directly to the backend action API rather than
+passing through the language model. Supported controls include ready, previous,
+pause, resume, reset, stop, and repeat. Busy readiness requests are rejected rather
+than acknowledged and lost. A dispatch acknowledgement still does not certify
+completion. Joint telemetry includes measured velocity in radians per second.
+
+The local arm solver now prefers the previous IK branch, chooses equivalent wrist
+angles closest to the previous pose, and rejects jumps over 60 degrees between
+Cartesian waypoints. Each segment has a synchronized quintic profile timed against
+all six joints' velocity and acceleration limits. Training playback runs at normal
+speed. Existing predicted workcell collision checks remain in the motion path.
+These are simulation constraints: CAD-estimated pivots and limits are not verified
+manufacturer data, and this change does not provide a collision-validated MoveIt
+plan or a driver for physical hardware.
+
+Run **Tools > Gearbox Demo > Verify Joint Motion Profiles** for numerical profile
+checks. Report: `.simulation-check/motion-profile-report.txt`.
+
 The Unity bridge uses the ROS 2 rosbridge WebSocket protocol. It is opt-in and
 does not drive a physical robot. The existing Python training backend still
 coordinates operations and confirms progress with Unity.
