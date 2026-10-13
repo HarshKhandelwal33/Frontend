@@ -57,7 +57,7 @@ namespace GearboxDemo
             }
             for (int i=0;i<m.allTargets.Length;i++) m.allTargets[i].RestoreOccupancy(saved.occupants[i]);
             RefreshHousingCollision();
-            receivingRig.Rest(); Phase = CollaborativePhase.Idle; closeInteraction = false;
+            receivingRig.ResetPose(); Phase = CollaborativePhase.Idle; closeInteraction = false;
             HandoverCount=saved.handovers;MaxHandError=0;MaxRobotError=0;
             BuildTree();Tree.RestoreCompletedPrefix(completed);
             foreach(var key in checkpoints.Keys.Where(k=>k>completed).ToArray())checkpoints.Remove(key);

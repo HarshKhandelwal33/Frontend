@@ -83,20 +83,19 @@ namespace GearboxDemo
             string step=session?.current_step?.title??"Voice training";
             var whiteText=TextStyle(14,Color.white);
             GUI.Label(new Rect(450,15,w-660,24),game.Completed==13?"Assembly complete":"Step "+(game.Completed+1)+" of 13  ·  "+step,whiteText);
-            string status=game.Fault!=null?"Reset required":!connected?"Not connected":game.Paused?"Paused":game.Running?"Demonstrating":"Awaiting readiness";
+            string status=game.Fault!=null?"Reset required":!connected?"Not connected":game.Completed==13?"Assembly complete":!workflowStarted?"Say ‘I'm ready’":game.Paused?"Paused":game.Running?"Demonstrating":"Starting next operation";
             Box(new Rect(w-193,9,176,30),Teal);
             var centered=TextStyle(12,Color.white);centered.alignment=TextAnchor.MiddleCenter;
             GUI.Label(new Rect(w-193,9,176,30),status,centered);
 
-            // Compact playback dock; progression is a voice command, not a Next button.
+            // Compact playback dock; operations advance automatically after confirmation.
             Box(new Rect(16,h-100,438,84),new Color(.04f,.11f,.18f,.94f));
             GUI.Label(new Rect(29,h-94,128,22),game.Completed+" / 13 completed",TextStyle(12,Color.white,true));
             Solid(new Rect(161,h-82,273,3),new Color(.26f,.35f,.43f));
             for(int i=0;i<13;i++)Box(new Rect(158+i*22,h-86,10,10),i<game.Completed?new Color(.16f,.81f,.77f):new Color(.34f,.43f,.51f),true);
-            if(HudButton(new Rect(25,h-63,95,36),game.Paused?"Resume":"Pause",true)){if(game.Paused)Resume();else game.Pause();}
-            if(HudButton(new Rect(127,h-63,95,36),"Camera",true))game.CycleCamera();
-            if(HudButton(new Rect(229,h-63,95,36),"Reset",true))SendAction("reset");
-            if(HudButton(new Rect(331,h-63,112,36),"STOP",true,true))Stop();
+            if(HudButton(new Rect(25,h-63,130,36),game.Paused?"Resume":"Pause",true)){if(game.Paused)Resume();else game.Pause();}
+            if(HudButton(new Rect(166,h-63,130,36),game.CameraViewName,true))game.CycleCamera();
+            if(HudButton(new Rect(307,h-63,136,36),"Reset",true))SendAction("reset");
 
             float x=w-342,y=h-181;
             Box(new Rect(x+1,y+5,326,165),new Color(0,0,0,.16f));
@@ -116,21 +115,23 @@ namespace GearboxDemo
             string activity=thinking?"Thinking":voice.speaking?"Speaking":voice.listening?"Listening":micDesired?"Starting":"Mic off";
             Box(new Rect(x+198,y+30,7,7),micDesired||voice.speaking?Teal:new Color(.65f,.71f,.77f),true);
             GUI.Label(new Rect(x+211,y+23,78,24),activity,TextStyle(11,Ink));
-            if(HudButton(new Rect(x+272,y+59,40,32),muted?"Off":"Mute")) {
-                muted=!muted;if(muted)StartCoroutine(Http("/voice/silence","{}",null));
-            }
-            // Decorative activity indicator: not a measured microphone amplitude.
+            // Actual Windows microphone level when listening.
             for(int i=0;i<21;i++) {
-                float bar=voice.speaking?7+Mathf.Abs(Mathf.Sin(Time.realtimeSinceStartup*4+i*.7f))*21:4+Mathf.Abs(Mathf.Sin(i*.8f))*8;
+                float bar=voice.speaking?7+Mathf.Abs(Mathf.Sin(Time.realtimeSinceStartup*4+i*.7f))*21:4+24*Mathf.Clamp01(voice.audio_level/100f);
                 Box(new Rect(x+83+i*5.5f,y+79-bar*.5f,3,bar),micDesired||voice.speaking?new Color(.0f,.64f,.66f):new Color(.71f,.79f,.82f));
             }
-            if(HudButton(new Rect(x+205,y+59,58,32),"Repeat"))Repeat();
             if(HudButton(new Rect(x+271,y+101,41,26),"CC"))subtitles=!subtitles;
             Box(new Rect(x+14,y+112,245,37),new Color(.9f,.95f,.99f));
-            GUI.Label(new Rect(x+24,y+121,229,22),connected?"Say ‘go back’ or ‘I’m ready’.":"Tap the microphone to connect.",TextStyle(12,Ink));
+            string prompt=!connected?"Tap the microphone to connect.":string.IsNullOrEmpty(heard)?workflowStarted?"Say ‘pause’ or ‘resume’.":"Say ‘I'm ready’ to start.":"Heard: "+heard;
+            if(micDesired) {
+                if(!string.IsNullOrEmpty(voice.last_heard) && voice.last_confidence<0.55f)
+                    prompt="Uncertain: "+voice.last_heard;
+                else if(string.IsNullOrEmpty(heard))prompt="Mic level: "+voice.audio_level+" / 100";
+            }
+            GUI.Label(new Rect(x+24,y+121,229,22),new GUIContent(prompt,prompt),TextStyle(12,Ink));
             if(!string.IsNullOrEmpty(error)) {
                 var warning=TextStyle(10,new Color(.59f,.28f,.12f));
-                GUI.Label(new Rect(x+14,y+94,252,18),error.Contains("Tutor unavailable")?"Voice tutor unavailable · connect Ollama":error.Contains("Backend unavailable")?"Backend offline · tap microphone to reconnect":"Voice needs attention · check your connection",warning);
+                GUI.Label(new Rect(x+14,y+94,252,18),error.Contains("Backend unavailable")?"Backend offline · tap microphone to reconnect":error,warning);
             }
             // Short subtitle strip instead of a large transcript panel.
             if(subtitles&&!string.IsNullOrEmpty(subtitle)) {
@@ -140,7 +141,7 @@ namespace GearboxDemo
                     Box(strip,new Color(.035f,.105f,.17f,.93f));
                     string shown=subtitle.Length>105?subtitle.Substring(0,102)+"…":subtitle;
                     var sub=TextStyle(12,Color.white);sub.wordWrap=true;
-                    GUI.Label(new Rect(strip.x+13,strip.y+5,strip.width-26,29),new GUIContent("Tutor: "+shown,subtitle),sub);
+                    GUI.Label(new Rect(strip.x+13,strip.y+5,strip.width-26,29),new GUIContent(shown,subtitle),sub);
                 }
             }
             GUI.matrix=previousMatrix;

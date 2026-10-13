@@ -36,7 +36,13 @@ namespace GearboxDemo.Editor
             var game = manager.GetComponent<GearboxGameSimulation>();
             if (game == null) game = Undo.AddComponent<GearboxGameSimulation>(manager.gameObject);
             var mat = GameObject.Find("Assembly Mat");
-            if (mat != null) { Undo.RecordObject(mat.transform, "Fit assembly mat"); GearboxGameSimulation.FitAssemblyMat(mat.transform); }
+            if (mat != null) {
+                Undo.RecordObject(mat.transform, "Fit assembly mat"); GearboxGameSimulation.FitAssemblyMat(mat.transform);
+                if(manager.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null) {
+                    var ms=mat.transform.localScale;ms.x=.9f;ms.z=.6f;mat.transform.localScale=ms;
+                    var mp=mat.transform.position;mp.x=.6f;mp.z=.35f;mat.transform.position=mp;
+                }
+            }
             // Unity's cylinder primitive carries a capsule collider. Thin joint seals must use their actual convex mesh,
             // otherwise the capsule radius expands them into spheres and blocks the receiving hand.
             foreach (var filter in manager.handover.robotArm.GetComponentsInChildren<MeshFilter>())
@@ -150,9 +156,10 @@ namespace GearboxDemo.Editor
             Require(manager.allParts.All(p => p.gripPoint != null && p.GetComponent<Collider>() != null), "Part grip points and colliders");
             Physics.SyncTransforms();
             var matBounds = GameObject.Find("Assembly Mat").GetComponent<Collider>().bounds;
-            Require(matBounds.min.x <= 0.88f && matBounds.max.x >= 1.63f && matBounds.min.z <= 0.52f && matBounds.max.z >= 0.82f,
+            bool compactCad = arm.GetComponent<YaskawaSimulationRig>() != null;
+            Require(compactCad ? matBounds.min.x <= .30f && matBounds.max.x >= .90f && matBounds.min.z <= .35f && matBounds.max.z >= .65f : matBounds.min.x <= 0.88f && matBounds.max.x >= 1.63f && matBounds.min.z <= 0.52f && matBounds.max.z >= 0.82f,
                 "Both runtime assembly fixture footprints must fit on the mat");
-            var bench = UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).First(c => c.name == "Tabletop" && c.bounds.Contains(new Vector3(1.4f, c.bounds.center.y, 0.3f)));
+            var bench = UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).First(c => c.name == "Tabletop" && c.bounds.Contains(new Vector3(compactCad ? .6f : 1.4f, c.bounds.center.y, 0.3f)));
             Require(matBounds.min.x >= bench.bounds.min.x && matBounds.max.x <= bench.bounds.max.x &&
                 matBounds.min.z >= bench.bounds.min.z && matBounds.max.z <= bench.bounds.max.z, "Mat must remain on the worktop");
             File.WriteAllText("collaboration-static-report.txt", "PASS six articulation joints, joint limits, humanoid avatar, IK pass, robot/part collision geometry, serialized simulation settings; both assembly stations inside mat and mat inside worktop.\n");
@@ -249,3 +256,5 @@ namespace GearboxDemo.Editor
         }
     }
 }
+
+

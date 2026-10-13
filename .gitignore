@@ -39,3 +39,6 @@ __pycache__/
 *.suo
 .DS_Store
 Thumbs.db
+/.tools/
+/.test-tmp/
+/backend/server-*.log

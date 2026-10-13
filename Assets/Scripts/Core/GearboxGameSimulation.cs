@@ -19,7 +19,9 @@ namespace GearboxDemo
         public bool Ready { get; private set; }
         public bool EmergencyStopped { get; private set; }
         public bool TrainingMode { get; set; }
-        public void CycleCamera() { cameraMode = (cameraMode + 1) % 3; }
+        public string CameraViewName => cameraMode == 3 ? "First person" : cameraMode == 0 ? "Overview" : cameraMode == 1 ? "Follow" : "Assembly";
+        public void CycleCamera() { cameraMode = (cameraMode + 1) % 4; }
+        public void ToggleFirstPersonView() { cameraMode = cameraMode == 3 ? 1 : 3; }
         private readonly Dictionary<int, Checkpoint> checkpoints = new Dictionary<int, Checkpoint>();
         public Transform Holder { get; private set; }
         public Transform Payload { get; private set; }
@@ -39,6 +41,12 @@ namespace GearboxDemo
         private Transform rack;
         private readonly Dictionary<GearboxPart, Pose> starts = new Dictionary<GearboxPart, Pose>();
         private Vector3 firstOrigin, finalOrigin;
+        private float RobotClearance(float height) => m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null && m.handover.robotArm.transform.lossyScale.x<.8f ? height*.6f : height;
+        private float CadLayoutRatio => m.handover.robotArm.transform.lossyScale.x / .85f;
+        private Vector3 CompactCadPoint(Vector3 point) {
+            var centre=m.handover.robotArm.transform.position;
+            return new Vector3(centre.x+(point.x-centre.x)*CadLayoutRatio,point.y,centre.z+(point.z-centre.z)*CadLayoutRatio);
+        }
         private readonly Quaternion down = Quaternion.Euler(180, 0, 0);
         private Transform[] bones;
         private Quaternion[] boneRest;
@@ -50,6 +58,9 @@ namespace GearboxDemo
         private int cameraMode = 1;
         private Vector3 lookAt;
         private float speed = 1;
+        // Speed up training playback while keeping motion timing coordinated.
+        private const float TrainingPlaybackSpeed = 1.5f;
+        private float PlaybackSpeed => TrainingMode ? TrainingPlaybackSpeed : speed;
         private GUIStyle title, small, nodeText;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -92,6 +103,11 @@ namespace GearboxDemo
             cameraView.nearClipPlane = 0.025f;
             firstOrigin = new Vector3(1.03f, 1.105f, 0.67f);
             finalOrigin = new Vector3(1.48f, 1.105f, 0.67f);
+            if(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null) {
+                firstOrigin=CompactCadPoint(new Vector3(.45f,1.105f,.50f));
+                finalOrigin=CompactCadPoint(new Vector3(.75f,1.105f,.50f));
+                if(m.handover.robotArm.transform.lossyScale.x<.8f)finalOrigin.x=.50f;
+            }
             ConfigureLayout();
             ResetGame();
             Ready = true;
@@ -99,7 +115,7 @@ namespace GearboxDemo
             TrainingMode = !Application.isBatchMode && !Environment.GetCommandLineArgs().Contains("--gearbox-demo");
             if (TrainingMode)
             {
-                cameraMode = 0;
+                cameraMode = 1;
                 new GameObject("Voice training interface").AddComponent<GearboxTrainingClient>();
             }
             else Play();
@@ -122,6 +138,8 @@ namespace GearboxDemo
                 var p = parts[i];
                 p.transform.SetParent(rack, true);
                 starts[p] = new Pose(new Vector3(-2.28f + i % 4 * 0.32f, 1.052f, -0.015f + i / 4 * 0.3f), Quaternion.identity);
+                if(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null)
+                    starts[p]=new Pose((m.handover.robotArm.transform.lossyScale.x<.8f ? new Vector3(-.48f+i%3*.14f,1.052f,-.14f+i/3*.17f) : CompactCadPoint(new Vector3(-.80f+i%3*.24f,1.052f,-.24f+i/3*.22f))),Quaternion.identity);
                 // Place the actual collider underside above the tray; CAD root pivots are not support points.
                 p.transform.SetPositionAndRotation(starts[p].position, starts[p].rotation);
                 Physics.SyncTransforms();
@@ -159,8 +177,12 @@ namespace GearboxDemo
             // The original support tops intersected the housing during its seating trajectory.
             var housing = m.phaseTwoInsertion.housing;
             housing.transform.SetPositionAndRotation(housing.assemblyTarget.transform.position, housing.assemblyTarget.transform.rotation);
+            // Seat against the pickup envelope used before assembly. The rendered mesh has
+            // a slightly higher underside and must not size the supports for this phase.
+            var housingEnvelope=housing.GetComponent<BoxCollider>();
+            housingEnvelope.enabled=true;
             Physics.SyncTransforms();
-            float housingBottom = housing.GetComponentsInChildren<Collider>().Where(c => c.enabled && !c.isTrigger).Min(c => c.bounds.min.y);
+            float housingBottom = housingEnvelope.bounds.min.y;
             Vector3 housingCenter = housing.GetComponent<Collider>().bounds.center;
             float benchTop = FindObjectsByType<Collider>().Where(c => c.name == "Tabletop" &&
                 c.bounds.min.x <= housingCenter.x && c.bounds.max.x >= housingCenter.x &&
@@ -180,6 +202,9 @@ namespace GearboxDemo
             if (mat != null)
             {
                 FitAssemblyMat(mat.transform);
+                if(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null) {
+                    var footprint=mat.transform.localScale;footprint.z=.6f;mat.transform.localScale=footprint;
+                }
                 mat.GetComponent<Renderer>().material.color = new Color(0.12f, 0.2f, 0.23f);
             }
         }
@@ -197,7 +222,7 @@ namespace GearboxDemo
             StopAllCoroutines(); Time.timeScale = 1; speed = 1;
             EmergencyStopped = false; ProtectiveStopped = false; SafetyReason = null;
             Phase = CollaborativePhase.Idle; closeInteraction = false; hasActiveHandoverTarget = false; trajectory.Clear();
-            receivingRig.Rest();
+            receivingRig.ResetPose();
             var workerMovement = worker.GetComponent<WorkerMovement>();
             workerMovement.ResetMotion(); workerMovement.enabled = false;
             Payload = null; Holder = null; ActivePart = null; Fault = null; Running = false; Paused = false;
@@ -215,7 +240,8 @@ namespace GearboxDemo
             }
             RefreshHousingCollision();
             for (int i = 0; i < bones.Length; i++) bones[i].localRotation = boneRest[i];
-            worker.SetPositionAndRotation(new Vector3(firstOrigin.x + 0.25f, 0, 1.16f), Quaternion.Euler(0,180,0));
+            worker.SetPositionAndRotation(new Vector3(firstOrigin.x + 0.25f, 0,
+                m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null?Mathf.Lerp(.90f,.96f,Mathf.InverseLerp(.65f,.85f,m.handover.robotArm.transform.lossyScale.x)):1.16f), Quaternion.Euler(0,180,0));
             robot.Reset(); SetFingers(m.handover.robotGripper.openHalfGap);
             BuildTree(); ActionName = "Ready • all parts on rack";
             checkpoints.Clear();
@@ -255,19 +281,26 @@ namespace GearboxDemo
             StopAllCoroutines(); Time.timeScale = 0;
             Fault = "Emergency stop • reset required";
         }
-        public void Play() { if (EmergencyStopped || ProtectiveStopped || Fault != null || (!Ready && Tree == null)) return; singleStep = false; Paused = false; Running = true; Time.timeScale = speed; }
+        public void Play() { if (EmergencyStopped || ProtectiveStopped || Fault != null || (!Ready && Tree == null)) return; singleStep = false; Paused = false; Running = true; Time.timeScale = PlaybackSpeed; }
         public void Pause() { Paused = true; Time.timeScale = 0; }
-        public void Step() { if (EmergencyStopped || ProtectiveStopped || Fault != null || Tree == null) return; singleStep = true; stopAt = Completed + 1; Paused = false; Running = true; Time.timeScale = speed; }
+        public void ResumePlayback() {
+            if (EmergencyStopped || ProtectiveStopped || Fault != null) return;
+            Paused = false; Time.timeScale = PlaybackSpeed;
+        }
+        public void Step() { if (EmergencyStopped || ProtectiveStopped || Fault != null || Tree == null) return; singleStep = true; stopAt = Completed + 1; Paused = false; Running = true; Time.timeScale = PlaybackSpeed; }
         private void Update()
         {
             if (!Ready) return;
             var keys = Keyboard.current;
+            if(keys!=null) {
+                if(keys.cKey.wasPressedThisFrame) CycleCamera();
+                if(keys.fKey.wasPressedThisFrame) ToggleFirstPersonView();
+            }
             if (keys != null && !TrainingMode)
             {
                 if (keys.escapeKey.wasPressedThisFrame) EmergencyStop();
                 if (keys.spaceKey.wasPressedThisFrame) { if (Running && !Paused) Pause(); else Play(); }
                 if (keys.rKey.wasPressedThisFrame) ResetGame();
-                if (keys.cKey.wasPressedThisFrame) cameraMode = (cameraMode + 1) % 3;
             }
             var mouse = Mouse.current;
             if (!TrainingMode && mouse != null && mouse.leftButton.wasPressedThisFrame)
@@ -278,7 +311,7 @@ namespace GearboxDemo
                 else if (new Rect(144,y,90,36).Contains(p)) Pause();
                 else if (new Rect(244,y,90,36).Contains(p)) Step();
                 else if (new Rect(344,y,90,36).Contains(p)) ResetGame();
-                else if (new Rect(444,y,130,36).Contains(p)) cameraMode = (cameraMode + 1) % 3;
+                else if (new Rect(444,y,130,36).Contains(p)) CycleCamera();
                 else if (new Rect(584,y,90,36).Contains(p)) { speed = speed == 1 ? 0.5f : speed == 0.5f ? 2 : 1; if (!Paused) Time.timeScale = speed; }
                 else if (new Rect(694,y,140,36).Contains(p)) EmergencyStop();
             }
@@ -294,6 +327,7 @@ namespace GearboxDemo
 
         private IEnumerator MoveRobot(Vector3 position, Quaternion rotation, float seconds)
         {
+            UpdateRobotPayloadPose();
             CheckTracking(); EvaluateSafety(); CheckEnvironment();
             float[] from = m.handover.robotArm.joints.Select(j => j.Angle).ToArray();
             Vector3 startPosition = robot.Grip.position; Quaternion startRotation = robot.Grip.rotation;
@@ -318,6 +352,7 @@ namespace GearboxDemo
             float deadline = Time.time + duration / closeSpeedScale + handoverTimeout;
             for (float t = 0; t < 1;)
             {
+                UpdateRobotPayloadPose();
                 EvaluateSafety(); CheckEnvironment();
                 if (Time.time > deadline) throw new TimeoutException("Robot trajectory timeout");
                 t = Mathf.Min(1, t + Time.deltaTime * motionScale / duration);
@@ -327,7 +362,7 @@ namespace GearboxDemo
                 for (int j = 0; j < 6; j++) frame[j] = Mathf.Lerp(path[segment][j], path[segment + 1][j], fraction);
                 robot.SpeedLimit = maxJointSpeed * motionScale; robot.AccelerationLimit = maxJointAcceleration;
                 robot.SetAngles(frame);
-                if (Payload != null) Sync(Payload);
+                UpdateRobotPayloadPose();
                 trajectory.Add(robot.Grip.position);
                 if (trajectory.Count > 512) trajectory.RemoveAt(0);
                 yield return new WaitForFixedUpdate();
@@ -336,6 +371,7 @@ namespace GearboxDemo
                 Quaternion.Angle(robot.Grip.rotation, rotation) > 3 ||
                 m.handover.robotArm.joints.Any(j => Mathf.Abs(j.Body.jointVelocity[0]) > 0.02f))
             {
+                UpdateRobotPayloadPose();
                 EvaluateSafety(); CheckEnvironment();
                 robot.SpeedLimit = maxJointSpeed * motionScale;
                 robot.SetAngles(goal);
@@ -343,15 +379,20 @@ namespace GearboxDemo
                 yield return new WaitForFixedUpdate();
             }
             MaxRobotError = Mathf.Max(MaxRobotError, Vector3.Distance(robot.Grip.position, position));
+            UpdateRobotPayloadPose();
         }
         private IEnumerator TravelRobot(Vector3 destination, Quaternion rotation)
         {
             Phase = CollaborativePhase.Transport;
             float safeY = Mathf.Max(1.72f, destination.y + 0.16f);
+            if(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null)
+                safeY=Mathf.Max(robot.Root.position.y+.45f*CadLayoutRatio,destination.y+.12f);
             if (Mathf.Abs(robot.Grip.position.x - robot.Root.position.x) > 0.45f)
                 yield return MoveRobot(new Vector3(robot.Grip.position.x, safeY, robot.Grip.position.z), robot.Grip.rotation, 0.65f);
             if ((robot.Grip.position.x - robot.Root.position.x) * (destination.x - robot.Root.position.x) <= 0 || Mathf.Abs(robot.Grip.position.x - robot.Root.position.x) < 0.45f)
-                yield return MoveRobot(new Vector3(robot.Root.position.x, 1.85f, robot.Root.position.z + 0.65f), down, 1.5f);
+                yield return MoveRobot(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null?
+                    new Vector3(robot.Root.position.x,robot.Root.position.y+.7f*CadLayoutRatio,robot.Root.position.z+.35f*CadLayoutRatio):
+                    new Vector3(robot.Root.position.x, 1.85f, robot.Root.position.z + 0.65f), down, 1.5f);
             yield return MoveRobot(new Vector3(destination.x, safeY, destination.z), rotation, 1.6f);
             yield return MoveRobot(destination, rotation, 0.8f);
         }
@@ -360,7 +401,7 @@ namespace GearboxDemo
             Phase = CollaborativePhase.Approach;
             receivingRig.Rest();
             ActivePart = p; SetFingers(m.handover.robotGripper.openHalfGap);
-            yield return TravelRobot(p.gripPoint.position + Vector3.up * 0.16f, p.gripPoint.rotation);
+            yield return TravelRobot(p.gripPoint.position + Vector3.up * RobotClearance(.16f), p.gripPoint.rotation);
             Phase = CollaborativePhase.Grasp;
             yield return MoveRobot(p.gripPoint.position, p.gripPoint.rotation, 0.7f);
             float gap = p.partType == GearboxPartType.Lid ? lidGraspHalfGap : m.handover.robotGripper.RequiredHalfGap(p.GetComponent<GrippableObject>());
@@ -369,7 +410,7 @@ namespace GearboxDemo
             if (Vector3.Distance(robot.Grip.position, p.gripPoint.position) > graspPositionTolerance) throw new InvalidOperationException("Robot grasp failed");
             Attach(p.transform, robot.Grip);
             Phase = CollaborativePhase.Lift;
-            yield return MoveRobot(robot.Grip.position + Vector3.up * 0.22f, robot.Grip.rotation, 0.7f);
+            yield return MoveRobot(robot.Grip.position + Vector3.up * RobotClearance(.22f), robot.Grip.rotation, 0.7f);
         }
         private void Attach(Transform payload, Transform holder)
         {
@@ -386,9 +427,17 @@ namespace GearboxDemo
         private IEnumerator Transfer(GearboxPart p)
         {
             CheckTracking(); receivingRig.ClearConfirmation();
-            yield return WalkTo(receivingStance != null ? receivingStance.position : new Vector3(p.assemblyTarget.transform.position.x + 0.25f, 0, Mathf.Max(1.18f, p.assemblyTarget.transform.position.z + 0.46f)));
+            float stanceZ=m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null?
+                Mathf.Max(Mathf.Lerp(.90f,.96f,Mathf.InverseLerp(.65f,.85f,m.handover.robotArm.transform.lossyScale.x)),p.assemblyTarget.transform.position.z+.46f):Mathf.Max(1.18f,p.assemblyTarget.transform.position.z+.46f);
+            yield return WalkTo(receivingStance != null ? receivingStance.position : new Vector3(p.assemblyTarget.transform.position.x + 0.25f, 0, stanceZ));
             Vector3 presentation = handoverTarget != null ? handoverTarget.position : new Vector3(p.assemblyTarget.transform.position.x, 1.49f, worker.position.z - 0.4f);
+            if(handoverTarget==null && m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null) presentation.y=Mathf.Lerp(1.35f,1.49f,Mathf.InverseLerp(.65f,.85f,m.handover.robotArm.transform.lossyScale.x));
             Quaternion orientation = handoverTarget != null ? handoverTarget.rotation : Quaternion.Euler(90, 0, 0);
+            if(handoverTarget==null && m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null && p.partType==GearboxPartType.OutputShaft) {
+                orientation=down;
+                presentation.z=worker.position.z-.4f;
+                presentation.y=upperArm.position.y-.1f;
+            }
             hasActiveHandoverTarget = true; activeHandoverPosition = presentation; activeHandoverRotation = orientation;
             if (!receivingRig.CanReach(presentation + orientation * workerGraspOffset)) throw new InvalidOperationException("Handover unreachable: configure receiving stance / target");
             // Keep the receiving hand clear of wrist links during robot approach.
@@ -459,7 +508,7 @@ namespace GearboxDemo
         private IEnumerator RobotPlace(GearboxPart p)
         {
             var t = p.assemblyTarget.transform;
-            DesiredGrip(t.position + Vector3.up * 0.18f,t.rotation,out Vector3 pos,out Quaternion q);
+            DesiredGrip(t.position + Vector3.up * RobotClearance(.18f),t.rotation,out Vector3 pos,out Quaternion q);
             yield return TravelRobot(pos,q);
             yield return new WaitForSeconds(0.3f);
             if (p.partType == GearboxPartType.Lid) Phase = CollaborativePhase.Insertion;
@@ -467,7 +516,7 @@ namespace GearboxDemo
             yield return MoveRobot(pos,q,1.5f);
             Commit(p,m.phaseTwoInsertion.finalGearboxRoot);
             yield return Fingers(m.handover.robotGripper.openHalfGap);
-            yield return MoveRobot(robot.Grip.position + Vector3.up * 0.22f,robot.Grip.rotation,0.8f);
+            yield return MoveRobot(robot.Grip.position + Vector3.up * RobotClearance(.22f),robot.Grip.rotation,0.8f);
         }
         private void Commit(GearboxPart p, Transform parent)
         {
@@ -481,15 +530,15 @@ namespace GearboxDemo
         private IEnumerator PickInternal()
         {
             ActivePart = m.outputShaftStep.outputShaft;
-            yield return TravelRobot(ActivePart.gripPoint.position + Vector3.up * 0.16f,ActivePart.gripPoint.rotation);
+            yield return TravelRobot(ActivePart.gripPoint.position + Vector3.up * RobotClearance(.16f),ActivePart.gripPoint.rotation);
             yield return MoveRobot(ActivePart.gripPoint.position,ActivePart.gripPoint.rotation,0.8f);
-            yield return Fingers(0.035f);
+            yield return Fingers(m.handover.robotGripper.RequiredHalfGap(ActivePart.GetComponent<GrippableObject>()));
             Attach(m.phaseOne.InternalAssemblyRoot,robot.Grip);
-            yield return MoveRobot(robot.Grip.position + Vector3.up * 0.3f,robot.Grip.rotation,1);
+            yield return MoveRobot(robot.Grip.position + Vector3.up * RobotClearance(.3f),robot.Grip.rotation,1);
         }
         private IEnumerator InsertInternal()
         {
-            DesiredGrip(finalOrigin + Vector3.up * 0.25f,Quaternion.identity,out Vector3 pos,out Quaternion q);
+            DesiredGrip(finalOrigin + Vector3.up * RobotClearance(.25f),Quaternion.identity,out Vector3 pos,out Quaternion q);
             yield return TravelRobot(pos,q);
             yield return new WaitForSeconds(0.3f);
             Phase = CollaborativePhase.Insertion;
@@ -501,7 +550,7 @@ namespace GearboxDemo
             root.SetPositionAndRotation(finalOrigin,Quaternion.identity); Sync(root);
             Payload = null; Holder = null;
             yield return Fingers(m.handover.robotGripper.openHalfGap);
-            yield return MoveRobot(robot.Grip.position + Vector3.up * 0.24f,q,0.8f);
+            yield return MoveRobot(robot.Grip.position + Vector3.up * RobotClearance(.24f),q,0.8f);
         }
 
         private IEnumerator WalkTo(Vector3 destination)
@@ -566,14 +615,42 @@ namespace GearboxDemo
         private static void Sync(Transform root)
         { foreach(var b in root.GetComponentsInChildren<Rigidbody>()) { b.position=b.transform.position;b.rotation=b.transform.rotation; } }
 
+        private void UpdateRobotPayloadPose() {
+            if(Payload==null || Holder!=robot.Grip)return;
+            // A kinematic Rigidbody retains its last world pose during a physics step,
+            // even when its articulation parent moves. Reapply the captured tool mount
+            // so settling cannot change the payload-to-tool transform.
+            Payload.SetLocalPositionAndRotation(carryOffset,carryRotation);
+            Sync(Payload);
+        }
+
         private void LateUpdate()
         {
             if(!Ready || cameraView==null) return;
+            UpdateRobotPayloadPose();
             Vector3 focus=Payload!=null ? Payload.position : ActivePart!=null ? ActivePart.transform.position : new Vector3(0,1.2f,0.4f);
+            if(cameraMode==3) {
+                // Eye position follows the animated worker; the gaze follows the actual task.
+                var head=animator.GetBoneTransform(HumanBodyBones.Head);
+                var eyes=(head!=null ? head.position+worker.up*.08f : worker.position+worker.up*1.68f)+worker.forward*.12f;
+                var task=Payload!=null ? Payload.position : (Completed<7?firstOrigin:finalOrigin)+Vector3.up*.055f;
+                float gazeBlend=1-Mathf.Exp(-6*Time.unscaledDeltaTime);
+                lookAt=Vector3.Lerp(lookAt,task,gazeBlend);
+                cameraView.transform.position=eyes;
+                if((lookAt-eyes).sqrMagnitude>.001f)
+                    cameraView.transform.rotation=Quaternion.Slerp(cameraView.transform.rotation,Quaternion.LookRotation(lookAt-eyes,worker.up),gazeBlend);
+                cameraView.nearClipPlane=.04f;
+                cameraView.fieldOfView=Mathf.Lerp(cameraView.fieldOfView,60,gazeBlend);
+                return;
+            }
+            cameraView.nearClipPlane=.025f;
             Vector3 position;
             if(cameraMode==0) { focus=new Vector3(-0.2f,1.0f,0.4f);position=new Vector3(4.6f,4.2f,-6.0f); }
-            else if(cameraMode==1) { focus=Vector3.Lerp(focus,robot.Grip.position,0.2f);position=focus+new Vector3(1.15f,0.8f,-1.55f); }
-            else { focus=(Completed<7?firstOrigin:finalOrigin)+Vector3.up*0.1f;position=focus+new Vector3(-0.62f,0.55f,-0.85f); }
+            else if(cameraMode==1) { focus=Vector3.Lerp(focus,robot.Grip.position,0.2f);position=focus+new Vector3(.72f,.5f,-.95f); }
+            else { focus=(Completed<7?firstOrigin:finalOrigin)+Vector3.up*0.055f;position=focus+new Vector3(-.32f,.30f,-.43f); }
+            if(cameraMode==0 && m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null) {
+                focus=new Vector3(0,1.15f,.2f);position=new Vector3(2.4f,2.6f,-3.2f);
+            }
             float blend=1-Mathf.Exp(-3*Time.unscaledDeltaTime);
             lookAt=Vector3.Lerp(lookAt,focus,blend);
             cameraView.transform.position=Vector3.Lerp(cameraView.transform.position,position,blend);

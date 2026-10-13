@@ -14,6 +14,7 @@ namespace GearboxDemo
         [Range(0, 30), Tooltip("Additive forward torso posture during tabletop assembly; arm reach remains checked.")]
         public float assemblyLeanDegrees = 25;
         public bool AssemblyPose;
+        public bool OutwardElbowHint;
         private float lean;
         private Transform spine, workerRoot;
         public bool GraspConfirmed { get; private set; }
@@ -49,6 +50,12 @@ namespace GearboxDemo
         public void ConfirmGrasp() { if (ReadyToReceive && TrackingValid && Reaching) GraspConfirmed = true; }
         public void ClearConfirmation() => GraspConfirmed = false;
         public void Rest() { Reaching = false; GraspConfirmed = false; AssemblyPose = false; }
+        public void ResetPose()
+        {
+            Rest(); lean = 0; weight = 0;
+            // Checkpoint poses must not inherit the previous operation's additive IK posture.
+            calibrateAfterSolve = false;
+        }
         private void OnAnimatorIK(int layer)
         {
             if (!TrackingValid) return;
@@ -61,6 +68,9 @@ namespace GearboxDemo
             weight = Mathf.MoveTowards(weight, Reaching ? 1 : 0, Time.deltaTime / Mathf.Max(0.01f, blendSeconds));
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, weight);
             animator.SetIKRotationWeight(AvatarIKGoal.RightHand, weight);
+            animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow,OutwardElbowHint?weight:0);
+            if(OutwardElbowHint)
+                animator.SetIKHintPosition(AvatarIKHint.RightElbow,shoulder.position+workerRoot.right*.35f+Vector3.down*.15f+workerRoot.forward*.15f);
             if (Reaching)
             {
                 Quaternion boneRotation = Rotation * Quaternion.Inverse(Quaternion.Inverse(wrist.rotation) * holdPoint.rotation);

@@ -1,4 +1,4 @@
-"""Local Windows speech adapter. No microphone access until explicitly enabled."""
+"""Local Whisper recognition and Windows playback; microphone is opt-in."""
 import atexit
 import json
 import os
@@ -6,7 +6,7 @@ import queue
 import subprocess
 import threading
 import time
-import time
+import sys
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
@@ -28,8 +28,11 @@ class WindowsVoice:
         self.speaking = False
         self.ready = False
         self.error = ""
+        self.audio_level = 0
+        self.audio_state = "Stopped"
+        self.last_heard = ""
+        self.last_confidence = 0.0
         self.listener = None
-        self.lease_until = 0
         self.lease_until = 0
         self.speaker = None
         self.events = queue.Queue(maxsize=20)
@@ -43,17 +46,15 @@ class WindowsVoice:
                 if self.enabled and time.monotonic() > self.lease_until:
                     self.enabled = False
                     self.stop_listener()
-        self.shutdown = threading.Event()
-        threading.Thread(target=self.watch_lease, daemon=True).start()
-
-    def watch_lease(self):
-        while not self.shutdown.wait(2):
-            with self.lock:
-                if self.enabled and time.monotonic() > self.lease_until:
-                    self.enabled = False
-                    self.stop_listener()
 
     def spawn(self, mode):
+        engine = os.getenv("SPEECH_ENGINE", "faster-whisper")
+        if mode == "listen" and engine == "faster-whisper":
+            return subprocess.Popen([sys.executable, "-u", str(Path(__file__).with_name("whisper_listener.py"))],
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                text=True, encoding="utf-8", creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
+        if mode == "listen" and engine != "windows":
+            raise RuntimeError("Unknown SPEECH_ENGINE: " + engine)
         if os.name != "nt":
             raise RuntimeError("Voice adapter requires Windows")
         return subprocess.Popen(["powershell.exe", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass",
@@ -100,8 +101,14 @@ class WindowsVoice:
                         self.ready = True
                     elif "error" in item:
                         self.error = item["error"]
-                    elif self.ready and item.get("confidence", 0) >= 0.55 and not self.events.full():
-                        self.events.put(item)
+                    elif "audio_level" in item:
+                        self.audio_level = item["audio_level"]
+                        self.audio_state = item.get("audio_state", "Unknown")
+                    elif self.ready and "text" in item:
+                        self.last_heard = item["text"]
+                        self.last_confidence = item.get("confidence", 0)
+                        if item.get("accepted", self.last_confidence >= 0.55) and not self.events.full():
+                            self.events.put(item)
             with self.lock:
                 if process == self.listener:
                     self.listener = None
@@ -115,7 +122,6 @@ class WindowsVoice:
     def mic(self, enabled):
         with self.lock:
             self.enabled = enabled
-            self.lease_until = time.monotonic() + 20
             self.lease_until = time.monotonic() + 20
             if enabled:
                 self.start_listener()
@@ -159,11 +165,13 @@ class WindowsVoice:
                     events.append(self.events.get_nowait())
                 except queue.Empty:
                     break
-            return {"enabled": self.enabled, "listening": self.ready, "speaking": self.speaking,
+            return {"engine": os.getenv("SPEECH_ENGINE", "faster-whisper"),
+                    "enabled": self.enabled, "listening": self.ready, "speaking": self.speaking,
+                    "audio_level": self.audio_level, "audio_state": self.audio_state,
+                    "last_heard": self.last_heard, "last_confidence": self.last_confidence,
                     "error": self.error, "utterances": events}
 
     def close(self):
-        self.shutdown.set()
         self.shutdown.set()
         with self.lock:
             self.enabled = False

@@ -33,6 +33,12 @@ namespace GearboxDemo.Editor
         public static void RunLateBatch() { SessionState.SetInt(Key + "Prefix", 6); SessionState.SetBool(Key + "Late", true); RunBatch(); }
         public static void RunEquipmentScaleBatch() { GearboxCollaborationChecks.CompactEquipmentBatch(); GearboxCollaborationChecks.RunStaticBatch(); SessionState.SetBool(Key + "Equipment", true); SessionState.SetBool(Key + "Single", true); RunBatch(); }
         public static void RunWorkerScaleBatch() { GearboxCollaborationChecks.ResizeWorkerBatch(); SessionState.SetBool(Key + "Single", true); RunBatch(); }
+        public static void RunTrainingLaterScaleBatch(){SessionState.SetBool(Key+"Late",true);SessionState.SetInt(Key+"Prefix",6);RunTrainingScaleBatch();}
+        public static void RunTrainingScaleBatch() {
+            EditorSceneManager.OpenScene("Assets/Scenes/GearboxTraining.unity");
+            File.WriteAllText(ReportPath,"Training scene scale workflow checks\n");
+            SessionState.SetBool(Key,true);EditorApplication.EnterPlaymode();
+        }
         public static void RunFinalBatch() { GearboxCollaborationChecks.RunStaticBatch(); RunBatch(); }
         public static void RunLidBatch() { SessionState.SetInt(Key + "Prefix", 8); SessionState.SetBool(Key + "Late", true); RunBatch(); }
         public static void RunBatch()

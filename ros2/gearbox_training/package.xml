@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>gearbox_training</name><version>0.1.0</version>
+  <description>ROS 2 command and monitoring client for the Unity gearbox simulation.</description>
+  <maintainer email="maintainer@example.invalid">Gearbox project</maintainer>
+  <license>UNLICENSED</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <exec_depend>rclpy</exec_depend><exec_depend>std_msgs</exec_depend><exec_depend>sensor_msgs</exec_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

@@ -1,0 +1,149 @@
+[
+  {
+    "source": "D:\\RPTU\\Thesis\\3D\\YEC - only for source\\archiv\\20250307_NHC12_3Dmodel\\20250307_NHC12_3Dmodel\\iges\\base_view_yr-n1-06vxc12-a00.igs",
+    "sha256": "d4c7771a10a33f1f672617d63673473973dc2e5dda04d25f5f1a9d068783c9fb",
+    "mesh": "base.obj",
+    "vertices": 82885,
+    "triangles": 110770,
+    "bounds": [
+      [
+        -0.15665,
+        0.09485167369504588
+      ],
+      [
+        -2.492305529147e-16,
+        0.103
+      ],
+      [
+        -0.09486203850685851,
+        0.09489175007230978
+      ]
+    ]
+  },
+  {
+    "source": "D:\\RPTU\\Thesis\\3D\\YEC - only for source\\archiv\\20250307_NHC12_3Dmodel\\20250307_NHC12_3Dmodel\\iges\\saxis_view_yr-n1-06vxc12-a00.igs",
+    "sha256": "4ba7540bc2b1d05489aa01cc96d9fb1857519ae233d3dd4a88e06124c8550af1",
+    "mesh": "saxis.obj",
+    "vertices": 11441,
+    "triangles": 13488,
+    "bounds": [
+      [
+        -0.08599516430852999,
+        0.08599516595666773
+      ],
+      [
+        0.103,
+        0.32693784697761663
+      ],
+      [
+        -0.141,
+        0.0784994200286
+      ]
+    ]
+  },
+  {
+    "source": "D:\\RPTU\\Thesis\\3D\\YEC - only for source\\archiv\\20250307_NHC12_3Dmodel\\20250307_NHC12_3Dmodel\\iges\\laxis_view_yr-n1-06vxc12-a00.igs",
+    "sha256": "8611fa6c6c007a4206d63bb477ed8ff325a7d51bb5dd303dbc59fbca460e3520",
+    "mesh": "laxis.obj",
+    "vertices": 12393,
+    "triangles": 18874,
+    "bounds": [
+      [
+        -0.12108415431872893,
+        0.07662510343307334
+      ],
+      [
+        0.16839678236920003,
+        0.91
+      ],
+      [
+        -0.2975255203553716,
+        -0.109
+      ]
+    ]
+  },
+  {
+    "source": "D:\\RPTU\\Thesis\\3D\\YEC - only for source\\archiv\\20250307_NHC12_3Dmodel\\20250307_NHC12_3Dmodel\\iges\\uaxis_view_yr-n1-06vxc12-a00.igs",
+    "sha256": "1131af3f49909c9206b71aa85252550a1c4635b248ab8370e9c6ef717d4ab3ab",
+    "mesh": "uaxis.obj",
+    "vertices": 2455,
+    "triangles": 3686,
+    "bounds": [
+      [
+        -0.06526850711436734,
+        0.1405
+      ],
+      [
+        0.7799999999877,
+        0.9100000000121999
+      ],
+      [
+        -0.109,
+        0.06531938579291141
+      ]
+    ]
+  },
+  {
+    "source": "D:\\RPTU\\Thesis\\3D\\YEC - only for source\\archiv\\20250307_NHC12_3Dmodel\\20250307_NHC12_3Dmodel\\iges\\raxis_view_yr-n1-06vxc12-a00.igs",
+    "sha256": "b63d9ad38553ebcb31b3dbbfcf4c29a032d1dbee9810f6aa6d54d58b29c74f06",
+    "mesh": "raxis.obj",
+    "vertices": 6589,
+    "triangles": 10287,
+    "bounds": [
+      [
+        0.1405,
+        0.714997893719482
+      ],
+      [
+        0.7800003507328809,
+        0.9100006017318343
+      ],
+      [
+        -0.1995732764087636,
+        0.06499999999953
+      ]
+    ]
+  },
+  {
+    "source": "D:\\RPTU\\Thesis\\3D\\YEC - only for source\\archiv\\20250307_NHC12_3Dmodel\\20250307_NHC12_3Dmodel\\iges\\baxis_view_yr-n1-06vxc12-a00.igs",
+    "sha256": "83105ae7f2611fc8dcdb50b65eff477df2b7b30d7591881568f78b6b402e41c1",
+    "mesh": "baxis.obj",
+    "vertices": 4977,
+    "triangles": 6258,
+    "bounds": [
+      [
+        0.5849999999924,
+        0.7150000000080999
+      ],
+      [
+        0.7664998295643,
+        0.9100141204848999
+      ],
+      [
+        -0.08750024598032256,
+        0.06499979948904913
+      ]
+    ]
+  },
+  {
+    "source": "D:\\RPTU\\Thesis\\3D\\YEC - only for source\\archiv\\20250307_NHC12_3Dmodel\\20250307_NHC12_3Dmodel\\iges\\taxis_view_yr-n1-06vxc12-a00.igs",
+    "sha256": "c712cc988bd928b39f92013c9094e2861e7df8eaea53395bd83e24986da313a7",
+    "mesh": "taxis.obj",
+    "vertices": 55534,
+    "triangles": 74210,
+    "bounds": [
+      [
+        0.5850019320999269,
+        0.7149980679000731
+      ],
+      [
+        0.6848199216850899,
+        0.7665002385639429
+      ],
+      [
+        -0.06745243255207946,
+        0.06481965473660457
+      ]
+    ]
+  }
+]

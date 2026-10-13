@@ -196,7 +196,9 @@ namespace GearboxDemo
                 Vector3 corner = box.transform.TransformPoint(box.center + Vector3.Scale(box.size * 0.5f, new Vector3(x, y, z)));
                 width = Mathf.Max(width, Mathf.Abs(Vector3.Dot(corner - candidate.GripPoint.position, candidate.GripPoint.right)));
             }
-            return Mathf.Max(closedHalfGap, width + (leftFinger == null ? 0.009f : leftFinger.localScale.x * 0.5f) + 0.003f);
+            float fingerParentScale = leftFinger == null ? 1f : Mathf.Abs(leftFinger.parent.lossyScale.x);
+            return Mathf.Max(closedHalfGap, (width + 0.003f) / Mathf.Max(0.001f, fingerParentScale)
+                + (leftFinger == null ? 0.009f : leftFinger.localScale.x * 0.5f));
         }
 
         private void ClearAttachment()

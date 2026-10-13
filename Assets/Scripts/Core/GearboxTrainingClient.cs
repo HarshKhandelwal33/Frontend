@@ -5,14 +5,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.InputSystem;
 
 namespace GearboxDemo
 {
     /// <summary>Local desktop bridge and compact voice-first training HUD.</summary>
     public sealed partial class GearboxTrainingClient : MonoBehaviour
     {
-        [Serializable] private class Operation { public string id, title; }
+        [Serializable] private class Operation { public string id, title, instruction; }
         [Serializable] private class Session {
             public string id, run_id, workflow_version, status;
             public int revision, completed;
@@ -34,9 +33,10 @@ namespace GearboxDemo
         }
         [Serializable] private class Mic { public bool enabled; }
         [Serializable] private class Spoken { public string text; public float confidence; }
-        [Serializable] private class Voice { public bool enabled, listening, speaking; public string error; public Spoken[] utterances; }
+        [Serializable] private class Voice { public bool enabled, listening, speaking; public string error, audio_state, last_heard; public int audio_level; public float last_confidence; public Spoken[] utterances; }
         private static readonly string[] OperationIds = {"pin_carrier","input_shaft","planet_1","planet_2","planet_3","output_shaft","housing","insert_internal","lid","screw_1","screw_3","screw_2","screw_4"};
         public string BackendUrl = "http://127.0.0.1:8000";
+        public bool UseAiTutor = false;
         public bool IsConnected => connected;
         public bool IsThinking => thinking;
         public int AcknowledgedCompleted => session == null ? -1 : session.completed;
@@ -45,7 +45,8 @@ namespace GearboxDemo
         private Session session;
         private Voice voice = new Voice();
         private string subtitle = "Start the Python backend, then connect to begin.", error = "", heard = "";
-        private bool connected, thinking, muted, subtitles = true, micDesired;
+        private bool connected, thinking, muted, subtitles = true, micDesired, actionInFlight;
+        private bool workflowStarted;
         private float voiceLeaseAt;
         private Coroutine execution;
         private string executingId;
@@ -97,9 +98,9 @@ namespace GearboxDemo
                 session=JsonUtility.FromJson<Session>(text);
                 connected=session.workflow_version=="gearbox-v1";
                 error=connected?"":"Workflow version mismatch";
-                if(connected)subtitle="Connected. The tutor will explain each operation before you confirm readiness.";
+                if(connected)subtitle=session.current_step?.instruction??"Starting assembly demonstration.";
             }, text=>error=text);
-            if (connected) StartCoroutine(Ask("Explain the current assembly operation and what I should observe."));
+            if (connected && UseAiTutor) StartCoroutine(Ask("Explain the current assembly operation and what I should observe."));
         }
 
         public void SubmitTranscript(string text)
@@ -110,7 +111,6 @@ namespace GearboxDemo
             // These controls act locally even when networking or inference is delayed.
             if (normalized=="pause") { game.Pause();return; }
             if (normalized=="resume") { Resume();return; }
-            if (normalized=="stop") { Stop();return; }
             if (normalized=="go back" || normalized=="previous step" || normalized=="go back to previous step" || normalized=="go back to the previous step") { SendAction("previous");return; }
             if (normalized=="reset" || normalized=="start again") { SendAction("reset");return; }
             if(normalized=="im ready" || normalized=="i am ready" || normalized=="next step") { Ready();return; }
@@ -120,15 +120,22 @@ namespace GearboxDemo
 
         private void Ready()
         {
-            if(game.Paused && game.Running) { Resume();return; }
-            if(!thinking) SendAction("ready");
+            if(game.EmergencyStopped || game.Fault!=null) {
+                error="Reset is required after a fault.";return;
+            }
+            workflowStarted=true;
+            if(game.Paused)Resume();
         }
-        private void Resume() { if(game.Running && game.Paused && !game.EmergencyStopped) game.Step(); }
-        private void Stop() {
-            generation++;thinking=false;
-            game.EmergencyStop();
-            StartCoroutine(Http("/voice/silence","{}",null));
-            SendAction("stop");
+        private void Resume() {
+            if(!workflowStarted) { subtitle="Say ‘I'm ready’ to start the assembly.";return; }
+            if(game.EmergencyStopped || game.Fault!=null) {
+                error="Reset is required after a stop or fault.";return;
+            }
+            if(!connected) { error="Reconnect to the backend before resuming.";return; }
+            if(game.Paused)game.ResumePlayback();
+            if(!game.Running && execution==null && session!=null && session.status=="ready" &&
+               session.completed<13 && string.IsNullOrEmpty(session.pending?.id))
+                SendAction("ready");
         }
         private void Repeat() {
             if(!muted && !voice.speaking && !string.IsNullOrEmpty(subtitle))
@@ -136,6 +143,7 @@ namespace GearboxDemo
         }
         private void SendAction(string action) {
             if(!connected || session==null) { error="Connect to the backend first.";return; }
+            if(action=="reset")workflowStarted=false;
             if(action=="previous" || action=="reset") {
                 generation++;thinking=false;
                 // Freeze immediately while awaiting a validated restoration command.
@@ -144,16 +152,23 @@ namespace GearboxDemo
             StartCoroutine(ActionRequest(action));
         }
         private IEnumerator ActionRequest(string action) {
+            if(action=="ready" && actionInFlight)yield break;
+            actionInFlight=true;
             string body=JsonUtility.ToJson(new Request{action=action,request_id=Guid.NewGuid().ToString()});
             yield return Http("/sessions/"+session.id+"/actions",body,text=>{
                 var answer=JsonUtility.FromJson<Answer>(text);
                 if(answer.session.revision>=session.revision)session=answer.session;
                 error="";
             },text=>error=text);
+            actionInFlight=false;
         }
 
         private IEnumerator Ask(string text)
         {
+            if(!UseAiTutor) {
+                subtitle=session?.current_step?.instruction??"Assembly demonstration complete.";
+                yield break;
+            }
             if(!connected || session==null || thinking) yield break;
             thinking=true;
             int token=++generation;
@@ -184,6 +199,11 @@ namespace GearboxDemo
                         if(execution!=null)StopCoroutine(execution);
                         executingId=c.id;execution=StartCoroutine(Execute(c));
                     },text=>{error=text;connected=false;if(game.Running)game.Pause();});
+                    // JsonUtility can materialize an empty Command for JSON null; check its ID.
+                    if(workflowStarted && connected && string.IsNullOrEmpty(session.pending?.id) && !actionInFlight && execution==null && !game.Running &&
+                       !game.Paused && game.Fault==null && !thinking &&
+                       session.status=="ready" && session.completed<13)
+                        yield return ActionRequest("ready");
                 }
                 yield return new WaitForSecondsRealtime(0.3f);
             }
@@ -202,7 +222,7 @@ namespace GearboxDemo
                                 throw new InvalidOperationException("Unity/backend operation mismatch");
                             game.Step();break;
                         case "restore_checkpoint": game.RestoreCheckpoint(c.target_completed);break;
-                        case "reset": game.ResetGame();break;
+                        case "reset": workflowStarted=false;game.ResetGame();break;
                         case "stop": game.EmergencyStop();break;
                         case "pause": game.Pause();break;
                         case "resume": Resume();break;
@@ -227,8 +247,11 @@ namespace GearboxDemo
             }
             if(executingId==c.id){executingId=null;execution=null;}
             if(accepted && result.success && c.type!="stop" && c.type!="pause" && c.type!="resume") {
-                if(game.Completed<13)StartCoroutine(Ask("Explain the current assembly operation and what I should observe."));
-                else { subtitle="Gearbox assembly complete. You can go back to review the last operation.";Repeat(); }
+                if(game.Completed<13) {
+                    subtitle=session.current_step?.instruction??"Continuing assembly demonstration.";
+                    if(UseAiTutor)StartCoroutine(Ask("Explain the current assembly operation and what I should observe."));
+                }
+                else subtitle="Gearbox assembly complete. Reset to run the demonstration again.";
             }
         }
 
@@ -248,12 +271,6 @@ namespace GearboxDemo
                 }
                 yield return new WaitForSecondsRealtime(0.5f);
             }
-        }
-
-        private void Update() {
-            if(game==null)return;
-            var keys=Keyboard.current;
-            if(keys!=null && keys.escapeKey.wasPressedThisFrame)Stop();
         }
 
         private void OnDestroy() {

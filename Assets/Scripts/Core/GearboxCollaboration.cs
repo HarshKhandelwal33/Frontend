@@ -41,7 +41,13 @@ namespace GearboxDemo
         public bool simulatedGraspSensor = true;
         [Tooltip("Worker palm offset from the robot grip in grip-oriented world metres. Separates the two grasp locations; tune to each workpiece surface.")]
         public Vector3 workerGraspOffset = new Vector3(0, 0.04f, 0);
-        public Vector3 WorkerGraspPosition(GearboxPart part) => part.gripPoint.position + part.gripPoint.rotation * workerGraspOffset;
+        public Vector3 WorkerGraspPosition(GearboxPart part) {
+            // Receive the shaft at its exposed end, rather than reaching over its wider body.
+            Vector3 offset=workerGraspOffset;
+            if(m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null && part.partType==GearboxPartType.OutputShaft)
+                offset=new Vector3(0,.005f,0);
+            return part.gripPoint.position+part.gripPoint.rotation*offset;
+        }
         public CollaborativePhase Phase { get; private set; }
         public bool ProtectiveStopped { get; private set; }
         public string SafetyReason { get; private set; }
@@ -71,6 +77,7 @@ namespace GearboxDemo
             receivingRig = animator.GetComponent<WorkerReceivingRig>();
             if (receivingRig == null) receivingRig = animator.gameObject.AddComponent<WorkerReceivingRig>();
             receivingRig.Initialize(animator, hand);
+            receivingRig.OutwardElbowHint=m.handover.robotArm.GetComponent<YaskawaSimulationRig>()!=null;
             robotSafetyColliders = robot.Root.GetComponentsInChildren<Collider>().Where(c => !c.isTrigger).ToArray();
             fingerProxies = new BoxCollider[2];
             var fingers = new[] { robot.LeftFinger, robot.RightFinger };
@@ -182,7 +189,7 @@ namespace GearboxDemo
                 if (other.transform.IsChildOf(worker)) continue; // Body-region separation is checked every movement step.
                 if (Phase == CollaborativePhase.Grasp && other.GetComponentInParent<GearboxPart>() == ActivePart) continue;
                 if (Physics.ComputePenetration(collider, position, rotation, other, other.transform.position, other.transform.rotation, out Vector3 direction, out float depth) && depth > 0.001f && !IntendedFixtureContact(collider, position, rotation, other, direction, depth) && !IntendedInsertionContact(collider, position, rotation, other))
-                    throw new InvalidOperationException("Planned trajectory blocked: " + collider.name + " / " + other.name + " depth=" + depth.ToString("F4") + " predicted=" + position + " obstacle=" + other.bounds + " parent=" + (other.transform.parent != null ? other.transform.parent.name : "root"));
+                    throw new InvalidOperationException("Planned trajectory blocked: " + collider.name + " / " + other.name + " depth=" + depth.ToString("F4") + " predicted=" + position.ToString("F5") + " rotation="+rotation.eulerAngles.ToString("F3")+" direction="+direction+" obstacle=" + other.bounds + " parent=" + (other.transform.parent != null ? other.transform.parent.name : "root"));
             }
         }
         private bool IntendedInsertionContact(Collider moving, Vector3 position, Quaternion rotation, Collider other)

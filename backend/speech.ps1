@@ -22,16 +22,39 @@ try {
     } else {
         $recognizer = New-Object System.Speech.Recognition.SpeechRecognitionEngine([System.Globalization.CultureInfo]::GetCultureInfo($Culture))
         try {
-            $recognizer.LoadGrammar((New-Object System.Speech.Recognition.DictationGrammar))
+            $commands = New-Object System.Speech.Recognition.Choices
+            $commands.Add([string[]]@("I'm ready", 'I am ready', 'next step', 'go back', 'previous step', 'pause', 'resume', 'reset', 'start again', 'repeat', 'repeat the explanation'))
+            $builder = New-Object System.Speech.Recognition.GrammarBuilder
+            $builder.Culture = [System.Globalization.CultureInfo]::GetCultureInfo($Culture)
+            $builder.Append($commands)
+            $commandGrammar = New-Object System.Speech.Recognition.Grammar($builder)
+            $commandGrammar.Name = 'Training commands'
+            $commandGrammar.Priority = 1
+            $recognizer.LoadGrammar($commandGrammar)
+            # Command-only mode is more reliable for the offline demonstration.
+            # Enable open-question recognition explicitly when using the AI tutor.
+            if ($env:SPEECH_DICTATION -eq '1') {
+                $recognizer.LoadGrammar((New-Object System.Speech.Recognition.DictationGrammar))
+            }
             $recognizer.SetInputToDefaultAudioDevice()
+            $levelSubscription = Register-ObjectEvent -InputObject $recognizer -EventName AudioLevelUpdated -SourceIdentifier 'TrainingMicLevel'
             @{ready=$true} | ConvertTo-Json -Compress
             while ($true) {
                 $result = $recognizer.Recognize([TimeSpan]::FromSeconds(2))
+                $peakLevel = 0
+                foreach ($levelEvent in @(Get-Event -SourceIdentifier 'TrainingMicLevel' -ErrorAction SilentlyContinue)) {
+                    $peakLevel = [Math]::Max($peakLevel, $levelEvent.SourceEventArgs.AudioLevel)
+                    Remove-Event -EventIdentifier $levelEvent.EventIdentifier
+                }
+                @{audio_level=$peakLevel;audio_state=$recognizer.AudioState.ToString()} | ConvertTo-Json -Compress
                 if ($null -ne $result) {
                     @{text=$result.Text;confidence=$result.Confidence} | ConvertTo-Json -Compress
                 }
             }
-        } finally { $recognizer.Dispose() }
+        } finally {
+            Unregister-Event -SourceIdentifier 'TrainingMicLevel' -ErrorAction SilentlyContinue
+            $recognizer.Dispose()
+        }
     }
 } catch {
     @{error=$_.Exception.Message} | ConvertTo-Json -Compress

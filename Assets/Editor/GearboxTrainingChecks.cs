@@ -18,12 +18,13 @@ namespace GearboxDemo.Editor
         private static Quaternion[][] rotations=new Quaternion[14][];
         private static bool[][] installed=new bool[14][];
         private static int[] handovers=new int[14];
+        private static double CheckDuration => UnityEngine.Object.FindAnyObjectByType<YaskawaSimulationRig>()!=null?900:420;
         static GearboxTrainingChecks() {
             EditorApplication.update+=Tick;
             EditorApplication.playModeStateChanged+=state=>{
                 if(!SessionState.GetBool(Key,false))return;
                 File.AppendAllText("training-check-report.txt","Play mode: "+state+"\n");
-                if(state==PlayModeStateChange.EnteredPlayMode)deadline=EditorApplication.timeSinceStartup+420;
+                if(state==PlayModeStateChange.EnteredPlayMode)deadline=EditorApplication.timeSinceStartup+CheckDuration;
                 if(state==PlayModeStateChange.EnteredEditMode){SessionState.SetBool(Key,false);EditorApplication.Exit(SessionState.GetInt(Key+"Exit",1));}
             };
         }
@@ -31,7 +32,16 @@ namespace GearboxDemo.Editor
             File.WriteAllText("training-check-report.txt","Training checkpoints and voice HUD checks\n");
             SessionState.SetBool(Key,true);SessionState.SetInt(Key+"Exit",1);
             EditorSceneManager.OpenScene("Assets/Scenes/GearboxTraining.unity");
-            EditorApplication.EnterPlaymode();deadline=EditorApplication.timeSinceStartup+420;
+            EditorApplication.EnterPlaymode();deadline=EditorApplication.timeSinceStartup+CheckDuration;
+        }
+        public static void RunHousingBatch() {
+            SessionState.SetBool(Key+"Housing",true);RunBatch();
+        }
+        private static System.Collections.IEnumerator HousingRoutine(GearboxGameSimulation g) {
+            var flags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+            var p=g.References.phaseTwoInsertion.housing;
+            yield return (System.Collections.IEnumerator)typeof(GearboxGameSimulation).GetMethod("Pick",flags).Invoke(g,new object[]{p});
+            yield return (System.Collections.IEnumerator)typeof(GearboxGameSimulation).GetMethod("RobotPlace",flags).Invoke(g,new object[]{p});
         }
         [MenuItem("Tools/Gearbox Demo/Open Voice Training")]
         public static void OpenTrainingPreview() {
@@ -69,7 +79,15 @@ namespace GearboxDemo.Editor
                 if(EditorApplication.timeSinceStartup>deadline)throw new Exception("Training check timeout");
                 if(g.Fault!=null)throw new Exception(g.Fault);
                 if(phase==0) {
+                    if(SessionState.GetBool(Key+"Housing",false)) {
+                        SessionState.SetBool(Key+"Housing",false);g.TrainingMode=true;g.ResetGame();
+                        g.StartCoroutine(HousingRoutine(g));Time.timeScale=8;phase=8;deadline=EditorApplication.timeSinceStartup+60;return;
+                    }
                     g.TrainingMode=true;g.ResetGame();CheckInitial(g);Save(g);next=1;g.Step();Time.timeScale=8;phase=1;return;
+                }
+                if(phase==8 && g.References.phaseTwoInsertion.housing.assembled) {
+                    File.AppendAllText("training-check-report.txt","PASS focused housing pickup and seating.\n");
+                    SessionState.SetInt(Key+"Exit",0);EditorApplication.ExitPlaymode();return;
                 }
                 if(phase==1) {
                     if(g.Running)return;

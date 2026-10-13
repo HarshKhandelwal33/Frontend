@@ -23,6 +23,7 @@ namespace GearboxDemo
         private Dictionary<Transform, Transform> planningMap;
         private Transform planningGrip, planningRoot;
         private bool planning;
+        private readonly bool cadRig;
         private readonly float[] commandedVelocity = new float[6];
         public float SpeedLimit = 35, AccelerationLimit = 80;
         private const float OrientationWeight = 0.22f;
@@ -32,6 +33,7 @@ namespace GearboxDemo
             var map = new Dictionary<Transform, Transform>();
             planningMap = map;
             articulation = source;
+            cadRig = source.GetComponent<YaskawaSimulationRig>() != null;
             planningRoot = Clone(source.transform, source.transform.parent, map);
             Root = source.transform;
             Root.name = "Game Robot • Cartesian IK";
@@ -52,7 +54,8 @@ namespace GearboxDemo
             source.enabled = true; // Tree owns targets; the arm supplies gravity feedforward in FixedUpdate.
             // Keep the upper link above the worktop: the authored 120-degree shoulder limit
             // permits an elbow-down solution through the bench. Use the overhead branch.
-            upper[1] = Mathf.Min(upper[1], 80f);
+            if(source.GetComponent<YaskawaSimulationRig>()==null)
+                upper[1] = Mathf.Min(upper[1], 80f);
             Reset();
         }
 
@@ -102,19 +105,27 @@ namespace GearboxDemo
             var original=Angles;
             float best=float.MaxValue; float[] solution=null;
             float yaw=Mathf.Atan2(position.x-joints[0].position.x,position.z-joints[0].position.z)*Mathf.Rad2Deg;
-            for(int attempt=0;attempt<7;attempt++)
+            for(int attempt=0;attempt<(cadRig?19:7);attempt++)
             {
                 if(attempt==0)SetAngles(seed ?? original);
                 else
                 {
                     float elbow=attempt<=3?-100:100;
                     float shoulder=attempt%3==0?-55:attempt%3==1?0:55;
-                    SetAngles(new[]{yaw,shoulder,elbow,0f,180f-shoulder-elbow,0f});
+                    if(cadRig) {
+                        elbow=(attempt%2==0?90:-90);
+                        shoulder=((attempt-1)/2%3-1)*50;
+                        SetAngles(new[]{yaw+((attempt-1)/6-1)*90,shoulder,elbow,0f,-shoulder-elbow,0f});
+                    } else SetAngles(new[]{yaw,shoulder,elbow,0f,180f-shoulder-elbow,0f});
                 }
-                float error=Solve(position,rotation,180);
+                float error=Solve(position,rotation,cadRig?360:180);
                 error+=Quaternion.Angle(planningGrip.rotation,rotation)*0.002f;
                 if(error<best) { best=error;solution=Angles; }
                 if(best<0.002f)break;
+            }
+            if(cadRig && best>0.018f) {
+                SetAngles(solution);
+                Debug.LogWarning("CAD IK diagnostic root="+Root.position+" grip="+planningGrip.position+" desired="+position+" orientation="+Quaternion.Angle(planningGrip.rotation,rotation)+" angles="+string.Join(",",solution));
             }
             SetAngles(original);
             planning = false;
@@ -191,7 +202,7 @@ namespace GearboxDemo
                 {
                     for (int j = 0; j < 6; j++)
                     {
-                        float v = i == j ? 0.0012f : 0;
+                        float v = i == j ? (cadRig?0.0003f:0.0012f) : 0;
                         for (int k = 0; k < 6; k++) v += jac[k,i] * jac[k,j];
                         system[i,j] = v;
                     }

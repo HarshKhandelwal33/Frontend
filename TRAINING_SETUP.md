@@ -26,7 +26,7 @@
    powershell.exe -NoProfile -File backend/speech.ps1 -Mode check
    ```
 
-   The first version uses Windows `System.Speech` with an **en-US desktop speech recognizer** and an installed desktop voice. If the recognizer list is empty, install the English (United States) speech feature in Windows language settings. Set your default input/output devices and permit desktop applications to access the microphone. Recognition quality depends on the installed engine and microphone; this is a replaceable speech adapter, not a neural speech model.
+   Speech recognition now uses local **faster-whisper small.en (CPU INT8)** with WebRTC speech detection. The startup script installs its dependencies and prepares the model without opening the microphone. The first model download needs internet; recognition afterward works offline. Windows `System.Speech` is still used for spoken replies, so an installed desktop voice is needed; an installed Windows recognizer is only needed if you explicitly select `SPEECH_ENGINE=windows`. Set your default input/output devices and permit desktop applications to access the microphone. For a smaller model set `$env:WHISPER_MODEL = 'base.en'` before starting.
 
 6. Open the Unity scene and press Play. Training starts idle, connects to the backend, and requests the first explanation. Click **Mic OFF** to enable listening. No microphone is started automatically.
 
@@ -41,11 +41,11 @@
 - Say **“stop”**, press **Escape**, or click **STOP** for immediate local stop. Reset is required afterward. This is a simulated stop, not an industrial emergency-stop implementation.
 - The compact interface provides Pause/Resume, Reset, Camera, Stop, Repeat, microphone toggle, speaker mute, and subtitles. Progression and going back are voice commands; there is no visible Next/Ready button. Tap the microphone while disconnected to retry the backend connection.
 
-The compact panel displays listening, thinking, or speaking state and the last recognized utterance. Listening is suppressed while the tutor thinks or speaks to prevent feedback. The Windows adapter receives a renewable microphone lease: listening shuts down after 20 seconds without a Unity heartbeat. A microphone failure appears on screen. Use headphones if room audio still affects recognition.
+The compact panel displays listening, thinking, or speaking state and the last recognized utterance. Listening is suppressed while the tutor thinks or speaks to prevent feedback. The local speech adapter receives a renewable microphone lease: listening shuts down after 20 seconds without a Unity heartbeat. A microphone failure appears on screen. Use headphones if room audio still affects recognition.
 
 ## Connection and recovery
 
-The Unity bridge uses `http://127.0.0.1:8000` by default. To override, set `GEARBOX_BACKEND_URL` **before launching Unity**. Backend settings are `OLLAMA_URL`, `OLLAMA_MODEL`, `TRAINING_DB`, and optional `SPEECH_CULTURE` (default `en-US`; command phrases remain English).
+The Unity bridge uses `http://127.0.0.1:8000` by default. To override, set `GEARBOX_BACKEND_URL` **before launching Unity**. Backend settings are `OLLAMA_URL`, `OLLAMA_MODEL`, `TRAINING_DB`, and optional `WHISPER_MODEL` (default `small.en`), `WHISPER_LANGUAGE` (default `en`), `SPEECH_ENGINE` (default `faster-whisper`), and `SPEECH_CULTURE` for Windows playback/legacy recognition.
 
 Backend progress changes only after Unity acknowledges completion. The bridge caches command results to avoid executing a retried command twice. Previous/reset/stop can supersede a pending operation. A lost backend connection pauses running motion; click **Connect**, then **Resume** if needed. Do not restart the backend mid-request unless necessary. A new Unity Play session resets the world and creates a new training session; runtime checkpoints are not persisted across Unity restarts.
 
@@ -72,3 +72,5 @@ The LLM's answer quality, end-to-end spoken interaction, and rendering performan
 ## Files to push
 
 Push `backend/`, the modified Unity scripts, their `.meta` files, this setup guide, and the training architecture. Git ignores Python environments, SQLite runtime data, and Unity caches. The nested `thesis/` folder is an older duplicate and is not updated by this implementation. No Git push has been performed automatically.
+
+First-person camera: press **F** in the focused Game view to toggle the worker's eye-level view. Press **C** or use the camera button to cycle Follow, Assembly, First person and Overview. The first-person gaze follows the carried part or active fixture.
